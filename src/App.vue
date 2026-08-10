@@ -26,6 +26,18 @@
           >
             {{ t(item.label) }}
           </a>
+          <button
+            class="lang-btn"
+            type="button"
+            :aria-label="
+              currentLanguage === 'en'
+                ? 'Switch to Persian'
+                : 'Switch to English'
+            "
+            @click="toggleLanguage"
+          >
+            <span>{{ currentLanguage === "en" ? "فا" : "En" }}</span>
+          </button>
 
           <!-- Language switch inside mobile/tablet menu -->
           <button
@@ -44,16 +56,6 @@
         </nav>
 
         <!-- ===== NEW: Language toggle button for desktop ===== -->
-        <button
-          class="lang-btn"
-          type="button"
-          :aria-label="
-            currentLanguage === 'en' ? 'Switch to Persian' : 'Switch to English'
-          "
-          @click="toggleLanguage"
-        >
-          <span>{{ currentLanguage === "en" ? "فا" : "En" }}</span>
-        </button>
 
         <button
           class="menu-btn"
@@ -4949,7 +4951,6 @@ blockquote {
 
 @media (max-width: 480px) {
   .about-card {
-    width: 220px;
     height: 180px;
   }
 
@@ -4972,7 +4973,7 @@ blockquote {
   }
 
   .diamond-image img {
-    transform: rotate(-45deg) translate(12px, -32px);
+    transform: rotate(-45deg) translate(60px, -32px);
   }
 
   .soft-diamond--one {
@@ -5922,7 +5923,6 @@ blockquote {
 @media (min-width: 1170px) {
   .app.is-rtl .header__inner {
     flex-direction: row;
-    justify-content: space-between;
   }
   .app.is-rtl .header__inner .brand {
     order: 1;
@@ -5930,7 +5930,7 @@ blockquote {
   }
   .app.is-rtl .header__inner .nav {
     position: absolute;
-    left: 50%;
+    left: 32%;
     transform: translateX(-50%);
     order: 2;
     margin: 0;
@@ -6018,10 +6018,7 @@ blockquote {
   left: auto !important;
   right: 92px !important;
 }
-.app.is-rtl .about-card {
-  left: auto !important;
-  right: 75px !important;
-}
+
 .app.is-rtl .diamond-image {
   left: auto !important;
   right: 140px !important;
