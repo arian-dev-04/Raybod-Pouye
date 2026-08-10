@@ -12,8 +12,8 @@
     <header class="header" :class="{ scrolled: isScrolled }">
       <div class="container header__inner">
         <a href="#home" class="brand">
-          <span class="brand__mark">RP</span>
-          <span class="brand__text">Raibod Pouye</span>
+          <span class="brand__mark"></span>
+          <span class="brand__text">{{ t("BrandName") }}</span>
         </a>
 
         <nav class="nav" :class="{ active: isMenuOpen }">
@@ -277,6 +277,7 @@
     <!-- ================= Testimonials ================= -->
     <section id="testimonials" class="testimonials section">
       <div class="container testimonials__inner">
+        <!-- ثابت در هر دو زبان؛ هرگز RTL نمی‌شود -->
         <div class="testimonials__title reveal reveal--left" v-reveal>
           <div class="testimonial-diamond">
             <div class="testimonial-quote">“</div>
@@ -308,9 +309,18 @@
               class="testimonial-card"
             >
               <div class="testimonial-card__box">
-                <p class="testimonial-card__text">
-                  {{ t(item.text) }}
-                </p>
+                <!-- فقط متن فارسی RTL می‌شود؛ Layout کارت ثابت می‌ماند -->
+                <div
+                  class="testimonial-card__text-wrap"
+                  :class="{
+                    'testimonial-card__text-wrap--rtl':
+                      currentLanguage === 'fa',
+                  }"
+                >
+                  <p class="testimonial-card__text">
+                    {{ t(item.text) }}
+                  </p>
+                </div>
 
                 <div
                   class="testimonial-card__stars"
@@ -483,8 +493,8 @@
       <div class="container footer__inner">
         <div class="footer__brand">
           <a href="#home" class="brand brand--footer">
-            <span class="brand__mark">RP</span>
-            <span class="brand__text">Raibod Pouye</span>
+            <span class="brand__mark"></span>
+            <span class="brand__text">{{ t("BrandName") }}</span>
           </a>
 
           <p>
@@ -549,7 +559,6 @@
   </div>
 </template>
 
-```vue ```vue
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 
@@ -569,9 +578,6 @@ const isSwitchingLanguage = ref(false);
 
 let revealObserver = null;
 
-/*
- * این Directive باید قبل از mount شدن المان‌ها آماده باشد.
- */
 const vReveal = {
   mounted(el) {
     if (revealObserver) {
@@ -604,11 +610,7 @@ let statsAnimated = false;
 let statsAnimationFrame = null;
 
 const animateStats = () => {
-  /*
-   * اگر قبلاً انیمیشن اجرا شده، دوباره اجرا نکن
-   */
   if (statsAnimated) return;
-
   statsAnimated = true;
 
   const duration = 1400;
@@ -616,33 +618,22 @@ const animateStats = () => {
 
   const tick = (now) => {
     const progress = Math.min((now - start) / duration, 1);
-
-    /*
-     * Ease Out
-     */
     const eased = 1 - Math.pow(1 - progress, 3);
 
     animatedStats.value = {
       employee: Math.round(statsTargets.employee * eased),
-
       projects: Math.round(statsTargets.projects * eased),
-
       clients: Math.round(statsTargets.clients * eased),
     };
 
     if (progress < 1) {
       statsAnimationFrame = requestAnimationFrame(tick);
     } else {
-      /*
-       * در پایان دقیقاً مقدار نهایی را قرار بده
-       * تا مثلاً 49 یا 18 باقی نماند.
-       */
       animatedStats.value = {
         employee: statsTargets.employee,
         projects: statsTargets.projects,
         clients: statsTargets.clients,
       };
-
       statsAnimationFrame = null;
     }
   };
@@ -650,19 +641,12 @@ const animateStats = () => {
   statsAnimationFrame = requestAnimationFrame(tick);
 };
 
-/*
- * اگر About همین الان داخل viewport باشد،
- * شمارنده را مستقیماً اجرا می‌کنیم.
- */
 const checkStatsVisibility = () => {
   const aboutContent = document.querySelector(".about__content");
-
   if (!aboutContent || statsAnimated) return;
 
   const rect = aboutContent.getBoundingClientRect();
-
   const isVisible = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
-
   if (isVisible) {
     animateStats();
   }
@@ -678,13 +662,11 @@ const services = [
     image:
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop",
   },
-
   {
     title: "service2",
     image:
       "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600&auto=format&fit=crop",
   },
-
   {
     title: "service3",
     image:
@@ -716,83 +698,57 @@ const servicesDrag = {
 
 const getServiceStep = () => {
   const slider = servicesCards.value;
-
   if (!slider) return 0;
 
   const cards = [...slider.querySelectorAll(".service-card")];
-
   if (!cards.length) return 0;
 
   const currentScroll = slider.scrollLeft;
-
   const nextCard = cards.find((card) => card.offsetLeft > currentScroll + 10);
-
   if (!nextCard) {
     return cards[0]?.offsetLeft || 0;
   }
-
   return nextCard.offsetLeft - currentScroll;
 };
 
 const goToNextService = () => {
   const slider = servicesCards.value;
-
   if (!slider) return;
 
   const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-
   if (maxScrollLeft <= 5) return;
 
   const step = getServiceStep();
-
   if (!step) return;
 
   if (slider.scrollLeft >= maxScrollLeft - 10) {
-    slider.scrollTo({
-      left: 0,
-      behavior: "smooth",
-    });
-
+    slider.scrollTo({ left: 0, behavior: "smooth" });
     return;
   }
 
-  slider.scrollTo({
-    left: slider.scrollLeft + step,
-    behavior: "smooth",
-  });
+  slider.scrollTo({ left: slider.scrollLeft + step, behavior: "smooth" });
 };
 
 const goToPreviousService = () => {
   const slider = servicesCards.value;
-
   if (!slider) return;
 
   const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-
   if (maxScrollLeft <= 5) return;
 
   const step = getServiceStep();
-
   if (!step) return;
 
   if (slider.scrollLeft <= 10) {
-    slider.scrollTo({
-      left: maxScrollLeft,
-      behavior: "smooth",
-    });
-
+    slider.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
     return;
   }
 
-  slider.scrollBy({
-    left: -step,
-    behavior: "smooth",
-  });
+  slider.scrollBy({ left: -step, behavior: "smooth" });
 };
 
 const startServicesAutoSlide = () => {
   stopServicesAutoSlide();
-
   servicesAutoSlideTimer = window.setInterval(() => {
     goToNextService();
   }, 2600);
@@ -801,20 +757,17 @@ const startServicesAutoSlide = () => {
 const stopServicesAutoSlide = () => {
   if (servicesAutoSlideTimer) {
     window.clearInterval(servicesAutoSlideTimer);
-
     servicesAutoSlideTimer = null;
   }
 };
 
 const pauseServicesAutoSlide = () => {
   window.clearTimeout(servicesResumeTimer);
-
   stopServicesAutoSlide();
 };
 
 const resumeServicesAutoSlide = () => {
   window.clearTimeout(servicesResumeTimer);
-
   servicesResumeTimer = window.setTimeout(() => {
     startServicesAutoSlide();
   }, 1000);
@@ -825,12 +778,9 @@ const resumeServicesAutoSlide = () => {
    ========================================================= */
 
 const startServicesDrag = (event) => {
-  if (event.pointerType === "mouse" && event.button !== 0) {
-    return;
-  }
+  if (event.pointerType === "mouse" && event.button !== 0) return;
 
   const slider = servicesCards.value;
-
   if (!slider) return;
 
   pauseServicesAutoSlide();
@@ -840,7 +790,6 @@ const startServicesDrag = (event) => {
   servicesDrag.startScrollLeft = slider.scrollLeft;
 
   slider.classList.add("is-dragging");
-
   slider.setPointerCapture?.(event.pointerId);
 };
 
@@ -848,23 +797,17 @@ const moveServicesDrag = (event) => {
   if (!servicesDrag.active) return;
 
   const slider = servicesCards.value;
-
   if (!slider) return;
 
   const movedDistance = event.clientX - servicesDrag.startX;
-
   slider.scrollLeft = servicesDrag.startScrollLeft - movedDistance;
 };
 
 const endServicesDrag = (event) => {
   const slider = servicesCards.value;
-
-  if (!slider || !servicesDrag.active) {
-    return;
-  }
+  if (!slider || !servicesDrag.active) return;
 
   servicesDrag.active = false;
-
   slider.classList.remove("is-dragging");
 
   if (event?.pointerId !== undefined) {
@@ -886,7 +829,6 @@ const testimonials = [
     rating: 5,
     image: "https://i.pravatar.cc/150?img=12",
   },
-
   {
     text: "test2_text",
     name: "مهندس رضا صادقی",
@@ -894,7 +836,6 @@ const testimonials = [
     rating: 5,
     image: "https://i.pravatar.cc/150?img=11",
   },
-
   {
     text: "test3_text",
     name: "دکتر آرین مطاعی",
@@ -902,7 +843,6 @@ const testimonials = [
     rating: 5,
     image: "https://i.pravatar.cc/150?img=47",
   },
-
   {
     text: "test4_text",
     name: "X",
@@ -910,7 +850,6 @@ const testimonials = [
     rating: 5,
     image: "https://i.pravatar.cc/150?img=32",
   },
-
   {
     text: "test5_text",
     name: "Y",
@@ -918,7 +857,6 @@ const testimonials = [
     rating: 5,
     image: "https://i.pravatar.cc/150?img=53",
   },
-
   {
     text: "test6_text",
     name: "Z",
@@ -953,44 +891,33 @@ const testimonialsDrag = {
 
 const getTestimonialStep = () => {
   const slider = testimonialsCards.value;
-
   if (!slider) return 0;
 
   const cards = [...slider.querySelectorAll(".testimonial-card")];
-
   if (!cards.length) return 0;
 
   const currentScroll = slider.scrollLeft;
-
   const nextCard = cards.find((card) => card.offsetLeft > currentScroll + 10);
-
   if (!nextCard) {
     return cards[0]?.offsetLeft || 0;
   }
-
   return nextCard.offsetLeft - currentScroll;
 };
 
 const updateTestimonialActiveDot = () => {
   const slider = testimonialsCards.value;
-
   if (!slider) return;
 
   const cards = [...slider.querySelectorAll(".testimonial-card")];
-
-  if (!cards.length || !testimonials.length) {
-    return;
-  }
+  if (!cards.length || !testimonials.length) return;
 
   let closestIndex = 0;
   let smallestDistance = Infinity;
 
   cards.forEach((card, index) => {
     const distance = Math.abs(card.offsetLeft - slider.scrollLeft);
-
     if (distance < smallestDistance) {
       smallestDistance = distance;
-
       closestIndex = index;
     }
   });
@@ -1000,80 +927,52 @@ const updateTestimonialActiveDot = () => {
 
 const goToNextTestimonial = () => {
   const slider = testimonialsCards.value;
-
   if (!slider) return;
 
   const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-
   if (maxScrollLeft <= 5) return;
 
   const step = getTestimonialStep();
-
   if (!step) return;
 
   if (slider.scrollLeft >= maxScrollLeft - 10) {
-    slider.scrollTo({
-      left: 0,
-      behavior: "smooth",
-    });
-
+    slider.scrollTo({ left: 0, behavior: "smooth" });
     activeTestimonialDot.value = 0;
-
     return;
   }
 
-  slider.scrollTo({
-    left: slider.scrollLeft + step,
-    behavior: "smooth",
-  });
+  slider.scrollTo({ left: slider.scrollLeft + step, behavior: "smooth" });
 };
 
 const goToPreviousTestimonial = () => {
   const slider = testimonialsCards.value;
-
   if (!slider) return;
 
   const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-
   if (maxScrollLeft <= 5) return;
 
   const step = getTestimonialStep();
-
   if (!step) return;
 
   if (slider.scrollLeft <= 10) {
-    slider.scrollTo({
-      left: maxScrollLeft,
-      behavior: "smooth",
-    });
-
+    slider.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
     return;
   }
 
-  slider.scrollBy({
-    left: -step,
-    behavior: "smooth",
-  });
+  slider.scrollBy({ left: -step, behavior: "smooth" });
 };
 
 const goToTestimonial = (index) => {
   const slider = testimonialsCards.value;
-
   if (!slider) return;
 
   const cards = [...slider.querySelectorAll(".testimonial-card")];
-
   const targetCard = cards[index];
-
   if (!targetCard) return;
 
   pauseTestimonialsAutoSlide();
 
-  slider.scrollTo({
-    left: targetCard.offsetLeft,
-    behavior: "smooth",
-  });
-
+  slider.scrollTo({ left: targetCard.offsetLeft, behavior: "smooth" });
   activeTestimonialDot.value = index;
 
   resumeTestimonialsAutoSlide();
@@ -1081,7 +980,6 @@ const goToTestimonial = (index) => {
 
 const startTestimonialsAutoSlide = () => {
   stopTestimonialsAutoSlide();
-
   testimonialsAutoSlideTimer = window.setInterval(() => {
     goToNextTestimonial();
   }, 3200);
@@ -1090,20 +988,17 @@ const startTestimonialsAutoSlide = () => {
 const stopTestimonialsAutoSlide = () => {
   if (testimonialsAutoSlideTimer) {
     window.clearInterval(testimonialsAutoSlideTimer);
-
     testimonialsAutoSlideTimer = null;
   }
 };
 
 const pauseTestimonialsAutoSlide = () => {
   window.clearTimeout(testimonialsResumeTimer);
-
   stopTestimonialsAutoSlide();
 };
 
 const resumeTestimonialsAutoSlide = () => {
   window.clearTimeout(testimonialsResumeTimer);
-
   testimonialsResumeTimer = window.setTimeout(() => {
     startTestimonialsAutoSlide();
   }, 1200);
@@ -1114,50 +1009,36 @@ const resumeTestimonialsAutoSlide = () => {
    ========================================================= */
 
 const startTestimonialsDrag = (event) => {
-  if (event.pointerType === "mouse" && event.button !== 0) {
-    return;
-  }
+  if (event.pointerType === "mouse" && event.button !== 0) return;
 
   const slider = testimonialsCards.value;
-
   if (!slider) return;
 
   pauseTestimonialsAutoSlide();
 
   testimonialsDrag.active = true;
-
   testimonialsDrag.startX = event.clientX;
-
   testimonialsDrag.startScrollLeft = slider.scrollLeft;
 
   slider.classList.add("is-dragging");
-
   slider.setPointerCapture?.(event.pointerId);
 };
 
 const moveTestimonialsDrag = (event) => {
-  if (!testimonialsDrag.active) {
-    return;
-  }
+  if (!testimonialsDrag.active) return;
 
   const slider = testimonialsCards.value;
-
   if (!slider) return;
 
   const movedDistance = event.clientX - testimonialsDrag.startX;
-
   slider.scrollLeft = testimonialsDrag.startScrollLeft - movedDistance;
 };
 
 const endTestimonialsDrag = (event) => {
   const slider = testimonialsCards.value;
-
-  if (!slider || !testimonialsDrag.active) {
-    return;
-  }
+  if (!slider || !testimonialsDrag.active) return;
 
   testimonialsDrag.active = false;
-
   slider.classList.remove("is-dragging");
 
   if (event?.pointerId !== undefined) {
@@ -1165,7 +1046,6 @@ const endTestimonialsDrag = (event) => {
   }
 
   updateTestimonialActiveDot();
-
   resumeTestimonialsAutoSlide();
 };
 
@@ -1175,7 +1055,7 @@ const endTestimonialsDrag = (event) => {
 
 const translations = {
   fa: {
-    About: "درباره ما",
+    About: "درباره",
     Services: "خدمات",
     "Our Expertise": "تخصص ما",
     "Case Studies": "پروژه‌ها",
@@ -1205,9 +1085,7 @@ const translations = {
     Our: "ما",
 
     service1: "نرم‌افزار مدیریت هوشمند شبکه",
-
     service2: "موتور جستجوی هوشمند و دستیار GPT",
-
     service3: "شبکه دانش هوشمند رایا",
 
     "Pellentesque ac bibendum tortor, vel blandit nulla. Nulla eget lobortis lacus.":
@@ -1250,11 +1128,8 @@ const translations = {
       "مزیت اصلی موتور جستجوی رایا برای ما این است که جستجو فقط بر اساس تطابق کلمات انجام نمی‌شود؛ سیستم می‌تواند مفهوم و ارتباط محتوای موردنظر را نیز درک کند و نتایج مرتبط‌تری در اختیار کاربر قرار دهد.",
 
     role1: "رئیس سیستم‌های کیفیت و سرآمدی، شرکت فولاد مبارکه اصفهان",
-
     role2: "مدیر مهندسی صنایع، شرکت فولاد سنگان",
-
     role3: "رئیس فناوری اطلاعات، اداره کل کتابخانه‌های عمومی استان کرمانشاه",
-
     role4: "مدیر فناوری اطلاعات",
     role5: "مدیر دانش",
     role6: "کارشناس ارشد فناوری",
@@ -1269,28 +1144,21 @@ const translations = {
     "Vestibulum consequat hendrerit.": "مشاهده جزئیات پروژه",
 
     proj1: "پروژه مدیریت دانش فولاد مبارکه",
-
     proj2: "پروژه شبکه هوشمند فولاد سنگان",
-
     proj3: "سامانه مدیریت کتابخانه‌های عمومی",
-
     proj4: "موتور جستجوی سازمانی",
 
     "Ready to get started ?": "آماده همکاری هستید؟",
-
     "CONTACT US": "تماس با ما",
 
     "Pellentesque ac bibendum tortor. Nulla eget lobortis lacus.":
       "برای شروع همکاری و دریافت مشاوره با ما تماس بگیرید.",
 
     Office: "دفتر",
-
     "Head Quarter": "دفتر مرکزی",
-
     "Branch Office": "شعبه",
 
     "+123 456 789 01": "+۹۸-۲۱-۱۲۳۴۵۶۷۸",
-
     "+98 765 432 10": "+۹۸-۲۱-۷۶۵۴۳۲۱۰",
 
     "Lorem ipsum street no 14 Block A":
@@ -1304,7 +1172,6 @@ const translations = {
     RESOURCES: "منابع",
 
     "English - En": "English - En",
-
     "Persian - Fa": "فارسی - Fa",
 
     "Nam posuere accumsan porta. Integer id orci sed ante tincidunt tincidunt at sed libero.":
@@ -1313,30 +1180,23 @@ const translations = {
     "© Lu Theme 2019": "© رایبد پویه ۱۴۰۵",
 
     "Donec dignissim": "درباره ما",
-
     "Curabitur egestas": "خدمات",
-
     "Nam posuere": "تخصص ما",
-
     "Aenean facilisis": "نمونه کارها",
-
     "Cras convallis": "مشاوره مدیریت دانش",
-
     "Vestibulum faucibus": "توسعه نرم‌افزارهای هوشمند",
-
     "Quisque lacinia purus": "پیاده‌سازی سیستم‌های دانش",
-
     "Aliquam nec ex": "پشتیبانی و آموزش",
-
     "Suspendisse porttitor": "مستندات",
-
     "Services ◆": "خدمات ◆",
-
     "hello@lulu.com": "info@raybidpouye.com",
+
+    // نام برند ترجمه‌شده
+    BrandName: "رایبد پویه",
   },
 
   en: {
-    About: "About Us",
+    About: "About",
     Services: "Services",
     "Our Expertise": "Our Expertise",
     "Case Studies": "Projects",
@@ -1344,23 +1204,19 @@ const translations = {
     Expertise: "Expertise",
 
     Create: "Smart Solutions",
-
     "Business Solution": "for Your Organization",
 
     "Lorem ipsum dolor sit amet consectetur adipisicing":
       "Leveraging advanced technologies and expert team",
 
     "WRITE TO US": "Contact Us",
-
     Us: "Us",
 
     "Nulla lobortis nunc vitae nisi semper semper velit":
-      "Raybid Pouye is a leading company in consulting and development of intelligent software, providing innovative solutions in network communications.",
+      "Raybod Pouye is a leading company in consulting and development of intelligent software, providing innovative solutions in network communications.",
 
     Employee: "Years of Experience",
-
     Projects: "Successful Projects",
-
     Clients: "Major Organizations",
 
     "Aliquam lobortis magna neque, gravida consequat velit venenatis at.":
@@ -1369,9 +1225,7 @@ const translations = {
     Our: "Our",
 
     service1: "Intelligent Network Management Software",
-
     service2: "Intelligent Search Engine & GPT Assistant",
-
     service3: "Raya Intelligent Knowledge Network",
 
     "Pellentesque ac bibendum tortor, vel blandit nulla. Nulla eget lobortis lacus.":
@@ -1380,28 +1234,19 @@ const translations = {
     "SEE DETAIL": "See Details",
 
     Marketing: "Knowledge Management",
-
     SEO: "Artificial Intelligence",
-
     "Social Media": "Neural Networks",
-
     "Web Development": "Software Development",
-
     "UI Design": "System Design",
-
     "Mobile Apps": "Mobile Apps",
-
     Photography: "Technical Support",
-
     "Company Profile": "Network Security",
-
     "Visual Editing": "Databases",
 
     "Curabitur egestas consequat lorem, vel fermentum augue porta id. Aliquam lobortis magna neque, gravida consequat velit venenatis at. Duis sed augue.":
       "We provide intelligent, secure solutions tailored to organizational infrastructure using cutting-edge technologies and AI.",
 
     Client: "Clients",
-
     Testimonials: "Testimonials",
 
     test1_text:
@@ -1423,19 +1268,15 @@ const translations = {
       "The main advantage of Raya's search engine for us is that search is not just based on word matching; the system can understand the meaning and relationship of the content and provide more relevant results to the user.",
 
     role1: "Head of Quality and Excellence Systems, Mobarakeh Steel Company",
-
     role2: "Industrial Engineering Manager, Sangan Steel Company",
-
     role3:
       "IT Director, General Directorate of Public Libraries of Kermanshah Province",
-
     role4: "IT Manager",
     role5: "Knowledge Manager",
     role6: "Senior Technology Expert",
 
     Case: "Projects",
     Studies: "",
-
     Corporate: "Corporate",
     Advertising: "Government",
     Government: "Industrial",
@@ -1444,28 +1285,21 @@ const translations = {
     "Vestibulum consequat hendrerit.": "View Project Details",
 
     proj1: "Mobarakeh Steel Knowledge Management Project",
-
     proj2: "Sangan Steel Intelligent Network Project",
-
     proj3: "Public Libraries Management System",
-
     proj4: "Enterprise Search Engine",
 
     "Ready to get started ?": "Ready to collaborate?",
-
     "CONTACT US": "Contact Us",
 
     "Pellentesque ac bibendum tortor. Nulla eget lobortis lacus.":
       "Contact us to start collaboration and get consultation.",
 
     Office: "Office",
-
     "Head Quarter": "Headquarters",
-
     "Branch Office": "Branch",
 
     "+123 456 789 01": "+98-21-12345678",
-
     "+98 765 432 10": "+98-21-76543210",
 
     "Lorem ipsum street no 14 Block A":
@@ -1479,35 +1313,26 @@ const translations = {
     RESOURCES: "Resources",
 
     "English - En": "English - En",
-
     "Persian - Fa": "Persian - Fa",
 
     "Nam posuere accumsan porta. Integer id orci sed ante tincidunt tincidunt at sed libero.":
-      "Raybid Pouye with 16 years of experience and over 50 successful projects, a trusted partner for organizations on their digital transformation journey.",
+      "Raybod Pouye with 16 years of experience and over 50 successful projects, a trusted partner for organizations on their digital transformation journey.",
 
-    "© Lu Theme 2019": "© Raybid Pouye 2026",
+    "© Lu Theme 2019": "© Raybod Pouye 2026",
 
     "Donec dignissim": "About Us",
-
     "Curabitur egestas": "Services",
-
     "Nam posuere": "Our Expertise",
-
     "Aenean facilisis": "Projects",
-
     "Cras convallis": "Knowledge Management Consulting",
-
     "Vestibulum faucibus": "Intelligent Software Development",
-
     "Quisque lacinia purus": "Knowledge Systems Implementation",
-
     "Aliquam nec ex": "Support and Training",
-
     "Suspendisse porttitor": "Documentation",
-
     "Services ◆": "Services ◆",
-
     "hello@lulu.com": "info@raybidpouye.com",
+
+    BrandName: "Raybod Pouye",
   },
 };
 
@@ -1524,21 +1349,16 @@ const t = (key) => {
    ========================================================= */
 
 const toggleLanguage = () => {
-  if (isSwitchingLanguage.value) {
-    return;
-  }
+  if (isSwitchingLanguage.value) return;
 
   isSwitchingLanguage.value = true;
 
   window.setTimeout(() => {
     currentLanguage.value = currentLanguage.value === "en" ? "fa" : "en";
 
-    /*
-     * بعد از تغییر زبان، اگر About در viewport
-     * باشد شمارنده را دوباره چک می‌کنیم.
-     */
     nextTick(() => {
       checkStatsVisibility();
+      alignTestimonialSlider(); // تنظیم موقعیت اسکرول پس از تغییر زبان
     });
 
     window.setTimeout(() => {
@@ -1552,30 +1372,11 @@ const toggleLanguage = () => {
    ========================================================= */
 
 const navItems = [
-  {
-    label: "About",
-    href: "#about",
-  },
-
-  {
-    label: "Services",
-    href: "#services",
-  },
-
-  {
-    label: "Our Expertise",
-    href: "#expertise",
-  },
-
-  {
-    label: "Case Studies",
-    href: "#case-studies",
-  },
-
-  {
-    label: "Contact Us",
-    href: "#contact",
-  },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Our Expertise", href: "#expertise" },
+  { label: "Case Studies", href: "#case-studies" },
+  { label: "Contact Us", href: "#contact" },
 ];
 
 /* =========================================================
@@ -1589,20 +1390,17 @@ const projects = [
     image:
       "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1000&auto=format&fit=crop",
   },
-
   {
     title: "proj2",
     class: "case-card--logo",
     logo: true,
   },
-
   {
     title: "proj3",
     class: "case-card--small",
     image:
       "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=800&auto=format&fit=crop",
   },
-
   {
     title: "proj4",
     class: "case-card--wide",
@@ -1627,21 +1425,13 @@ const sectionIds = [
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 40;
-
-  /*
-   * خیلی مهم:
-   * هر بار اسکرول علاوه بر ScrollSpy
-   * بررسی می‌کنیم که Stats قابل مشاهده شده یا نه.
-   */
   checkStatsVisibility();
 
   const scrollPos = window.scrollY + 140;
-
   let current = sectionIds[0];
 
   for (const id of sectionIds) {
     const el = document.getElementById(id);
-
     if (el && el.offsetTop <= scrollPos) {
       current = id;
     }
@@ -1655,10 +1445,25 @@ const handleScroll = () => {
    ========================================================= */
 
 const scrollTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+/* =========================================================
+   ALIGN TESTIMONIAL SLIDER ON LOAD
+   ========================================================= */
+
+const alignTestimonialSlider = () => {
+  const slider = testimonialsCards.value;
+  const track = slider?.querySelector(".testimonials__track");
+  if (!slider || !track) return;
+
+  const style = getComputedStyle(track);
+  const paddingProp =
+    currentLanguage.value === "fa" ? "paddingRight" : "paddingLeft";
+  const paddingValue = parseFloat(style[paddingProp]);
+  if (!isNaN(paddingValue)) {
+    slider.scrollLeft = paddingValue;
+  }
 };
 
 /* =========================================================
@@ -1666,23 +1471,13 @@ const scrollTop = () => {
    ========================================================= */
 
 onMounted(async () => {
-  /*
-   * اول Observer را بساز
-   */
   if ("IntersectionObserver" in window) {
     revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            return;
-          }
-
+          if (!entry.isIntersecting) return;
           entry.target.classList.add("reveal--visible");
 
-          /*
-           * وقتی About وارد viewport شد،
-           * شمارنده‌ها را اجرا کن.
-           */
           if (entry.target.classList.contains("about__content")) {
             animateStats();
           }
@@ -1690,79 +1485,37 @@ onMounted(async () => {
           revealObserver?.unobserve(entry.target);
         });
       },
-      {
-        threshold: 0.18,
-
-        rootMargin: "0px 0px -60px 0px",
-      },
+      { threshold: 0.18, rootMargin: "0px 0px -60px 0px" },
     );
   }
 
   await nextTick();
 
-  /*
-   * وضعیت اولیه اسکرول
-   */
-  handleScroll();
+  // تنظیم اولیه اسکرول برای نمایش کامل کارت اول
+  alignTestimonialSlider();
 
-  /*
-   * اگر About از ابتدا داخل viewport باشد
-   */
+  handleScroll();
   checkStatsVisibility();
 
-  /*
-   * Scroll listener
-   */
-  window.addEventListener("scroll", handleScroll, {
-    passive: true,
-  });
+  window.addEventListener("scroll", handleScroll, { passive: true });
 
-  /*
-   * -----------------------------------------
-   * Reveal elements
-   * -----------------------------------------
-   *
-   * چون Observer بعد از ساخت DOM آماده شده،
-   * اینجا تمام المان‌های v-reveal را دستی observe
-   * می‌کنیم تا هیچ المانی جا نماند.
-   */
   if (revealObserver) {
     document.querySelectorAll("[data-v-reveal], .reveal").forEach((el) => {
       revealObserver.observe(el);
     });
   }
 
-  /*
-   * -----------------------------------------
-   * Start sliders
-   * -----------------------------------------
-   */
-
   window.setTimeout(() => {
     startServicesAutoSlide();
-
     startTestimonialsAutoSlide();
-
     updateTestimonialActiveDot();
-
-    /*
-     * یک بار دیگر Stats را بررسی کن
-     */
     checkStatsVisibility();
   }, 500);
-
-  /*
-   * -----------------------------------------
-   * Testimonial scroll
-   * -----------------------------------------
-   */
 
   testimonialsCards.value?.addEventListener(
     "scroll",
     updateTestimonialActiveDot,
-    {
-      passive: true,
-    },
+    { passive: true },
   );
 });
 
@@ -1772,38 +1525,25 @@ onMounted(async () => {
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
-
   testimonialsCards.value?.removeEventListener(
     "scroll",
     updateTestimonialActiveDot,
   );
 
   stopServicesAutoSlide();
-
   stopTestimonialsAutoSlide();
-
   window.clearTimeout(servicesResumeTimer);
-
   window.clearTimeout(testimonialsResumeTimer);
 
-  /*
-   * Cancel stats animation
-   */
   if (statsAnimationFrame) {
     cancelAnimationFrame(statsAnimationFrame);
-
     statsAnimationFrame = null;
   }
 
-  /*
-   * Disconnect observer
-   */
   revealObserver?.disconnect();
-
   revealObserver = null;
 });
 </script>
-``` ```
 
 <style>
 /* ==============================
@@ -1923,10 +1663,6 @@ img {
 
 .reveal--up {
   transform: translateY(28px);
-}
-
-.app.is-rtl .reveal--left {
-  transform: translateX(46px);
 }
 
 .app.is-rtl .reveal--right {
@@ -2450,11 +2186,11 @@ img {
 }
 
 .diamond-image img {
-  width: 145%;
-  height: 145%;
+  width: 160%;
+  height: 195%;
   max-width: none;
   object-fit: cover;
-  transform: rotate(-45deg) translate(8px, -48px);
+  transform: rotate(-45deg) translate(30px, -48px);
   transition: transform 0.6s var(--ease);
 }
 
@@ -2474,16 +2210,17 @@ img {
 
 .about__content {
   max-width: 530px;
-  padding-top: 20px;
+  padding-top: 30px;
 }
 
 .about__content h2,
 .expertise__content h2 {
-  font-size: 30px;
+  font-size: 25px;
   line-height: 1.45;
   letter-spacing: -0.7px;
   margin: 0 0 35px;
   font-weight: 900;
+  max-width: 450px;
 }
 
 .stats {
@@ -3025,7 +2762,7 @@ blockquote {
   margin: 0;
   color: #0d4eae;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 54px;
+  font-size: 50px;
   font-weight: 500;
   line-height: 1.18;
   white-space: nowrap;
@@ -3039,7 +2776,7 @@ blockquote {
 .testimonial-quote {
   position: absolute;
   top: 22px;
-  left: 44px;
+  left: 105px;
   color: #aeeaf4;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 118px;
@@ -3260,7 +2997,7 @@ blockquote {
 
   .testimonial-quote {
     top: 19px;
-    left: 29px;
+    left: 39px;
     font-size: 78px;
   }
 
@@ -3342,7 +3079,7 @@ blockquote {
   }
 
   .testimonial-card__client h3 {
-    font-size: 19px;
+    font-size: 18px;
   }
 
   .testimonial-card__client span {
@@ -3728,6 +3465,7 @@ blockquote {
 }
 
 .brand--footer .brand__mark::after {
+  content: "RP";
   font-size: 13px;
 }
 
@@ -5484,7 +5222,7 @@ blockquote {
 
 .testimonials__title {
   position: absolute;
-  top: 85px;
+  top: 60px;
   left: 0;
   z-index: 1;
   pointer-events: none;
@@ -5518,8 +5256,8 @@ blockquote {
 
 .testimonial-quote {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 55px;
+  right: 200px;
   color: #ff5a3d;
   font-size: 70px;
   font-family: Georgia, serif;
@@ -5582,7 +5320,7 @@ blockquote {
   }
 
   .testimonials__title {
-    top: 55px;
+    top: -25px;
     left: 18px;
   }
 
@@ -5617,9 +5355,9 @@ blockquote {
   }
 }
 
-@media (max-width: 575px) {
+@media (max-width: 577px) {
   .testimonials__title {
-    top: 42px;
+    top: -4px;
     left: 12px;
   }
 
@@ -5633,7 +5371,7 @@ blockquote {
   }
 
   .testimonial-quote {
-    top: 8px;
+    top: 12px;
     right: 15px;
     font-size: 39px;
   }
@@ -5757,27 +5495,6 @@ blockquote {
   z-index: 4 !important;
 }
 
-@media (max-width: 575px) {
-  .testimonials__cards {
-    width: calc(100% + 24px) !important;
-    margin-left: -12px !important;
-    padding: 22px 12px 48px !important;
-  }
-
-  .testimonials__track {
-    gap: 15px !important;
-    padding-right: 20px !important;
-  }
-
-  .testimonials__track::before {
-    flex-basis: 145px;
-  }
-
-  .testimonial-card {
-    flex: 0 0 calc(100vw - 52px) !important;
-  }
-}
-
 @media (max-width: 1169px) {
   .testimonials::before,
   .testimonials::after {
@@ -5795,7 +5512,6 @@ blockquote {
 
 .app.is-rtl {
   direction: rtl;
-  text-align: right;
 }
 
 /* --- پایه: معکوس کردن جهت متن‌ها --- */
@@ -5933,16 +5649,16 @@ blockquote {
 
 /* --- Services: عنوان در سمت چپ و margin-left بین گروه‌ها --- */
 .app.is-rtl .services__title {
-  right: auto !important;
-  left: 0 !important;
+  right: 0 !important;
+  left: auto !important;
 }
 .app.is-rtl .services__title .dots-grid {
-  left: auto !important;
-  right: 126px !important;
+  left: 126px !important;
+  right: auto !important;
 }
 .app.is-rtl .services__track .service-card:nth-child(3n) {
-  margin-right: 0 !important;
-  margin-left: 390px !important;
+  margin-right: 390px !important;
+  margin-left: 0 !important;
 }
 @media (min-width: 769px) and (max-width: 1100px) {
   .app.is-rtl .services__track .service-card:nth-child(3n) {
@@ -5992,50 +5708,6 @@ blockquote {
 .app.is-rtl .icon-bubble--small {
   left: auto !important;
   right: -48px !important;
-}
-
-/* --- Testimonials: عنوان سمت راست، track padding معکوس --- */
-.app.is-rtl .testimonials__title {
-  left: auto !important;
-  right: 0 !important;
-}
-.app.is-rtl .testimonials__cards {
-  margin-left: 0 !important;
-  margin-right: 155px !important;
-  width: calc(100% - 155px) !important;
-}
-.app.is-rtl .testimonials__track {
-  padding-left: 40px !important;
-  padding-right: clamp(225px, 24vw, 355px) !important;
-}
-.app.is-rtl .testimonials__track::before {
-  display: none;
-}
-.app.is-rtl .testimonials__track::after {
-  content: "";
-  display: block;
-  flex: 0 0 clamp(225px, 24vw, 355px);
-}
-@media (max-width: 991px) {
-  .app.is-rtl .testimonials__cards {
-    margin-right: 120px !important;
-    width: calc(100% - 120px) !important;
-  }
-  .app.is-rtl .testimonials__track {
-    padding-right: 180px !important;
-    padding-left: 20px !important;
-  }
-}
-@media (max-width: 575px) {
-  .app.is-rtl .testimonials__cards {
-    width: calc(100% + 24px) !important;
-    margin: 0 -12px !important;
-    padding: 22px 12px 48px !important;
-  }
-  .app.is-rtl .testimonials__track {
-    padding-right: 130px !important;
-    padding-left: 16px !important;
-  }
 }
 
 /* --- Office: آفست عنوان --- */
@@ -6118,6 +5790,309 @@ select:focus-visible {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   TESTIMONIALS — ENGLISH LAYOUT IS THE ONLY LAYOUT
+   Persian changes text direction only; geometry never flips.
+   ========================================================= */
+.testimonials,
+.testimonials__inner,
+.testimonials__cards,
+.testimonials__track,
+.testimonial-card,
+.testimonial-card__box,
+.testimonial-card__client,
+.testimonial-dots {
+  direction: ltr !important;
+}
+
+.testimonials__title {
+  left: 0 !important;
+  right: auto !important;
+}
+
+.testimonials__track {
+  padding-left: clamp(225px, 24vw, 355px) !important;
+  padding-right: 40px !important;
+}
+
+.testimonials__track::before {
+  display: block !important;
+  content: "" !important;
+  flex: 0 0 clamp(225px, 24vw, 355px) !important;
+}
+
+.testimonials__track::after {
+  display: none !important;
+  content: none !important;
+}
+
+.testimonial-card__box {
+  border-radius: 60px 60px 60px 0 !important;
+}
+
+/* Long testimonials scroll vertically inside the fixed card. */
+.testimonial-card__text {
+  height: 190px !important;
+  max-height: 190px !important;
+  min-height: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding-right: 8px;
+  padding-left: 0;
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.testimonial-card__text::-webkit-scrollbar {
+  width: 4px;
+}
+
+.testimonial-card__text::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.testimonial-card__text::-webkit-scrollbar-thumb {
+  background: #b8eaf2;
+  border-radius: 10px;
+}
+
+.testimonial-card__text::-webkit-scrollbar-thumb:hover {
+  background: #7fd9ea;
+}
+
+/* Persian: only the actual text is RTL. */
+.app.is-rtl .testimonial-card__text {
+  direction: rtl !important;
+  text-align: right !important;
+  padding-right: 0;
+  padding-left: 8px;
+}
+
+.app.is-rtl .testimonial-diamond h2 {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+.app.is-rtl .testimonial-card__client {
+  direction: ltr !important;
+}
+
+.app.is-rtl .testimonial-card__client h3,
+.app.is-rtl .testimonial-card__client span {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+@media (max-width: 1199px) {
+  .testimonials__title {
+    left: 0 !important;
+    right: auto !important;
+  }
+
+  .testimonials__cards {
+    margin-left: 120px !important;
+    margin-right: 0 !important;
+    width: calc(100% - 120px) !important;
+  }
+
+  .testimonials__track {
+    padding-left: clamp(180px, 22vw, 300px) !important;
+    padding-right: 40px !important;
+  }
+
+  .testimonial-card__text {
+    height: 170px !important;
+    max-height: 170px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .testimonials__title {
+    left: auto !important;
+    right: auto !important;
+  }
+
+  .testimonials__cards {
+    width: calc(100% + 24px) !important;
+    margin-left: -12px !important;
+    margin-right: 0 !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .testimonials__track {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+
+  .testimonials__track::before {
+    display: none !important;
+    flex-basis: 0 !important;
+  }
+
+  .testimonial-card__text {
+    height: 165px !important;
+    max-height: 165px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .testimonials__title {
+    left: auto !important;
+    right: auto !important;
+  }
+
+  .testimonials__cards {
+    width: calc(100% + 24px) !important;
+    margin-left: -12px !important;
+    margin-right: 0 !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .testimonials__track {
+    padding-left: 4px !important;
+    padding-right: 16px !important;
+  }
+
+  .testimonial-card__text {
+    height: 150px !important;
+    max-height: 150px !important;
+  }
+}
+
+/* =========================================================
+   TESTIMONIALS – فاصله ثابت ۵px از گوشه‌ها
+   ========================================================= */
+.testimonials {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+.testimonials__inner {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* اسلایدر: عرض را بر اساس فاصله‌ی ۵px تنظیم می‌کنیم */
+.testimonials__cards {
+  width: calc(100% - 10px) !important; /* 5px از چپ + 5px از راست */
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* عنوان چرخشی (Diamond) را ۵px از لبه چپ قرار می‌دهیم */
+.testimonials__title {
+  left: 5px !important;
+}
+
+/* لوپ کارت‌ها را طوری تنظیم می‌کنیم که اولین آیتم پشت عنوان نرود و از حاشیه بیرون نزند */
+.testimonials__track {
+  padding-left: clamp(225px, 24vw, 355px) !important;
+  padding-right: 5px !important;
+}
+
+/* RTL: آینه‌سازی موقعیت‌ها برای زبان فارسی */
+.app.is-rtl .testimonials__title {
+  left: auto !important;
+  right: 5px !important;
+}
+
+.app.is-rtl .testimonials__cards {
+  margin-left: 0 !important;
+  margin-right: 5px !important;
+}
+
+.app.is-rtl .testimonials__track {
+  padding-left: 5px !important;
+  padding-right: clamp(225px, 24vw, 355px) !important;
+}
+
+/* در تبلت و موبایل: فاصله‌ها حفظ شود */
+@media (max-width: 1199px) {
+  .testimonials__cards {
+    width: calc(100% - 10px) !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+  }
+
+  .testimonials__track {
+    padding-left: clamp(180px, 22vw, 300px) !important;
+    padding-right: 5px !important;
+  }
+
+  .app.is-rtl .testimonials__track {
+    padding-left: 5px !important;
+    padding-right: clamp(180px, 22vw, 300px) !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .testimonials__cards {
+    width: calc(100% - 10px) !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+  }
+
+  .testimonials__track {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .testimonials__track::before {
+    display: none !important;
+  }
+
+  /* عنوان در موبایل وسط‌چین می‌شود، اما همچنان از گوشه فاصله دارد */
+  .testimonials__title {
+    left: 5px !important;
+  }
+
+  .app.is-rtl .testimonials__title {
+    left: auto !important;
+    right: 5px !important;
+  }
+}
+/* =========================================================
+   FIX DOTS POSITION IN PERSIAN (ONLY DOTS, NOTHING ELSE)
+   ========================================================= */
+
+/* حالت فارسی: دات‌ها را به سمت راست ببر تا از روی متن خارج شوند */
+.app.is-rtl .services__title .dots-grid {
+  left: auto !important;
+  right: 140px !important; /* فاصله از لبه راست الماس */
+  top: 40px !important; /* تنظیم عمودی */
+}
+
+@media (max-width: 1100px) and (min-width: 769px) {
+  .app.is-rtl .services__title .dots-grid {
+    right: 95px !important;
+    top: 28px !important;
+  }
+  .app.is-rtl .services__title .dots-grid span {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* برای موبایل (تا 768px) */
+@media (max-width: 768px) {
+  .app.is-rtl .services__title .dots-grid {
+    right: 60px !important;
+    top: 5px !important;
+    gap: 6px;
+  }
+  .app.is-rtl .services__title .dots-grid span {
+    width: 14px;
+    height: 14px;
   }
 }
 </style>
