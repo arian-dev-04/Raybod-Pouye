@@ -26,17 +26,33 @@
           >
             {{ t(item.label) }}
           </a>
+
+          <!-- Language switch inside mobile/tablet menu -->
+          <button
+            class="nav-language"
+            type="button"
+            :aria-label="
+              currentLanguage === 'en'
+                ? 'Switch to Persian'
+                : 'Switch to English'
+            "
+            @click="toggleLanguage"
+          >
+            <span>{{ currentLanguage === "en" ? "فا" : "En" }}</span>
+            <span>{{ currentLanguage === "en" ? "فارسی" : "English" }}</span>
+          </button>
         </nav>
 
+        <!-- ===== NEW: Language toggle button for desktop ===== -->
         <button
-          class="setting-btn"
+          class="lang-btn"
           type="button"
-          aria-label="Switch language"
+          :aria-label="
+            currentLanguage === 'en' ? 'Switch to Persian' : 'Switch to English'
+          "
           @click="toggleLanguage"
         >
-          <span class="setting-btn__label" :key="currentLanguage">{{
-            currentLanguage === "en" ? "فا" : "En"
-          }}</span>
+          <span>{{ currentLanguage === "en" ? "فا" : "En" }}</span>
         </button>
 
         <button
@@ -1467,6 +1483,42 @@ const alignTestimonialSlider = () => {
 };
 
 /* =========================================================
+   RESPONSIVE MENU
+   ========================================================= */
+
+let resizeMenuLockTimer = null;
+
+const handleResize = () => {
+  isMenuOpen.value = false;
+
+  document.documentElement.classList.add("is-resizing");
+
+  if (resizeMenuLockTimer) {
+    window.clearTimeout(resizeMenuLockTimer);
+  }
+
+  resizeMenuLockTimer = window.setTimeout(() => {
+    document.documentElement.classList.remove("is-resizing");
+    resizeMenuLockTimer = null;
+  }, 120);
+};
+
+// بستن منو با کلیک روی هر قسمت خارج از منو و دکمه همبرگری
+const handleDocumentClick = (event) => {
+  if (!isMenuOpen.value) return;
+
+  const target = event.target;
+  const nav = document.querySelector(".nav");
+  const menuButton = document.querySelector(".menu-btn");
+
+  if (nav?.contains(target) || menuButton?.contains(target)) {
+    return;
+  }
+
+  isMenuOpen.value = false;
+};
+
+/* =========================================================
    LIFECYCLE
    ========================================================= */
 
@@ -1498,6 +1550,8 @@ onMounted(async () => {
   checkStatsVisibility();
 
   window.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("resize", handleResize, { passive: true });
+  document.addEventListener("click", handleDocumentClick);
 
   if (revealObserver) {
     document.querySelectorAll("[data-v-reveal], .reveal").forEach((el) => {
@@ -1525,6 +1579,15 @@ onMounted(async () => {
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
+  window.removeEventListener("resize", handleResize);
+  document.removeEventListener("click", handleDocumentClick);
+
+  if (resizeMenuLockTimer) {
+    window.clearTimeout(resizeMenuLockTimer);
+    resizeMenuLockTimer = null;
+  }
+
+  document.documentElement.classList.remove("is-resizing");
   testimonialsCards.value?.removeEventListener(
     "scroll",
     updateTestimonialActiveDot,
@@ -1663,10 +1726,6 @@ img {
 
 .reveal--up {
   transform: translateY(28px);
-}
-
-.app.is-rtl .reveal--right {
-  transform: translateX(-46px);
 }
 
 .reveal--visible {
@@ -1811,6 +1870,11 @@ img {
   color: var(--cyan);
 }
 
+/* Language switch used inside the responsive menu */
+.nav-language {
+  display: none;
+}
+
 .header.scrolled .nav a:hover,
 .header.scrolled .nav a.is-active {
   color: var(--blue-dark);
@@ -1853,6 +1917,51 @@ img {
   to {
     opacity: 1;
     transform: scale(1) rotate(0);
+  }
+}
+
+/* ===== NEW: Language toggle button for desktop ===== */
+.lang-btn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  background: white;
+  border-radius: 50%;
+  color: var(--blue-dark);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 8px 22px rgba(23, 81, 138, 0.13);
+  cursor: pointer;
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.lang-btn:hover {
+  transform: translateY(-2px) rotate(8deg);
+  box-shadow: 0 12px 26px rgba(23, 81, 138, 0.22);
+}
+
+/* Hide language button on mobile/tablet */
+@media (max-width: 992px) {
+  .lang-btn {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1169px) {
+  .lang-btn {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .lang-btn {
+    display: none !important;
   }
 }
 
@@ -2718,19 +2827,6 @@ blockquote {
   border-radius: 40px;
 }
 
-.testimonials::after {
-  content: "";
-  position: absolute;
-  width: 330px;
-  height: 330px;
-  right: -145px;
-  bottom: -260px;
-  background: rgba(255, 255, 255, 0.88);
-  border-radius: 35px;
-  transform: rotate(45deg);
-  z-index: 0;
-}
-
 .testimonials__inner {
   position: relative;
   z-index: 1;
@@ -3286,6 +3382,25 @@ blockquote {
 }
 
 /* ==============================
+   FIX: CTA box on mobile – button below text
+   ============================== */
+@media (max-width: 768px) {
+  .cta__box {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 28px 22px;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .cta__box .btn {
+    align-self: center;
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+/* ==============================
    12. OFFICE / CONTACT
    ============================== */
 .office {
@@ -3647,6 +3762,55 @@ blockquote {
     transform: translateY(0);
   }
 
+  .nav-language {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 46px;
+    margin: 4px 0 0;
+    padding: 12px 10px;
+    border: 0;
+    border-top: 1px solid #edf1f4;
+    background: transparent;
+    color: #1f3447;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .nav-language span:first-child {
+    display: inline-grid;
+    place-items: center;
+    min-width: 36px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 8px;
+    background: #eef8ff;
+    color: var(--blue-dark);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .nav-language span:last-child {
+    margin-inline-start: 12px;
+  }
+
+  .app.is-rtl .nav-language span:first-child {
+    order: 2;
+  }
+
+  .app.is-rtl .nav-language span:last-child {
+    margin-inline-start: 0;
+    margin-inline-end: 12px;
+  }
+
+  .nav-language:hover {
+    color: var(--blue-dark);
+    background: rgba(38, 159, 243, 0.05);
+  }
+
   .nav a,
   .header.scrolled .nav a {
     color: #1f3447;
@@ -3941,6 +4105,7 @@ blockquote {
       opacity 0.2s ease,
       transform 0.2s ease,
       visibility 0s linear 0.2s;
+    will-change: opacity, transform;
   }
 
   .nav.active {
@@ -3968,6 +4133,60 @@ blockquote {
 
   .nav a:last-child {
     border-bottom: 0;
+  }
+
+  .nav-language {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 46px;
+    margin: 4px 0 0;
+    padding: 12px 10px;
+    border: 0;
+    border-top: 1px solid #edf1f4;
+    background: transparent;
+    color: #1f3447;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+    cursor: pointer;
+  }
+
+  .nav-language span:first-child {
+    display: inline-grid;
+    place-items: center;
+    min-width: 36px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 8px;
+    background: #eef8ff;
+    color: var(--blue-dark);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .nav-language span:last-child {
+    margin-inline-start: 12px;
+  }
+
+  .app.is-rtl .nav-language {
+    text-align: left;
+  }
+
+  .app.is-rtl .nav-language span:first-child {
+    order: 2;
+  }
+
+  .app.is-rtl .nav-language span:last-child {
+    margin-inline-start: 0;
+    margin-inline-end: 12px;
+  }
+
+  .nav-language:hover {
+    color: var(--blue-dark);
+    background: rgba(38, 159, 243, 0.05);
   }
 
   .hero {
@@ -5496,8 +5715,7 @@ blockquote {
 }
 
 @media (max-width: 1169px) {
-  .testimonials::before,
-  .testimonials::after {
+  .testimonials::before {
     display: none;
   }
 }
@@ -6093,6 +6311,64 @@ select:focus-visible {
   .app.is-rtl .services__title .dots-grid span {
     width: 14px;
     height: 14px;
+  }
+}
+
+@media (max-width: 1168px) {
+  .nav:not(.active) {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(-12px) scale(0.98) !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .nav.active {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0s linear 0s !important;
+  }
+  .app.is-rtl .nav {
+    left: auto !important;
+    right: 20px !important;
+    transform-origin: top right !important;
+  }
+  .app.is-rtl .nav a {
+    text-align: right !important;
+    direction: rtl !important;
+  }
+  .app.is-rtl .nav-language {
+    direction: rtl !important;
+    text-align: right !important;
+  } /* During a resize the menu is
+hard-locked closed. */
+  html.is-resizing .nav,
+  html.is-resizing .nav.active {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(-12px) scale(0.98) !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .app.is-rtl .hero__image {
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+
+  .app.is-rtl .hero__image img {
+    transform: none !important;
+    clip-path: none !important;
   }
 }
 </style>
