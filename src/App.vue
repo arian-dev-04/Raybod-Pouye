@@ -4935,10 +4935,6 @@ blockquote {
   }
 
   /* RTL adjustments for about on mobile */
-  .app.is-rtl .about-card {
-    right: auto !important;
-    left: auto !important;
-  }
 
   .app.is-rtl .diamond-image {
     left: auto !important;
