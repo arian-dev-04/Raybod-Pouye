@@ -4826,6 +4826,176 @@ blockquote {
 }
 
 /* =========================================================
+   ABOUT – FIX OVERFLOW ON MOBILE
+   ========================================================= */
+@media (max-width: 768px) {
+  .about {
+    overflow: hidden;
+    padding: 40px 0 80px;
+  }
+
+  .about__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    min-height: auto;
+  }
+
+  .about__visual {
+    width: 100%;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .about-card {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: 280px;
+    height: 220px;
+    margin: 0 auto;
+  }
+
+  .diamond-title {
+    width: 130px;
+    height: 130px;
+    border-radius: 22px;
+  }
+
+  .diamond-title span {
+    font-size: 24px;
+  }
+
+  .diamond-image {
+    position: absolute;
+    top: -18px;
+    left: 90px;
+    width: 150px;
+    height: 150px;
+    border-radius: 24px;
+  }
+
+  .diamond-image img {
+    width: 160%;
+    height: 195%;
+    transform: rotate(-45deg) translate(20px, -40px);
+  }
+
+  .soft-diamond--one {
+    width: 180px;
+    height: 180px;
+    left: -30px;
+    top: 70px;
+  }
+
+  .soft-diamond--two {
+    display: none;
+  }
+
+  .about__content {
+    max-width: 100%;
+    padding-top: 0;
+    text-align: center;
+  }
+
+  .about__content h2 {
+    max-width: 100%;
+    font-size: 22px;
+  }
+
+  .stats {
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .stat strong {
+    font-size: 26px;
+  }
+
+  .stat strong::after {
+    width: 30px;
+    height: 4px;
+  }
+
+  blockquote {
+    font-size: 18px;
+    padding-left: 16px;
+    text-align: left;
+  }
+
+  .app.is-rtl blockquote {
+    padding-left: 0;
+    padding-right: 16px;
+    text-align: right;
+  }
+
+  /* RTL adjustments for about on mobile */
+  .app.is-rtl .about-card {
+    right: auto !important;
+    left: auto !important;
+  }
+
+  .app.is-rtl .diamond-image {
+    left: auto !important;
+    right: 90px !important;
+  }
+
+  .app.is-rtl .soft-diamond--one {
+    left: auto !important;
+    right: -30px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-card {
+    width: 220px;
+    height: 180px;
+  }
+
+  .diamond-title {
+    width: 105px;
+    height: 105px;
+    border-radius: 18px;
+  }
+
+  .diamond-title span {
+    font-size: 20px;
+  }
+
+  .diamond-image {
+    top: -14px;
+    left: 70px;
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+  }
+
+  .diamond-image img {
+    transform: rotate(-45deg) translate(12px, -32px);
+  }
+
+  .soft-diamond--one {
+    width: 140px;
+    height: 140px;
+    left: -20px;
+    top: 50px;
+  }
+
+  .app.is-rtl .diamond-image {
+    right: 70px !important;
+  }
+
+  .app.is-rtl .soft-diamond--one {
+    right: -20px !important;
+  }
+}
+
+/* =========================================================
    SERVICES – FINAL HORIZONTAL SLIDER FIX
    ========================================================= */
 .services {
