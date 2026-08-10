@@ -6534,4 +6534,10 @@ hard-locked closed. */
     clip-path: none !important;
   }
 }
+
+@media (max-width: 420px) {
+  .services .dots-grid {
+    display: none !important;
+  }
+}
 </style>
