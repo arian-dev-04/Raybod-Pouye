@@ -74,10 +74,7 @@
     <!-- ================= Hero ================= -->
     <section id="home" class="hero section">
       <div class="hero__image">
-        <img
-          src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1400&auto=format&fit=crop"
-          alt="Business Building"
-        />
+        <img :src="getImage('hero-1.jpg')" alt="Hero" />
       </div>
 
       <div class="container hero__content">
@@ -579,6 +576,15 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+
+const images = import.meta.glob("./assets/images/*", {
+  eager: true,
+  import: "default",
+});
+
+const getImage = (name) => {
+  return images[`./assets/images/${name}`];
+};
 
 /* =========================================================
    STATE
@@ -2819,7 +2825,7 @@ blockquote {
 .testimonials::before {
   content: "";
   position: absolute;
-  width: 350px;
+  width: 280px;
   height: 350px;
   top: -310px;
   right: -30px;
