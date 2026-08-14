@@ -8,6 +8,28 @@
     }"
     :dir="currentLanguage === 'fa' ? 'rtl' : 'ltr'"
   >
+    <Transition name="ray-loader">
+      <div v-if="isInitialLoading" class="ray-loader" aria-hidden="true">
+        <div class="ray-loader__pieces">
+          <span class="ray-piece ray-piece--1"></span>
+          <span class="ray-piece ray-piece--2"></span>
+          <span class="ray-piece ray-piece--3"></span>
+          <span class="ray-piece ray-piece--4"></span>
+          <span class="ray-piece ray-piece--5"></span>
+          <span class="ray-piece ray-piece--6"></span>
+          <span class="ray-piece ray-piece--7"></span>
+          <span class="ray-piece ray-piece--8"></span>
+          <span class="ray-piece ray-piece--9"></span>
+        </div>
+
+        <div class="ray-loader__center">
+          <div class="ray-loader__mark"><span></span></div>
+          <div class="ray-loader__brand">{{ t("BrandName") }}</div>
+        </div>
+
+        <div class="ray-loader__flash"></div>
+      </div>
+    </Transition>
     <!-- ================= Header ================= -->
     <header class="header" :class="{ scrolled: isScrolled }">
       <div class="container header__inner">
@@ -592,6 +614,7 @@ const getImage = (name) => {
 
 const isScrolled = ref(false);
 const isMenuOpen = ref(false);
+const isInitialLoading = ref(true);
 const currentLanguage = ref("en");
 const activeSection = ref("home");
 const isSwitchingLanguage = ref(false);
@@ -1531,6 +1554,18 @@ const handleDocumentClick = (event) => {
    ========================================================= */
 
 onMounted(async () => {
+  document.documentElement.classList.add("ray-loader-active");
+
+  // Only controls the intro layer; the page itself is never transformed.
+  const minimumIntro = new Promise((resolve) =>
+    window.setTimeout(resolve, 2800),
+  );
+  const fontsReady = document.fonts?.ready ?? Promise.resolve();
+  await Promise.all([minimumIntro, fontsReady]);
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  isInitialLoading.value = false;
+  document.documentElement.classList.remove("ray-loader-active");
+
   if ("IntersectionObserver" in window) {
     revealObserver = new IntersectionObserver(
       (entries) => {
@@ -1586,6 +1621,7 @@ onMounted(async () => {
    ========================================================= */
 
 onUnmounted(() => {
+  document.documentElement.classList.remove("ray-loader-active");
   window.removeEventListener("scroll", handleScroll);
   window.removeEventListener("resize", handleResize);
   document.removeEventListener("click", handleDocumentClick);
@@ -4890,7 +4926,7 @@ blockquote {
   .diamond-image img {
     width: 160%;
     height: 195%;
-    transform: rotate(-45deg) translate(20px, -40px);
+    transform: rotate(-45deg) translate(45px, -40px);
   }
 
   .soft-diamond--one {
@@ -6544,6 +6580,486 @@ hard-locked closed. */
 @media (max-width: 420px) {
   .services .dots-grid {
     display: none !important;
+  }
+}
+
+/* ==============================
+   LOADING INTRO — ADDED ONLY
+   ============================== */
+.ray-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  overflow: hidden;
+  background: #ffffff;
+  isolation: isolate;
+}
+
+.ray-loader__pieces,
+.ray-loader__pieces::before {
+  position: absolute;
+  inset: 0;
+}
+
+.ray-loader__pieces {
+  filter: saturate(1.08) contrast(1.03);
+}
+
+.ray-loader__pieces::before {
+  content: "";
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(255, 255, 255, 1) 0 8%,
+      rgba(255, 255, 255, 0.9) 17%,
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 18% 24%,
+      rgba(46, 91, 255, 0.13),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 82% 22%,
+      rgba(24, 76, 170, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 18% 78%,
+      rgba(0, 167, 160, 0.14),
+      transparent 31%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      rgba(199, 154, 59, 0.13),
+      transparent 30%
+    ),
+    linear-gradient(120deg, rgba(78, 108, 190, 0.06), transparent 38%),
+    linear-gradient(300deg, rgba(16, 54, 108, 0.08), transparent 44%);
+  transform: scale(0.96);
+  animation: ray-loader-glow 2.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+.ray-loader__pieces::after {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  background: conic-gradient(
+    from 18deg at 50% 50%,
+    transparent 0deg,
+    rgba(42, 102, 214, 0.09) 48deg,
+    transparent 88deg,
+    rgba(47, 84, 177, 0.09) 138deg,
+    transparent 186deg,
+    rgba(0, 156, 150, 0.09) 234deg,
+    transparent 278deg,
+    rgba(184, 138, 45, 0.09) 324deg,
+    transparent 360deg
+  );
+  animation: ray-loader-ambient 3s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+.ray-piece {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 42vw;
+  height: 44vh;
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  box-shadow:
+    inset 0 0 56px rgba(255, 255, 255, 0.28),
+    0 28px 86px rgba(20, 48, 86, 0.1);
+  transform: translate(-50%, -50%) scale(1.2);
+  transform-origin: center;
+  will-change: transform, opacity, filter;
+  animation: ray-piece-release 1.82s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ray-piece--1 {
+  background: linear-gradient(145deg, #eef3ff 0%, #b9ccff 52%, #7299f2 100%);
+  clip-path: polygon(0 0, 100% 4%, 88% 100%, 7% 88%);
+  --x: -44vw;
+  --y: -38vh;
+  --r: -9deg;
+  animation-delay: 1.42s;
+}
+.ray-piece--2 {
+  background: linear-gradient(145deg, #f6f3df 0%, #e9d39a 55%, #c79a3b 100%);
+  clip-path: polygon(6% 0, 96% 8%, 100% 96%, 0 100%);
+  --x: -15vw;
+  --y: -41vh;
+  --r: -4deg;
+  animation-delay: 1.49s;
+}
+.ray-piece--3 {
+  background: linear-gradient(145deg, #edf2ff 0%, #b9c9f4 52%, #6d86c7 100%);
+  clip-path: polygon(4% 4%, 100% 0, 94% 100%, 0 90%);
+  --x: 15vw;
+  --y: -40vh;
+  --r: 5deg;
+  animation-delay: 1.56s;
+}
+.ray-piece--4 {
+  background: linear-gradient(145deg, #e8faf7 0%, #9edfd6 52%, #49aaa1 100%);
+  clip-path: polygon(0 6%, 92% 0, 100% 100%, 8% 94%);
+  --x: 43vw;
+  --y: -36vh;
+  --r: 10deg;
+  animation-delay: 1.63s;
+}
+.ray-piece--5 {
+  background: linear-gradient(145deg, #e8f2fb 0%, #9fc2e8 55%, #4d82bf 100%);
+  clip-path: polygon(0 0, 94% 8%, 100% 100%, 6% 92%);
+  --x: -48vw;
+  --y: 31vh;
+  --r: -11deg;
+  animation-delay: 1.6s;
+}
+.ray-piece--6 {
+  background: linear-gradient(145deg, #eef1fb 0%, #b7c1df 52%, #788db8 100%);
+  clip-path: polygon(6% 0, 100% 4%, 92% 100%, 0 94%);
+  --x: -16vw;
+  --y: 37vh;
+  --r: -5deg;
+  animation-delay: 1.67s;
+}
+.ray-piece--7 {
+  background: linear-gradient(145deg, #f8f5ec 0%, #e7d5ad 54%, #b98b42 100%);
+  clip-path: polygon(0 8%, 100% 0, 94% 94%, 8% 100%);
+  --x: 16vw;
+  --y: 38vh;
+  --r: 6deg;
+  animation-delay: 1.74s;
+}
+.ray-piece--8 {
+  background: linear-gradient(145deg, #e9f4f8 0%, #9acbd1 52%, #4e9ca4 100%);
+  clip-path: polygon(7% 0, 100% 8%, 92% 100%, 0 92%);
+  --x: 44vw;
+  --y: 32vh;
+  --r: 11deg;
+  animation-delay: 1.81s;
+}
+.ray-piece--9 {
+  background:
+    radial-gradient(
+      circle at 38% 34%,
+      rgba(255, 255, 255, 0.96),
+      transparent 34%
+    ),
+    linear-gradient(135deg, #eef3fb 0%, #b9c8e8 38%, #8eb7d0 70%, #7db8aa 100%);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  width: 30vw;
+  height: 30vw;
+  --x: 0;
+  --y: 0;
+  --r: 45deg;
+  animation-delay: 0.08s;
+  box-shadow:
+    0 0 120px rgba(47, 84, 177, 0.16),
+    0 0 70px rgba(42, 102, 214, 0.11),
+    inset 0 0 44px rgba(255, 255, 255, 0.34);
+  z-index: 2;
+}
+
+.ray-loader__center {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+  pointer-events: none;
+  animation: ray-center-exit 0.82s cubic-bezier(0.16, 1, 0.3, 1) 1.74s forwards;
+}
+
+.ray-loader__mark {
+  width: 86px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    145deg,
+    #173b67 0%,
+    #285d9a 42%,
+    #2b8f9f 72%,
+    #6aaea0 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 21px;
+  transform: rotate(45deg) scale(0.68);
+  box-shadow:
+    0 22px 64px rgba(23, 59, 103, 0.22),
+    0 0 0 11px rgba(255, 255, 255, 0.46),
+    0 0 0 24px rgba(44, 91, 153, 0.07),
+    0 0 46px rgba(0, 156, 150, 0.1);
+  animation: ray-mark-in 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+.ray-loader__mark::before {
+  content: "";
+  position: absolute;
+  width: 48%;
+  height: 48%;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.18);
+}
+
+.ray-loader__mark::after {
+  content: "RP";
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  transform: rotate(-45deg);
+  text-shadow: 0 2px 14px rgba(18, 45, 79, 0.16);
+}
+
+.ray-loader__mark span {
+  display: none;
+}
+
+.ray-loader__brand {
+  margin-top: 29px;
+  color: #173b67;
+  font-size: clamp(22px, 2.4vw, 36px);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-shadow: 0 8px 30px rgba(23, 59, 103, 0.12);
+  animation: ray-brand-in 0.94s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+}
+
+.ray-loader__brand::after {
+  content: "";
+  display: block;
+  width: 58px;
+  height: 2px;
+  margin: 14px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #2b6bd6,
+    #4d73b6,
+    #3a9eb0,
+    #72a99d,
+    transparent
+  );
+  opacity: 0.76;
+}
+
+.ray-loader__flash {
+  position: absolute;
+  inset: -15%;
+  z-index: 5;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.98) 0 6%,
+    rgba(235, 242, 248, 0.86) 13%,
+    rgba(213, 232, 239, 0.42) 24%,
+    transparent 46%
+  );
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: ray-flash 1.12s cubic-bezier(0.16, 1, 0.3, 1) 2.58s forwards;
+}
+
+.ray-loader-active,
+.ray-loader-active body {
+  overflow: hidden !important;
+}
+
+.ray-loader-leave-active {
+  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ray-loader-leave-to {
+  opacity: 0;
+}
+.ray-loader-enter-active {
+  transition: opacity 0.16s ease;
+}
+.ray-loader-enter-from {
+  opacity: 0;
+}
+
+@keyframes ray-mark-in {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.34);
+    filter: blur(9px);
+  }
+  52% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.06);
+    filter: blur(0);
+  }
+  76% {
+    transform: rotate(45deg) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(45deg) scale(0.94);
+    filter: blur(0);
+  }
+}
+
+@keyframes ray-brand-in {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(10px);
+    letter-spacing: 0.21em;
+  }
+  58% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    letter-spacing: 0.12em;
+  }
+}
+
+@keyframes ray-center-exit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  58% {
+    opacity: 1;
+    transform: scale(1.018);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.965);
+    filter: blur(4px);
+  }
+}
+
+@keyframes ray-piece-release {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) scale(1.2) rotate(0);
+  }
+  30% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) scale(1.15) rotate(calc(var(--r) * 0.08));
+  }
+  58% {
+    opacity: 1;
+    filter: blur(0.15px);
+    transform: translate(
+        calc(-50% + var(--x) * 0.52),
+        calc(-50% + var(--y) * 0.52)
+      )
+      scale(1.09) rotate(calc(var(--r) * 0.48));
+  }
+  82% {
+    opacity: 0.96;
+    filter: blur(0.45px);
+    transform: translate(
+        calc(-50% + var(--x) * 0.88),
+        calc(-50% + var(--y) * 0.88)
+      )
+      scale(1.035) rotate(calc(var(--r) * 0.88));
+  }
+  100% {
+    opacity: 0;
+    filter: blur(2.2px);
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+      scale(0.97) rotate(var(--r));
+  }
+}
+
+@keyframes ray-loader-glow {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.92);
+  }
+  32% {
+    opacity: 0.68;
+    transform: scale(1.01);
+  }
+  62% {
+    opacity: 0.38;
+    transform: scale(1.026);
+  }
+  100% {
+    opacity: 0.16;
+    transform: scale(1);
+  }
+}
+
+@keyframes ray-loader-ambient {
+  0% {
+    opacity: 0;
+    transform: scale(0.91) rotate(-12deg);
+  }
+  34% {
+    opacity: 0.72;
+  }
+  100% {
+    opacity: 0.18;
+    transform: scale(1.05) rotate(8deg);
+  }
+}
+
+@keyframes ray-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  28% {
+    opacity: 0.72;
+    transform: scale(0.98);
+  }
+  56% {
+    opacity: 0.22;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+}
+
+@media (max-width: 700px) {
+  .ray-piece {
+    width: 62vw;
+    height: 34vh;
+  }
+  .ray-piece--9 {
+    width: 48vw;
+    height: 48vw;
+  }
+  .ray-loader__mark {
+    width: 68px;
+    height: 68px;
+    border-radius: 17px;
+  }
+  .ray-loader__brand {
+    font-size: 21px;
+    letter-spacing: 0.08em;
+  }
+  .ray-loader__brand::after {
+    width: 44px;
+    margin-top: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ray-loader *,
+  .ray-loader {
+    animation: none !important;
+    transition: none !important;
   }
 }
 </style>
