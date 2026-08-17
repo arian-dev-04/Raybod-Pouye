@@ -30,6 +30,7 @@
         <div class="ray-loader__flash"></div>
       </div>
     </Transition>
+
     <!-- ================= Header ================= -->
     <header class="header" :class="{ scrolled: isScrolled }">
       <div class="container header__inner">
@@ -48,6 +49,7 @@
           >
             {{ t(item.label) }}
           </a>
+
           <button
             class="lang-btn"
             type="button"
@@ -76,8 +78,6 @@
             <span>{{ currentLanguage === "en" ? "فارسی" : "English" }}</span>
           </button>
         </nav>
-
-        <!-- ===== NEW: Language toggle button for desktop ===== -->
 
         <button
           class="menu-btn"
@@ -153,26 +153,26 @@
 
           <div class="stats">
             <div class="stat">
-              <strong
-                >{{ animatedStats.employee
-                }}<span class="stat__plus">+</span></strong
-              >
+              <strong>
+                {{ animatedStats.employee }}
+                <span class="stat__plus">+</span>
+              </strong>
               <span>{{ t("Employee") }}</span>
             </div>
 
             <div class="stat">
-              <strong
-                >{{ animatedStats.projects
-                }}<span class="stat__plus">+</span></strong
-              >
+              <strong>
+                {{ animatedStats.projects }}
+                <span class="stat__plus">+</span>
+              </strong>
               <span>{{ t("Projects") }}</span>
             </div>
 
             <div class="stat">
-              <strong
-                >{{ animatedStats.clients
-                }}<span class="stat__plus">+</span></strong
-              >
+              <strong>
+                {{ animatedStats.clients }}
+                <span class="stat__plus">+</span>
+              </strong>
               <span>{{ t("Clients") }}</span>
             </div>
           </div>
@@ -278,7 +278,6 @@
           </div>
         </div>
 
-        <!-- برای حالت زیر 992px -->
         <div class="expertise__responsive-title">
           {{ t("Our Expertise") }}
         </div>
@@ -314,7 +313,6 @@
     <!-- ================= Testimonials ================= -->
     <section id="testimonials" class="testimonials section">
       <div class="container testimonials__inner">
-        <!-- ثابت در هر دو زبان؛ هرگز RTL نمی‌شود -->
         <div class="testimonials__title reveal reveal--left" v-reveal>
           <div class="testimonial-diamond">
             <div class="testimonial-quote">“</div>
@@ -326,7 +324,6 @@
           </div>
         </div>
 
-        <!-- Testimonials Slider -->
         <div
           ref="testimonialsCards"
           class="testimonials__cards reveal reveal--right"
@@ -346,7 +343,6 @@
               class="testimonial-card"
             >
               <div class="testimonial-card__box">
-                <!-- فقط متن فارسی RTL می‌شود؛ Layout کارت ثابت می‌ماند -->
                 <div
                   class="testimonial-card__text-wrap"
                   :class="{
@@ -390,7 +386,6 @@
           </div>
         </div>
 
-        <!-- Dots -->
         <div class="testimonial-dots" aria-label="Testimonial slider dots">
           <button
             v-for="(_, index) in testimonials"
@@ -528,6 +523,7 @@
     <!-- ================= Footer ================= -->
     <footer class="footer">
       <div class="container footer__inner">
+        <!-- Brand -->
         <div class="footer__brand">
           <a href="#home" class="brand brand--footer">
             <span class="brand__mark"></span>
@@ -545,29 +541,81 @@
           <small>{{ t("© Lu Theme 2019") }}</small>
         </div>
 
-        <div class="footer-col">
-          <h4>{{ t("COMPANY") }}</h4>
-          <a href="#">{{ t("Donec dignissim") }}</a>
-          <a href="#">{{ t("Curabitur egestas") }}</a>
-          <a href="#">{{ t("Nam posuere") }}</a>
-          <a href="#">{{ t("Aenean facilisis") }}</a>
+        <!-- Company -->
+        <div
+          class="footer-col"
+          :class="{
+            'is-open': openFooterSection === 'company',
+          }"
+        >
+          <button
+            class="footer-col__toggle"
+            type="button"
+            :aria-expanded="openFooterSection === 'company'"
+            @click="toggleFooterSection('company')"
+          >
+            <span>{{ t("COMPANY") }}</span>
+            <span class="footer-col__arrow">⌄</span>
+          </button>
+
+          <div class="footer-col__links">
+            <a href="#about">{{ t("Donec dignissim") }}</a>
+            <a href="#services">{{ t("Curabitur egestas") }}</a>
+            <a href="#expertise">{{ t("Nam posuere") }}</a>
+            <a href="#case-studies">{{ t("Aenean facilisis") }}</a>
+          </div>
         </div>
 
-        <div class="footer-col">
-          <h4>{{ t("SERVICES") }}</h4>
-          <a href="#">{{ t("Cras convallis") }}</a>
-          <a href="#">{{ t("Vestibulum faucibus") }}</a>
-          <a href="#">{{ t("Quisque lacinia purus") }}</a>
-          <a href="#">{{ t("Aliquam nec ex") }}</a>
+        <!-- Services -->
+        <div
+          class="footer-col"
+          :class="{
+            'is-open': openFooterSection === 'services',
+          }"
+        >
+          <button
+            class="footer-col__toggle"
+            type="button"
+            :aria-expanded="openFooterSection === 'services'"
+            @click="toggleFooterSection('services')"
+          >
+            <span>{{ t("SERVICES") }}</span>
+            <span class="footer-col__arrow">⌄</span>
+          </button>
+
+          <div class="footer-col__links">
+            <a href="#services">{{ t("Cras convallis") }}</a>
+            <a href="#services">{{ t("Vestibulum faucibus") }}</a>
+            <a href="#services">{{ t("Quisque lacinia purus") }}</a>
+            <a href="#contact">{{ t("Aliquam nec ex") }}</a>
+          </div>
         </div>
 
-        <div class="footer-col">
-          <h4>{{ t("RESOURCES") }}</h4>
-          <a href="#">{{ t("Suspendisse porttitor") }}</a>
-          <a href="#">{{ t("Nam posuere") }}</a>
-          <a href="#">{{ t("Curabitur egestas") }}</a>
+        <!-- Resources -->
+        <div
+          class="footer-col"
+          :class="{
+            'is-open': openFooterSection === 'resources',
+          }"
+        >
+          <button
+            class="footer-col__toggle"
+            type="button"
+            :aria-expanded="openFooterSection === 'resources'"
+            @click="toggleFooterSection('resources')"
+          >
+            <span>{{ t("RESOURCES") }}</span>
+            <span class="footer-col__arrow">⌄</span>
+          </button>
+
+          <div class="footer-col__links">
+            <a href="#contact">{{ t("Suspendisse porttitor") }}</a>
+            <a href="#expertise">{{ t("Nam posuere") }}</a>
+            <a href="#services">{{ t("Curabitur egestas") }}</a>
+          </div>
         </div>
 
+        <!-- Social -->
         <div class="footer-social">
           <div class="socials">
             <a href="#" aria-label="Facebook">f</a>
@@ -620,6 +668,18 @@ const activeSection = ref("home");
 const isSwitchingLanguage = ref(false);
 
 /* =========================================================
+   FOOTER ACCORDION
+   فقط برای ریسپانسیو فوتر
+   ========================================================= */
+
+const openFooterSection = ref(null);
+
+const toggleFooterSection = (section) => {
+  openFooterSection.value =
+    openFooterSection.value === section ? null : section;
+};
+
+/* =========================================================
    REVEAL ON SCROLL
    ========================================================= */
 
@@ -658,6 +718,7 @@ let statsAnimationFrame = null;
 
 const animateStats = () => {
   if (statsAnimated) return;
+
   statsAnimated = true;
 
   const duration = 1400;
@@ -681,6 +742,7 @@ const animateStats = () => {
         projects: statsTargets.projects,
         clients: statsTargets.clients,
       };
+
       statsAnimationFrame = null;
     }
   };
@@ -690,10 +752,13 @@ const animateStats = () => {
 
 const checkStatsVisibility = () => {
   const aboutContent = document.querySelector(".about__content");
+
   if (!aboutContent || statsAnimated) return;
 
   const rect = aboutContent.getBoundingClientRect();
+
   const isVisible = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+
   if (isVisible) {
     animateStats();
   }
@@ -745,57 +810,83 @@ const servicesDrag = {
 
 const getServiceStep = () => {
   const slider = servicesCards.value;
+
   if (!slider) return 0;
 
   const cards = [...slider.querySelectorAll(".service-card")];
+
   if (!cards.length) return 0;
 
   const currentScroll = slider.scrollLeft;
+
   const nextCard = cards.find((card) => card.offsetLeft > currentScroll + 10);
+
   if (!nextCard) {
     return cards[0]?.offsetLeft || 0;
   }
+
   return nextCard.offsetLeft - currentScroll;
 };
 
 const goToNextService = () => {
   const slider = servicesCards.value;
+
   if (!slider) return;
 
   const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
   if (maxScrollLeft <= 5) return;
 
   const step = getServiceStep();
+
   if (!step) return;
 
   if (slider.scrollLeft >= maxScrollLeft - 10) {
-    slider.scrollTo({ left: 0, behavior: "smooth" });
+    slider.scrollTo({
+      left: 0,
+      behavior: "smooth",
+    });
+
     return;
   }
 
-  slider.scrollTo({ left: slider.scrollLeft + step, behavior: "smooth" });
+  slider.scrollTo({
+    left: slider.scrollLeft + step,
+    behavior: "smooth",
+  });
 };
 
 const goToPreviousService = () => {
   const slider = servicesCards.value;
+
   if (!slider) return;
 
   const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
   if (maxScrollLeft <= 5) return;
 
   const step = getServiceStep();
+
   if (!step) return;
 
   if (slider.scrollLeft <= 10) {
-    slider.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
+    slider.scrollTo({
+      left: maxScrollLeft,
+      behavior: "smooth",
+    });
+
     return;
   }
 
-  slider.scrollBy({ left: -step, behavior: "smooth" });
+  slider.scrollBy({
+    left: -step,
+    behavior: "smooth",
+  });
 };
 
 const startServicesAutoSlide = () => {
   stopServicesAutoSlide();
+
   servicesAutoSlideTimer = window.setInterval(() => {
     goToNextService();
   }, 2600);
@@ -815,6 +906,7 @@ const pauseServicesAutoSlide = () => {
 
 const resumeServicesAutoSlide = () => {
   window.clearTimeout(servicesResumeTimer);
+
   servicesResumeTimer = window.setTimeout(() => {
     startServicesAutoSlide();
   }, 1000);
@@ -825,9 +917,12 @@ const resumeServicesAutoSlide = () => {
    ========================================================= */
 
 const startServicesDrag = (event) => {
-  if (event.pointerType === "mouse" && event.button !== 0) return;
+  if (event.pointerType === "mouse" && event.button !== 0) {
+    return;
+  }
 
   const slider = servicesCards.value;
+
   if (!slider) return;
 
   pauseServicesAutoSlide();
@@ -837,6 +932,7 @@ const startServicesDrag = (event) => {
   servicesDrag.startScrollLeft = slider.scrollLeft;
 
   slider.classList.add("is-dragging");
+
   slider.setPointerCapture?.(event.pointerId);
 };
 
@@ -844,17 +940,21 @@ const moveServicesDrag = (event) => {
   if (!servicesDrag.active) return;
 
   const slider = servicesCards.value;
+
   if (!slider) return;
 
   const movedDistance = event.clientX - servicesDrag.startX;
+
   slider.scrollLeft = servicesDrag.startScrollLeft - movedDistance;
 };
 
 const endServicesDrag = (event) => {
   const slider = servicesCards.value;
+
   if (!slider || !servicesDrag.active) return;
 
   servicesDrag.active = false;
+
   slider.classList.remove("is-dragging");
 
   if (event?.pointerId !== undefined) {
@@ -938,24 +1038,31 @@ const testimonialsDrag = {
 
 const getTestimonialStep = () => {
   const slider = testimonialsCards.value;
+
   if (!slider) return 0;
 
   const cards = [...slider.querySelectorAll(".testimonial-card")];
+
   if (!cards.length) return 0;
 
   const currentScroll = slider.scrollLeft;
+
   const nextCard = cards.find((card) => card.offsetLeft > currentScroll + 10);
+
   if (!nextCard) {
     return cards[0]?.offsetLeft || 0;
   }
+
   return nextCard.offsetLeft - currentScroll;
 };
 
 const updateTestimonialActiveDot = () => {
   const slider = testimonialsCards.value;
+
   if (!slider) return;
 
   const cards = [...slider.querySelectorAll(".testimonial-card")];
+
   if (!cards.length || !testimonials.length) return;
 
   let closestIndex = 0;
@@ -963,6 +1070,7 @@ const updateTestimonialActiveDot = () => {
 
   cards.forEach((card, index) => {
     const distance = Math.abs(card.offsetLeft - slider.scrollLeft);
+
     if (distance < smallestDistance) {
       smallestDistance = distance;
       closestIndex = index;
@@ -974,52 +1082,80 @@ const updateTestimonialActiveDot = () => {
 
 const goToNextTestimonial = () => {
   const slider = testimonialsCards.value;
+
   if (!slider) return;
 
   const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
   if (maxScrollLeft <= 5) return;
 
   const step = getTestimonialStep();
+
   if (!step) return;
 
   if (slider.scrollLeft >= maxScrollLeft - 10) {
-    slider.scrollTo({ left: 0, behavior: "smooth" });
+    slider.scrollTo({
+      left: 0,
+      behavior: "smooth",
+    });
+
     activeTestimonialDot.value = 0;
+
     return;
   }
 
-  slider.scrollTo({ left: slider.scrollLeft + step, behavior: "smooth" });
+  slider.scrollTo({
+    left: slider.scrollLeft + step,
+    behavior: "smooth",
+  });
 };
 
 const goToPreviousTestimonial = () => {
   const slider = testimonialsCards.value;
+
   if (!slider) return;
 
   const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
   if (maxScrollLeft <= 5) return;
 
   const step = getTestimonialStep();
+
   if (!step) return;
 
   if (slider.scrollLeft <= 10) {
-    slider.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
+    slider.scrollTo({
+      left: maxScrollLeft,
+      behavior: "smooth",
+    });
+
     return;
   }
 
-  slider.scrollBy({ left: -step, behavior: "smooth" });
+  slider.scrollBy({
+    left: -step,
+    behavior: "smooth",
+  });
 };
 
 const goToTestimonial = (index) => {
   const slider = testimonialsCards.value;
+
   if (!slider) return;
 
   const cards = [...slider.querySelectorAll(".testimonial-card")];
+
   const targetCard = cards[index];
+
   if (!targetCard) return;
 
   pauseTestimonialsAutoSlide();
 
-  slider.scrollTo({ left: targetCard.offsetLeft, behavior: "smooth" });
+  slider.scrollTo({
+    left: targetCard.offsetLeft,
+    behavior: "smooth",
+  });
+
   activeTestimonialDot.value = index;
 
   resumeTestimonialsAutoSlide();
@@ -1027,6 +1163,7 @@ const goToTestimonial = (index) => {
 
 const startTestimonialsAutoSlide = () => {
   stopTestimonialsAutoSlide();
+
   testimonialsAutoSlideTimer = window.setInterval(() => {
     goToNextTestimonial();
   }, 3200);
@@ -1046,6 +1183,7 @@ const pauseTestimonialsAutoSlide = () => {
 
 const resumeTestimonialsAutoSlide = () => {
   window.clearTimeout(testimonialsResumeTimer);
+
   testimonialsResumeTimer = window.setTimeout(() => {
     startTestimonialsAutoSlide();
   }, 1200);
@@ -1056,9 +1194,12 @@ const resumeTestimonialsAutoSlide = () => {
    ========================================================= */
 
 const startTestimonialsDrag = (event) => {
-  if (event.pointerType === "mouse" && event.button !== 0) return;
+  if (event.pointerType === "mouse" && event.button !== 0) {
+    return;
+  }
 
   const slider = testimonialsCards.value;
+
   if (!slider) return;
 
   pauseTestimonialsAutoSlide();
@@ -1068,6 +1209,7 @@ const startTestimonialsDrag = (event) => {
   testimonialsDrag.startScrollLeft = slider.scrollLeft;
 
   slider.classList.add("is-dragging");
+
   slider.setPointerCapture?.(event.pointerId);
 };
 
@@ -1075,17 +1217,21 @@ const moveTestimonialsDrag = (event) => {
   if (!testimonialsDrag.active) return;
 
   const slider = testimonialsCards.value;
+
   if (!slider) return;
 
   const movedDistance = event.clientX - testimonialsDrag.startX;
+
   slider.scrollLeft = testimonialsDrag.startScrollLeft - movedDistance;
 };
 
 const endTestimonialsDrag = (event) => {
   const slider = testimonialsCards.value;
+
   if (!slider || !testimonialsDrag.active) return;
 
   testimonialsDrag.active = false;
+
   slider.classList.remove("is-dragging");
 
   if (event?.pointerId !== undefined) {
@@ -1093,6 +1239,7 @@ const endTestimonialsDrag = (event) => {
   }
 
   updateTestimonialActiveDot();
+
   resumeTestimonialsAutoSlide();
 };
 
@@ -1175,8 +1322,11 @@ const translations = {
       "مزیت اصلی موتور جستجوی رایا برای ما این است که جستجو فقط بر اساس تطابق کلمات انجام نمی‌شود؛ سیستم می‌تواند مفهوم و ارتباط محتوای موردنظر را نیز درک کند و نتایج مرتبط‌تری در اختیار کاربر قرار دهد.",
 
     role1: "رئیس سیستم‌های کیفیت و سرآمدی، شرکت فولاد مبارکه اصفهان",
+
     role2: "مدیر مهندسی صنایع، شرکت فولاد سنگان",
+
     role3: "رئیس فناوری اطلاعات، اداره کل کتابخانه‌های عمومی استان کرمانشاه",
+
     role4: "مدیر فناوری اطلاعات",
     role5: "مدیر دانش",
     role6: "کارشناس ارشد فناوری",
@@ -1196,6 +1346,7 @@ const translations = {
     proj4: "موتور جستجوی سازمانی",
 
     "Ready to get started ?": "آماده همکاری هستید؟",
+
     "CONTACT US": "تماس با ما",
 
     "Pellentesque ac bibendum tortor. Nulla eget lobortis lacus.":
@@ -1206,6 +1357,7 @@ const translations = {
     "Branch Office": "شعبه",
 
     "+123 456 789 01": "+۹۸-۲۱-۱۲۳۴۵۶۷۸",
+
     "+98 765 432 10": "+۹۸-۲۱-۷۶۵۴۳۲۱۰",
 
     "Lorem ipsum street no 14 Block A":
@@ -1230,15 +1382,21 @@ const translations = {
     "Curabitur egestas": "خدمات",
     "Nam posuere": "تخصص ما",
     "Aenean facilisis": "نمونه کارها",
+
     "Cras convallis": "مشاوره مدیریت دانش",
+
     "Vestibulum faucibus": "توسعه نرم‌افزارهای هوشمند",
+
     "Quisque lacinia purus": "پیاده‌سازی سیستم‌های دانش",
+
     "Aliquam nec ex": "پشتیبانی و آموزش",
+
     "Suspendisse porttitor": "مستندات",
+
     "Services ◆": "خدمات ◆",
+
     "hello@lulu.com": "info@raybidpouye.com",
 
-    // نام برند ترجمه‌شده
     BrandName: "رایبد پویه",
   },
 
@@ -1257,6 +1415,7 @@ const translations = {
       "Leveraging advanced technologies and expert team",
 
     "WRITE TO US": "Contact Us",
+
     Us: "Us",
 
     "Nulla lobortis nunc vitae nisi semper semper velit":
@@ -1272,7 +1431,9 @@ const translations = {
     Our: "Our",
 
     service1: "Intelligent Network Management Software",
+
     service2: "Intelligent Search Engine & GPT Assistant",
+
     service3: "Raya Intelligent Knowledge Network",
 
     "Pellentesque ac bibendum tortor, vel blandit nulla. Nulla eget lobortis lacus.":
@@ -1315,9 +1476,12 @@ const translations = {
       "The main advantage of Raya's search engine for us is that search is not just based on word matching; the system can understand the meaning and relationship of the content and provide more relevant results to the user.",
 
     role1: "Head of Quality and Excellence Systems, Mobarakeh Steel Company",
+
     role2: "Industrial Engineering Manager, Sangan Steel Company",
+
     role3:
       "IT Director, General Directorate of Public Libraries of Kermanshah Province",
+
     role4: "IT Manager",
     role5: "Knowledge Manager",
     role6: "Senior Technology Expert",
@@ -1332,11 +1496,15 @@ const translations = {
     "Vestibulum consequat hendrerit.": "View Project Details",
 
     proj1: "Mobarakeh Steel Knowledge Management Project",
+
     proj2: "Sangan Steel Intelligent Network Project",
+
     proj3: "Public Libraries Management System",
+
     proj4: "Enterprise Search Engine",
 
     "Ready to get started ?": "Ready to collaborate?",
+
     "CONTACT US": "Contact Us",
 
     "Pellentesque ac bibendum tortor. Nulla eget lobortis lacus.":
@@ -1347,6 +1515,7 @@ const translations = {
     "Branch Office": "Branch",
 
     "+123 456 789 01": "+98-21-12345678",
+
     "+98 765 432 10": "+98-21-76543210",
 
     "Lorem ipsum street no 14 Block A":
@@ -1371,12 +1540,19 @@ const translations = {
     "Curabitur egestas": "Services",
     "Nam posuere": "Our Expertise",
     "Aenean facilisis": "Projects",
+
     "Cras convallis": "Knowledge Management Consulting",
+
     "Vestibulum faucibus": "Intelligent Software Development",
+
     "Quisque lacinia purus": "Knowledge Systems Implementation",
+
     "Aliquam nec ex": "Support and Training",
+
     "Suspendisse porttitor": "Documentation",
+
     "Services ◆": "Services ◆",
+
     "hello@lulu.com": "info@raybidpouye.com",
 
     BrandName: "Raybod Pouye",
@@ -1405,7 +1581,7 @@ const toggleLanguage = () => {
 
     nextTick(() => {
       checkStatsVisibility();
-      alignTestimonialSlider(); // تنظیم موقعیت اسکرول پس از تغییر زبان
+      alignTestimonialSlider();
     });
 
     window.setTimeout(() => {
@@ -1419,11 +1595,26 @@ const toggleLanguage = () => {
    ========================================================= */
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Our Expertise", href: "#expertise" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Contact Us", href: "#contact" },
+  {
+    label: "About",
+    href: "#about",
+  },
+  {
+    label: "Services",
+    href: "#services",
+  },
+  {
+    label: "Our Expertise",
+    href: "#expertise",
+  },
+  {
+    label: "Case Studies",
+    href: "#case-studies",
+  },
+  {
+    label: "Contact Us",
+    href: "#contact",
+  },
 ];
 
 /* =========================================================
@@ -1472,13 +1663,16 @@ const sectionIds = [
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 40;
+
   checkStatsVisibility();
 
   const scrollPos = window.scrollY + 140;
+
   let current = sectionIds[0];
 
   for (const id of sectionIds) {
     const el = document.getElementById(id);
+
     if (el && el.offsetTop <= scrollPos) {
       current = id;
     }
@@ -1492,7 +1686,10 @@ const handleScroll = () => {
    ========================================================= */
 
 const scrollTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 };
 
 /* =========================================================
@@ -1501,13 +1698,18 @@ const scrollTop = () => {
 
 const alignTestimonialSlider = () => {
   const slider = testimonialsCards.value;
+
   const track = slider?.querySelector(".testimonials__track");
+
   if (!slider || !track) return;
 
   const style = getComputedStyle(track);
+
   const paddingProp =
     currentLanguage.value === "fa" ? "paddingRight" : "paddingLeft";
+
   const paddingValue = parseFloat(style[paddingProp]);
+
   if (!isNaN(paddingValue)) {
     slider.scrollLeft = paddingValue;
   }
@@ -1530,16 +1732,22 @@ const handleResize = () => {
 
   resizeMenuLockTimer = window.setTimeout(() => {
     document.documentElement.classList.remove("is-resizing");
+
     resizeMenuLockTimer = null;
   }, 120);
 };
 
-// بستن منو با کلیک روی هر قسمت خارج از منو و دکمه همبرگری
+/* =========================================================
+   DOCUMENT CLICK
+   ========================================================= */
+
 const handleDocumentClick = (event) => {
   if (!isMenuOpen.value) return;
 
   const target = event.target;
+
   const nav = document.querySelector(".nav");
+
   const menuButton = document.querySelector(".menu-btn");
 
   if (nav?.contains(target) || menuButton?.contains(target)) {
@@ -1556,14 +1764,18 @@ const handleDocumentClick = (event) => {
 onMounted(async () => {
   document.documentElement.classList.add("ray-loader-active");
 
-  // Only controls the intro layer; the page itself is never transformed.
   const minimumIntro = new Promise((resolve) =>
     window.setTimeout(resolve, 2800),
   );
+
   const fontsReady = document.fonts?.ready ?? Promise.resolve();
+
   await Promise.all([minimumIntro, fontsReady]);
+
   await new Promise((resolve) => requestAnimationFrame(resolve));
+
   isInitialLoading.value = false;
+
   document.documentElement.classList.remove("ray-loader-active");
 
   if ("IntersectionObserver" in window) {
@@ -1571,6 +1783,7 @@ onMounted(async () => {
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
+
           entry.target.classList.add("reveal--visible");
 
           if (entry.target.classList.contains("about__content")) {
@@ -1580,20 +1793,25 @@ onMounted(async () => {
           revealObserver?.unobserve(entry.target);
         });
       },
-      { threshold: 0.18, rootMargin: "0px 0px -60px 0px" },
+      {
+        threshold: 0.18,
+        rootMargin: "0px 0px -60px 0px",
+      },
     );
   }
 
   await nextTick();
 
-  // تنظیم اولیه اسکرول برای نمایش کامل کارت اول
   alignTestimonialSlider();
 
   handleScroll();
+
   checkStatsVisibility();
 
   window.addEventListener("scroll", handleScroll, { passive: true });
+
   window.addEventListener("resize", handleResize, { passive: true });
+
   document.addEventListener("click", handleDocumentClick);
 
   if (revealObserver) {
@@ -1604,8 +1822,11 @@ onMounted(async () => {
 
   window.setTimeout(() => {
     startServicesAutoSlide();
+
     startTestimonialsAutoSlide();
+
     updateTestimonialActiveDot();
+
     checkStatsVisibility();
   }, 500);
 
@@ -1622,32 +1843,42 @@ onMounted(async () => {
 
 onUnmounted(() => {
   document.documentElement.classList.remove("ray-loader-active");
+
   window.removeEventListener("scroll", handleScroll);
+
   window.removeEventListener("resize", handleResize);
+
   document.removeEventListener("click", handleDocumentClick);
 
   if (resizeMenuLockTimer) {
     window.clearTimeout(resizeMenuLockTimer);
+
     resizeMenuLockTimer = null;
   }
 
   document.documentElement.classList.remove("is-resizing");
+
   testimonialsCards.value?.removeEventListener(
     "scroll",
     updateTestimonialActiveDot,
   );
 
   stopServicesAutoSlide();
+
   stopTestimonialsAutoSlide();
+
   window.clearTimeout(servicesResumeTimer);
+
   window.clearTimeout(testimonialsResumeTimer);
 
   if (statsAnimationFrame) {
     cancelAnimationFrame(statsAnimationFrame);
+
     statsAnimationFrame = null;
   }
 
   revealObserver?.disconnect();
+
   revealObserver = null;
 });
 </script>
@@ -7111,6 +7342,341 @@ hard-locked closed. */
   .app.is-rtl .nav a,
   .app.is-rtl .header.scrolled .nav a {
     text-align: right !important;
+  }
+}
+
+/* =========================================================
+   FOOTER — FINAL RESPONSIVE FIX ≤ 420px
+   ========================================================= */
+@media (max-width: 420px) {
+  .footer {
+    width: 100%;
+    overflow: hidden;
+    padding: 48px 0 30px;
+  }
+
+  .footer__inner {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 30px;
+    padding: 0 18px;
+    margin: 0;
+  }
+
+  /* Brand */
+  .footer__brand {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .brand--footer {
+    display: inline-flex;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .brand--footer .brand__text {
+    max-width: calc(100vw - 100px);
+    font-size: 18px !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .brand--footer .brand__mark {
+    flex: 0 0 34px;
+  }
+
+  .footer__brand p {
+    width: 100%;
+    max-width: 100%;
+    margin: 16px auto 12px;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .footer__brand small {
+    display: block;
+    width: 100%;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+  }
+
+  /* Footer columns */
+  .footer-col {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    text-align: center !important;
+  }
+
+  .footer-col h4 {
+    margin-bottom: 16px;
+    font-size: 12px;
+  }
+
+  .footer-col a {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 11px;
+    padding-inline: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* Social */
+  .footer-social {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .socials {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .socials a {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+  }
+
+  .footer-social select {
+    width: 100%;
+    max-width: 240px;
+    min-width: 0;
+    height: 40px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  /* RTL */
+  .app.is-rtl .footer__brand,
+  .app.is-rtl .footer-col,
+  .app.is-rtl .footer-social {
+    text-align: center !important;
+  }
+
+  .app.is-rtl .footer-col a {
+    transform: none !important;
+  }
+}
+
+/* =========================================================
+    FOOTER ACCORDION — MOBILE ≤ 420px
+    ========================================================= */
+
+.footer-col__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: var(--blue-dark);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  text-align: left;
+}
+
+.footer-col__arrow {
+  display: none;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.3s var(--ease);
+}
+
+.footer-col__links {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 420px) {
+  .footer {
+    width: 100%;
+    overflow: hidden;
+    padding: 48px 0 30px;
+  }
+
+  .footer__inner {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0 18px;
+    margin: 0;
+  }
+
+  /* Brand */
+  .footer__brand {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .brand--footer {
+    display: inline-flex;
+    justify-content: center;
+  }
+
+  .brand--footer .brand__text {
+    font-size: 18px !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+
+  .footer__brand p {
+    width: 100%;
+    max-width: 100%;
+    margin: 16px auto 12px;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .footer__brand small {
+    display: block;
+    font-size: 11px;
+  }
+
+  /* =========================
+     Accordion sections
+     ========================= */
+
+  .footer-col {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    border-top: 1px solid #e8eef3;
+    text-align: inherit !important;
+  }
+
+  .footer-col:last-of-type {
+    border-bottom: 1px solid #e8eef3;
+  }
+
+  .footer-col__toggle {
+    min-height: 56px;
+    padding: 0 4px;
+    font-size: 13px;
+  }
+
+  .footer-col__arrow {
+    display: block;
+  }
+
+  .footer-col.is-open .footer-col__arrow {
+    transform: rotate(180deg);
+  }
+
+  .footer-col__links {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    padding: 0 4px;
+    transition:
+      max-height 0.4s var(--ease),
+      opacity 0.25s ease,
+      padding 0.35s var(--ease);
+  }
+
+  .footer-col.is-open .footer-col__links {
+    max-height: 300px;
+    opacity: 1;
+    pointer-events: auto;
+    padding-bottom: 14px;
+  }
+
+  .footer-col__links a {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 9px 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #8c96a4;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    transform: none !important;
+  }
+
+  .footer-col__links a:hover {
+    color: var(--blue-dark);
+    transform: none !important;
+  }
+
+  /* Social */
+  .footer-social {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 28px;
+  }
+
+  .socials {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .footer-social select {
+    width: 100%;
+    max-width: 240px;
+    min-width: 0;
+    height: 40px;
+    font-size: 12px;
+  }
+
+  /* =========================
+     RTL
+     ========================= */
+
+  .app.is-rtl .footer-col__toggle {
+    direction: rtl;
+    text-align: right;
+  }
+
+  .app.is-rtl .footer-col__links {
+    text-align: right;
+  }
+
+  .app.is-rtl .footer-col__links a {
+    transform: none !important;
   }
 }
 </style>
