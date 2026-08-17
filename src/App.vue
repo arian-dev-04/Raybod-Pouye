@@ -2257,18 +2257,6 @@ img {
   transform: rotate(45deg);
 }
 
-.about::after {
-  content: "";
-  position: absolute;
-  left: 92px;
-  bottom: 0;
-  width: 360px;
-  height: 180px;
-  opacity: 0.25;
-  background-image: radial-gradient(#83b9d5 2px, transparent 2px);
-  background-size: 28px 28px;
-}
-
 .about__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -5025,12 +5013,21 @@ blockquote {
     top: 50px;
   }
 
+  /* =========================
+     نسخه فارسی
+     ========================= */
+
   .app.is-rtl .diamond-image {
     right: 70px !important;
+    left: auto !important;
+
+    /* فقط جابه‌جایی افقی */
+    translate: 70px 0;
   }
 
   .app.is-rtl .soft-diamond--one {
     right: -20px !important;
+    left: auto !important;
   }
 }
 
@@ -7060,6 +7057,60 @@ hard-locked closed. */
   .ray-loader {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* =========================================================
+   MOBILE HEADER / NAV DIRECTION FIX
+   English: brand + logo LEFT, menu RIGHT
+   Persian: brand + logo RIGHT, menu LEFT
+   No other UI changes.
+========================================================= */
+@media (max-width: 769px) {
+  /* Keep the logo/text relationship stable in both languages. */
+  .header__inner .brand {
+    flex-direction: row !important;
+  }
+
+  /* English */
+  .app:not(.is-rtl) .header__inner .brand {
+    left: 15px !important;
+    right: auto !important;
+  }
+
+  .app:not(.is-rtl) .menu-btn {
+    left: auto !important;
+    right: 15px !important;
+    align-items: flex-end !important;
+  }
+
+  .app:not(.is-rtl) .nav {
+    left: auto !important;
+    right: 14px !important;
+    transform-origin: top right !important;
+  }
+
+  /* Persian */
+  .app.is-rtl .header__inner .brand {
+    left: auto !important;
+    right: 15px !important;
+  }
+
+  .app.is-rtl .menu-btn {
+    left: 15px !important;
+    right: auto !important;
+    align-items: flex-start !important;
+  }
+
+  .app.is-rtl .nav {
+    left: 14px !important;
+    right: auto !important;
+    transform-origin: top left !important;
+  }
+
+  .app.is-rtl .nav a,
+  .app.is-rtl .header.scrolled .nav a {
+    text-align: right !important;
   }
 }
 </style>
