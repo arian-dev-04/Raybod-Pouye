@@ -2815,6 +2815,8 @@ blockquote {
   transition:
     transform 0.35s var(--ease),
     box-shadow 0.35s var(--ease);
+  display: flex;
+  flex-direction: column;
 }
 
 .service-card:hover {
@@ -2825,6 +2827,7 @@ blockquote {
 .service-card__media {
   height: 160px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .service-card__media img {
@@ -2840,6 +2843,9 @@ blockquote {
 
 .service-card__body {
   padding: 22px 24px 26px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .service-card__body h3 {
@@ -2850,10 +2856,11 @@ blockquote {
 }
 
 .service-card__body p {
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   font-size: 13px;
   line-height: 1.6;
   color: var(--muted);
+  flex: 1;
 }
 
 .service-card__btn {
@@ -2869,6 +2876,7 @@ blockquote {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: 0.25s var(--ease);
+  align-self: flex-start;
 }
 
 .service-card__btn:hover {
