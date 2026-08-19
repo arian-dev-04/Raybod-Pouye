@@ -190,66 +190,77 @@
 
     <!-- ================= Services ================= -->
     <section id="services" class="services section">
-      <div class="service-bg-dots"></div>
-
-      <div class="container services__inner">
-        <div class="services__title reveal reveal--left" v-reveal>
-          <div class="big-diamond">
-            <div class="dots-grid">
-              <span v-for="i in 9" :key="i"></span>
+      <!-- Floating Title -->
+      <div class="services__floating-title">
+        <div class="container">
+          <div class="services__title-wrapper">
+            <div class="services__title-icon">
+              <span class="services__icon">◆</span>
+              <h2>
+                {{ t("Our") }}<br />
+                {{ t("Services") }}
+              </h2>
             </div>
-
-            <h2>
-              {{ t("Our") }}<br />
-              {{ t("Services") }}
-            </h2>
+            <nav class="services__arrows">
+              <button
+                type="button"
+                class="services__arrow-btn services__arrow-btn--prev"
+                aria-label="Previous"
+                @click="goToPreviousService"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                class="services__arrow-btn services__arrow-btn--next"
+                aria-label="Next"
+                @click="goToNextService"
+              >
+                ›
+              </button>
+            </nav>
           </div>
         </div>
+      </div>
 
-        <div
-          ref="servicesCards"
-          class="services__cards reveal reveal--right"
-          v-reveal
-          @pointerdown="startServicesDrag"
-          @pointermove="moveServicesDrag"
-          @pointerup="endServicesDrag"
-          @pointercancel="endServicesDrag"
-          @pointerleave="endServicesDrag"
-          @mouseenter="pauseServicesAutoSlide"
-          @mouseleave="resumeServicesAutoSlide"
-        >
-          <div ref="servicesTrack" class="services__track">
-            <article
-              v-for="(service, index) in displayedServices"
-              :key="`${service.image}-${index}`"
-              class="service-card"
-            >
-              <div class="service-card__media">
-                <img
-                  :src="service.image"
-                  :alt="t(service.title)"
-                  draggable="false"
-                />
-              </div>
+      <!-- Slider -->
+      <div
+        ref="servicesCards"
+        class="services__slider"
+        @pointerdown="startServicesDrag"
+        @pointermove="moveServicesDrag"
+        @pointerup="endServicesDrag"
+        @pointercancel="endServicesDrag"
+        @pointerleave="endServicesDrag"
+        @mouseenter="pauseServicesAutoSlide"
+        @mouseleave="resumeServicesAutoSlide"
+      >
+        <div ref="servicesTrack" class="services__track">
+          <div class="services__spacer" aria-hidden="true"></div>
 
-              <div class="service-card__body">
-                <h3>{{ t(service.title) }}</h3>
+          <article
+            v-for="(service, index) in servicesList"
+            :key="`${service.img}-${index}`"
+            class="service-card"
+          >
+            <div class="service-card__media">
+              <img
+                :src="service.img"
+                :alt="t(service.title)"
+                draggable="false"
+              />
+            </div>
+            <div class="service-card__body">
+              <h3>{{ t(service.title) }}</h3>
+              <p>{{ t(service.desc) }}</p>
+              <a href="#contact" class="service-card__btn">
+                {{ t("SEE DETAIL") }}
+                <span class="service-card__arrow">›</span>
+              </a>
+            </div>
+          </article>
 
-                <p>
-                  {{
-                    t(
-                      "Pellentesque ac bibendum tortor, vel blandit nulla. Nulla eget lobortis lacus.",
-                    )
-                  }}
-                </p>
-
-                <a href="#contact">
-                  {{ t("SEE DETAIL") }}
-                  <span class="service-card__arrow">›</span>
-                </a>
-              </div>
-            </article>
-          </div>
+          <div class="services__spacer" aria-hidden="true"></div>
         </div>
       </div>
     </section>
@@ -765,32 +776,41 @@ const checkStatsVisibility = () => {
 };
 
 /* =========================================================
-   SERVICES DATA
+   SERVICES DATA — NEW
    ========================================================= */
 
-const services = [
+const servicesList = [
   {
     title: "service1",
-    image:
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop",
+    desc: "service1_desc",
+    img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop",
   },
   {
     title: "service2",
-    image:
-      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600&auto=format&fit=crop",
+    desc: "service2_desc",
+    img: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600&auto=format&fit=crop",
   },
   {
     title: "service3",
-    image:
-      "https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=600&auto=format&fit=crop",
+    desc: "service3_desc",
+    img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    title: "service4",
+    desc: "service4_desc",
+    img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    title: "service5",
+    desc: "service5_desc",
+    img: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    title: "service6",
+    desc: "service6_desc",
+    img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=600&auto=format&fit=crop",
   },
 ];
-
-const displayedServices = computed(() => [
-  ...services,
-  ...services,
-  ...services,
-]);
 
 /* =========================================================
    SERVICES SLIDER
@@ -1279,11 +1299,23 @@ const translations = {
     Our: "ما",
 
     service1: "نرم‌افزار مدیریت هوشمند شبکه",
+    service1_desc:
+      "نرم‌افزاری جامع برای مدیریت و پایش هوشمند شبکه‌های سازمانی با قابلیت عیب‌یابی خودکار.",
     service2: "موتور جستجوی هوشمند و دستیار GPT",
+    service2_desc:
+      "موتور جستجوی هوشمند همراه با دستیار GPT که امکان دستیابی سریع به اطلاعات را فراهم می‌کند.",
     service3: "شبکه دانش هوشمند رایا",
-
-    "Pellentesque ac bibendum tortor, vel blandit nulla. Nulla eget lobortis lacus.":
-      "این سرویس با بهره‌گیری از هوش مصنوعی و فناوری‌های پیشرفته، راهکارهای نوآورانه‌ای را برای سازمان شما فراهم می‌آورد.",
+    service3_desc:
+      "شبکه دانش هوشمند رایا، بستری برای مدیریت و تبادل دانش در سازمان.",
+    service4: "سامانه تحلیل داده",
+    service4_desc:
+      "سامانه پیشرفته تحلیل داده‌های سازمانی با گزارش‌های تعاملی و دقیق.",
+    service5: "پلتفرم یکپارچه سازمانی",
+    service5_desc:
+      "پلتفرم یکپارچه جهت اتصال سامانه‌های مختلف سازمان و تسهیل جریان داده.",
+    service6: "راهکار امنیت شبکه",
+    service6_desc:
+      "راهکار جامع امنیت شبکه با قابلیت شناسایی تهدیدات و پاسخ سریع به حملات.",
 
     "SEE DETAIL": "مشاهده جزئیات",
 
@@ -1431,13 +1463,23 @@ const translations = {
     Our: "Our",
 
     service1: "Intelligent Network Management Software",
-
+    service1_desc:
+      "Proin ac arcu nisl. Duis eu molestie lectus. Nam quis mauris faucibus, aliquet elit eu, rhoncus ipsum.",
     service2: "Intelligent Search Engine & GPT Assistant",
-
+    service2_desc:
+      "Proin quis pellentesque dui. Ut sed leo neque. Nullam aliquet iaculis neque a commodo.",
     service3: "Raya Intelligent Knowledge Network",
-
-    "Pellentesque ac bibendum tortor, vel blandit nulla. Nulla eget lobortis lacus.":
-      "This service leverages AI and advanced technologies to deliver innovative solutions for your organization.",
+    service3_desc:
+      "Quisque consectetur lectus vel orci porttitor gravida ac eu erat. Nullam accumsan nibh tortor.",
+    service4: "Data Analytics Platform",
+    service4_desc:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.",
+    service5: "Enterprise Integration Platform",
+    service5_desc:
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
+    service6: "Network Security Solution",
+    service6_desc:
+      "Nullam quis mauris faucibus. Aliquam elit eu rhoncus. Proin ac arcu nisl.",
 
     "SEE DETAIL": "See Details",
 
@@ -2656,66 +2698,116 @@ blockquote {
 }
 
 /* ==============================
-   7. SERVICES
+   7. SERVICES – NEW DESIGN
    ============================== */
 .services {
   background: #eef9ff;
-  padding: 105px 0 90px;
+  padding: 80px 0 90px;
+  overflow: hidden;
 }
 
-.services::before {
-  content: "";
-  position: absolute;
-  right: 250px;
-  top: 76px;
-  width: 280px;
-  height: 280px;
-  background: transparent;
-  border: 18px solid rgba(126, 231, 237, 0.72);
-  border-radius: 48px;
-  transform: rotate(45deg);
-}
-
-.services::after {
-  content: "";
-  position: absolute;
-  right: 45px;
-  top: 60px;
-  width: 420px;
-  height: 420px;
-  background: white;
-  border-radius: 55px;
-  transform: rotate(45deg);
-}
-
-.service-bg-dots {
-  position: absolute;
-  left: 70px;
-  top: -90px;
-  width: 360px;
-  height: 260px;
-  opacity: 0.23;
-  background-image: radial-gradient(#85bbd8 2px, transparent 2px);
-  background-size: 28px 28px;
-}
-
-.services__inner {
+.services__floating-title {
   position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1fr 380px;
-  align-items: center;
-  gap: 48px;
+  z-index: 5;
+  margin-bottom: 20px;
 }
 
-.services__cards {
+.services__title-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px 40px;
+}
+
+.services__title-icon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.services__icon {
+  display: inline-block;
+  font-size: 32px;
+  color: var(--blue);
+  line-height: 1;
+}
+
+.services__title-icon h2 {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.15;
+  font-weight: 900;
+  color: var(--blue-dark);
+}
+
+.services__arrows {
+  display: flex;
+  gap: 12px;
+  margin-top: 48px;
+}
+
+.services__arrow-btn {
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: white;
+  color: var(--blue-dark);
+  font-size: 28px;
+  line-height: 1;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: 0.25s var(--ease);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 34px;
-  margin-left: -80px;
+  place-items: center;
+}
+
+.services__arrow-btn:hover {
+  background: var(--blue);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(38, 159, 243, 0.25);
+}
+
+.services__slider {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 20px 0 30px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  touch-action: pan-x;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.services__slider::-webkit-scrollbar {
+  display: none;
+}
+
+.services__slider.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+.services__track {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  padding-left: calc((100vw - var(--container)) / 2);
+  padding-right: calc((100vw - var(--container)) / 2);
+}
+
+.services__spacer {
+  flex: 0 0 40px;
+  min-width: 40px;
 }
 
 .service-card {
+  flex: 0 0 280px;
+  width: 280px;
   background: white;
   border-radius: 14px;
   overflow: hidden;
@@ -2725,138 +2817,160 @@ blockquote {
     box-shadow 0.35s var(--ease);
 }
 
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 38px rgba(17, 80, 140, 0.18);
+}
+
 .service-card__media {
+  height: 160px;
   overflow: hidden;
 }
 
-.service-card img {
+.service-card__media img {
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease);
+  transition: transform 0.5s var(--ease);
 }
 
 .service-card:hover img {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .service-card__body {
-  padding: 20px 22px 24px;
+  padding: 22px 24px 26px;
 }
 
-.service-card h3 {
-  font-size: 15px;
+.service-card__body h3 {
   margin: 0 0 10px;
-  font-weight: 900;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
 }
 
-.service-card p {
-  font-size: 12px;
-  color: #7e8997;
-  line-height: 1.55;
+.service-card__body p {
   margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
-.service-card a {
-  height: 32px;
-  display: grid;
-  grid-auto-flow: column;
+.service-card__btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 1px solid var(--blue);
-  border-radius: 4px;
+  gap: 8px;
+  padding: 8px 18px;
+  border: 1.5px solid var(--blue);
+  border-radius: 6px;
   color: var(--blue-dark);
-  font-size: 10px;
-  font-weight: 900;
-  transition:
-    background 0.3s var(--ease),
-    color 0.3s var(--ease);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: 0.25s var(--ease);
+}
+
+.service-card__btn:hover {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
 }
 
 .service-card__arrow {
-  transition: transform 0.3s var(--ease);
-}
-
-.app.is-rtl .service-card__arrow {
   display: inline-block;
-  transform: scaleX(-1);
+  transition: transform 0.25s var(--ease);
 }
 
-.service-card a:hover {
-  background: var(--blue);
-  color: white;
+.service-card__btn:hover .service-card__arrow {
+  transform: translateX(4px);
 }
 
-.service-card a:hover .service-card__arrow {
-  transform: translateX(3px);
+.app.is-rtl .service-card__btn:hover .service-card__arrow {
+  transform: scaleX(-1) translateX(4px);
 }
 
-.app.is-rtl .service-card a:hover .service-card__arrow {
-  transform: scaleX(-1) translateX(3px);
+/* Responsive */
+@media (max-width: 992px) {
+  .services__track {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .services__spacer {
+    flex: 0 0 20px;
+    min-width: 20px;
+  }
+
+  .service-card {
+    flex: 0 0 260px;
+    width: 260px;
+  }
+
+  .services__title-wrapper {
+    align-items: flex-start;
+  }
+
+  .services__arrows {
+    align-self: flex-end;
+    margin-top: -10px;
+  }
 }
 
-.services__title {
-  position: relative;
-  height: 420px;
-}
+@media (max-width: 768px) {
+  .services {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
 
-.big-diamond {
-  position: absolute;
-  inset: 0 auto auto 0;
-  width: 370px;
-  height: 370px;
-  border-radius: 52px;
-  background: white;
-  transform: rotate(45deg);
-  display: grid;
-  place-items: center;
-}
+  /* ===== اضافه کنید ===== */
+  .services__title-wrapper {
+    justify-content: center;
+  }
 
-.big-diamond h2 {
-  transform: rotate(-45deg);
-  color: var(--blue-dark);
-  font-size: 41px;
-  line-height: 1.1;
-  margin: 0;
-  font-weight: 900;
-}
+  .services__title-icon {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
 
-.dots-grid {
-  position: absolute;
-  top: 49px;
-  left: 130px;
-  display: grid;
-  grid-template-columns: repeat(3, 24px);
-  gap: 14px;
-  transform: rotate(-45deg);
-}
+  .services__title-icon h2 {
+    display: none; /* مخفی کردن h2 اصلی */
+  }
 
-.dots-grid span {
-  width: 24px;
-  height: 24px;
-  background: #9eeaf0;
-  border-radius: 50%;
-}
+  /* عنوان فارسی */
+  .app.is-rtl .services__title-icon::before {
+    content: "خدمات ما";
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--blue-dark);
+    line-height: 1.15;
+  }
 
-.slider-arrows {
-  position: absolute;
-  left: 175px;
-  bottom: 5px;
-  display: flex;
-  gap: 16px;
-}
+  /* عنوان انگلیسی */
+  .app:not(.is-rtl) .services__title-icon::before {
+    content: "Our Services";
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--blue-dark);
+    line-height: 1.15;
+  }
+  /* ===================== */
 
-.slider-arrows button {
-  width: 30px;
-  height: 30px;
-  border: 0;
-  background: white;
-  color: var(--blue-dark);
-  border-radius: 50%;
-  box-shadow: var(--shadow-soft);
-  cursor: pointer;
-  font-size: 22px;
+  .service-card {
+    flex: 0 0 240px;
+    width: 240px;
+  }
+
+  .services__arrows {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .service-card {
+    flex: 0 0 200px;
+    width: 200px;
+  }
 }
 
 /* ==============================
@@ -4134,37 +4248,6 @@ blockquote {
     text-align: right;
   }
 
-  .services__inner {
-    grid-template-columns: 1fr;
-  }
-
-  .services__cards {
-    order: 2;
-  }
-
-  .services__title {
-    height: 360px;
-    order: 1;
-    display: grid;
-    place-items: center;
-  }
-
-  .big-diamond {
-    position: relative;
-    width: 310px;
-    height: 310px;
-  }
-
-  .big-diamond h2 {
-    font-size: 34px;
-  }
-
-  .slider-arrows {
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
-  }
-
   .expertise-orbit {
     margin-inline: auto;
   }
@@ -5263,458 +5346,8 @@ blockquote {
 }
 
 /* =========================================================
-   SERVICES – FINAL HORIZONTAL SLIDER FIX
-   ========================================================= */
-.services {
-  overflow: hidden;
-}
-
-.services__inner {
-  position: relative !important;
-  z-index: 2;
-  display: flex !important;
-  align-items: center !important;
-  min-width: 0;
-  min-height: 440px;
-  gap: 0 !important;
-}
-
-.services__cards {
-  position: relative !important;
-  z-index: 3;
-  display: block !important;
-  flex: 1 1 auto !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  padding: 18px 0 38px 0 !important;
-  margin: 0 !important;
-  overflow-x: auto !important;
-  overflow-y: visible !important;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: 0;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-  touch-action: pan-x;
-  cursor: grab;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.services__cards::-webkit-scrollbar {
-  display: none;
-}
-
-.services__cards.is-dragging {
-  cursor: grabbing;
-  scroll-behavior: auto;
-  scroll-snap-type: none;
-}
-
-.services__cards.is-dragging * {
-  user-select: none;
-  pointer-events: none;
-}
-
-.services__track {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  align-items: stretch;
-  gap: 24px;
-  width: 100%;
-  min-width: 100%;
-}
-
-.services__track .service-card {
-  position: relative;
-  z-index: 3;
-  flex: 0 0 calc((100% - 48px) / 3) !important;
-  width: calc((100% - 48px) / 3) !important;
-  min-width: 0 !important;
-  overflow: hidden;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  transition:
-    transform 0.28s ease,
-    box-shadow 0.28s ease;
-}
-
-.services__track .service-card:hover {
-  z-index: 5;
-  transform: translateY(-8px);
-  box-shadow: 0 20px 38px rgba(17, 80, 140, 0.2);
-}
-
-.service-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-
-.services__title {
-  position: absolute !important;
-  z-index: 1 !important;
-  top: 50%;
-  right: 0;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  width: 390px !important;
-  height: 390px !important;
-  margin: 0 !important;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.services__title.reveal--visible {
-  transform: translateY(-50%);
-}
-
-.services__title .big-diamond {
-  position: relative !important;
-  inset: auto !important;
-  width: 350px !important;
-  height: 350px !important;
-  flex: 0 0 350px;
-  border-radius: 52px;
-}
-
-.services__title .big-diamond h2 {
-  position: relative;
-  z-index: 2;
-  margin: 0;
-  color: var(--blue-dark);
-  font-size: 40px;
-  line-height: 1.1;
-}
-
-.services__title .dots-grid {
-  position: absolute;
-  z-index: 3;
-  top: 48px !important;
-  left: 126px !important;
-  margin: 0 !important;
-  display: grid;
-  grid-template-columns: repeat(3, 24px);
-  gap: 14px;
-  transform: rotate(-45deg);
-}
-
-.services__title .dots-grid span {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #9eeaf0;
-}
-
-/* =========================================================
-   SERVICES - TABLET
-   ========================================================= */
-@media (max-width: 1100px) {
-  .services {
-    padding-top: 80px;
-    padding-bottom: 75px;
-  }
-
-  .services__inner {
-    min-height: 390px;
-  }
-
-  .services__cards {
-    padding: 16px 0 34px !important;
-  }
-
-  .services__track {
-    gap: 20px;
-  }
-
-  .services__track .service-card {
-    flex-basis: calc((100% - 20px) / 2) !important;
-    width: calc((100% - 20px) / 2) !important;
-  }
-
-  .services__title {
-    width: 275px !important;
-    height: 275px !important;
-    right: -5px;
-  }
-
-  .services__title .big-diamond {
-    width: 255px !important;
-    height: 255px !important;
-    flex-basis: 255px;
-  }
-
-  .services__title .big-diamond h2 {
-    font-size: 29px;
-  }
-
-  .services__title .dots-grid {
-    top: 31px !important;
-    left: 88px !important;
-    grid-template-columns: repeat(3, 18px);
-    gap: 10px;
-  }
-
-  .services__title .dots-grid span {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-/* =========================================================
-   SERVICES - MOBILE
-   ========================================================= */
-@media (max-width: 768px) {
-  .services {
-    padding-top: 65px;
-    padding-bottom: 60px;
-  }
-
-  .services__inner {
-    min-height: 330px;
-  }
-
-  .services__cards {
-    padding: 14px 0 30px !important;
-  }
-
-  .services__track {
-    gap: 16px;
-  }
-
-  .services__track .service-card {
-    flex: 0 0 78vw !important;
-    width: 78vw !important;
-    min-width: 78vw !important;
-  }
-
-  .services__title {
-    width: 150px !important;
-    height: 200px !important;
-    right: -18px;
-  }
-
-  .services__title .big-diamond {
-    width: 145px !important;
-    height: 145px !important;
-    flex-basis: 145px;
-    border-radius: 28px;
-  }
-
-  .services__title .big-diamond h2 {
-    font-size: 18px;
-  }
-
-  .services__title .dots-grid {
-    top: 19px !important;
-    left: 50px !important;
-    grid-template-columns: repeat(3, 11px);
-    gap: 4px;
-  }
-
-  .services__title .dots-grid span {
-    width: 11px;
-    height: 11px;
-  }
-}
-
-@media (max-width: 420px) {
-  .services__inner {
-    min-height: 300px;
-  }
-
-  .services__track .service-card {
-    flex-basis: 80vw !important;
-    width: 80vw !important;
-    min-width: 80vw !important;
-  }
-
-  .services__title {
-    width: 125px !important;
-    height: 170px !important;
-    right: -20px;
-  }
-
-  .services__title .big-diamond {
-    width: 120px !important;
-    height: 120px !important;
-    flex-basis: 120px;
-  }
-
-  .services__title .big-diamond h2 {
-    font-size: 15px;
-  }
-
-  .services__title .dots-grid {
-    top: 15px !important;
-    left: 42px !important;
-    grid-template-columns: repeat(3, 9px);
-    gap: 6px;
-  }
-
-  .services__title .dots-grid span {
-    width: 9px;
-    height: 9px;
-  }
-}
-
-/* =========================================================
-   SERVICES — SHOW TITLE BETWEEN CARD GROUPS
-   ========================================================= */
-@media (min-width: 1101px) {
-  .services__track .service-card:nth-child(3n) {
-    margin-right: 390px !important;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1100px) {
-  .services__track .service-card:nth-child(3n) {
-    margin-right: 270px !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .services__track .service-card:nth-child(3n) {
-    margin-right: 145px !important;
-  }
-}
-
-@media (max-width: 420px) {
-  .services__track .service-card:nth-child(3n) {
-    margin-right: 120px !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .services__inner {
-    display: block;
-    overflow: hidden;
-  }
-
-  .services__title {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    display: block;
-    width: 100%;
-    margin: 0 0 22px;
-    padding: 0 20px;
-    transform: none !important;
-    text-align: left;
-    z-index: 10;
-  }
-
-  .services__cards {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .services__track {
-    gap: 16px;
-  }
-
-  .service-card {
-    flex: 0 0 82vw;
-    width: 82vw;
-  }
-}
-
-@media (max-width: 767px) {
-  .services {
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .services__inner {
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 18px;
-    padding: 0 16px;
-    box-sizing: border-box;
-    overflow: visible;
-  }
-
-  .services__title,
-  .services__heading,
-  .services__inner > h2 {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    flex: none;
-    text-align: left;
-    white-space: normal;
-  }
-
-  .services__cards {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    gap: 14px;
-    padding: 0 0 14px;
-    box-sizing: border-box;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .services__cards::-webkit-scrollbar {
-    display: none;
-  }
-
-  .services__card {
-    flex: 0 0 calc(100vw - 32px);
-    width: calc(100vw - 32px);
-    max-width: calc(100vw - 32px);
-    min-width: 0;
-    box-sizing: border-box;
-    scroll-snap-align: start;
-  }
-
-  .services__card img {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-
-  .services__card-content,
-  .services__content {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    padding: 22px 18px;
-  }
-
-  .services__card h3,
-  .services__card p {
-    overflow-wrap: break-word;
-    word-break: normal;
-  }
-
-  .services__card .btn,
-  .services__card a {
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-}
-
-/* =====================================================
    EXPERTISE – TABLET / MOBILE DESIGN (below 992px)
-   ===================================================== */
+   ========================================================= */
 .expertise__responsive-title {
   display: none;
 }
@@ -6291,40 +5924,11 @@ blockquote {
 
 .app.is-rtl .diamond-image {
   left: auto !important;
-  right: 140px !important;
+  right: 110px !important;
 }
 .app.is-rtl .soft-diamond--one {
   left: auto !important;
   right: -45px !important;
-}
-
-/* --- Services: عنوان در سمت چپ و margin-left بین گروه‌ها --- */
-.app.is-rtl .services__title {
-  right: 0 !important;
-  left: auto !important;
-}
-.app.is-rtl .services__title .dots-grid {
-  left: 126px !important;
-  right: auto !important;
-}
-.app.is-rtl .services__track .service-card:nth-child(3n) {
-  margin-right: 390px !important;
-  margin-left: 0 !important;
-}
-@media (min-width: 769px) and (max-width: 1100px) {
-  .app.is-rtl .services__track .service-card:nth-child(3n) {
-    margin-left: 270px !important;
-  }
-}
-@media (max-width: 768px) {
-  .app.is-rtl .services__track .service-card:nth-child(3n) {
-    margin-left: 145px !important;
-  }
-}
-@media (max-width: 420px) {
-  .app.is-rtl .services__track .service-card:nth-child(3n) {
-    margin-left: 120px !important;
-  }
 }
 
 /* --- Expertise: مدار و آیکن‌ها معکوس شوند --- */
@@ -6712,40 +6316,6 @@ select:focus-visible {
     right: 5px !important;
   }
 }
-/* =========================================================
-   FIX DOTS POSITION IN PERSIAN (ONLY DOTS, NOTHING ELSE)
-   ========================================================= */
-
-/* حالت فارسی: دات‌ها را به سمت راست ببر تا از روی متن خارج شوند */
-.app.is-rtl .services__title .dots-grid {
-  left: auto !important;
-  right: 140px !important; /* فاصله از لبه راست الماس */
-  top: 40px !important; /* تنظیم عمودی */
-}
-
-@media (max-width: 1100px) and (min-width: 769px) {
-  .app.is-rtl .services__title .dots-grid {
-    right: 95px !important;
-    top: 28px !important;
-  }
-  .app.is-rtl .services__title .dots-grid span {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-/* برای موبایل (تا 768px) */
-@media (max-width: 768px) {
-  .app.is-rtl .services__title .dots-grid {
-    right: 60px !important;
-    top: 5px !important;
-    gap: 6px;
-  }
-  .app.is-rtl .services__title .dots-grid span {
-    width: 14px;
-    height: 14px;
-  }
-}
 
 @media (max-width: 1168px) {
   .nav:not(.active) {
@@ -6802,12 +6372,6 @@ hard-locked closed. */
   .app.is-rtl .hero__image img {
     transform: none !important;
     clip-path: none !important;
-  }
-}
-
-@media (max-width: 420px) {
-  .services .dots-grid {
-    display: none !important;
   }
 }
 
@@ -7678,5 +7242,30 @@ hard-locked closed. */
   .app.is-rtl .footer-col__links a {
     transform: none !important;
   }
+}
+
+/* =========================================================
+   SERVICES SLIDER — KEEP GEOMETRY LTR
+   RTL فقط روی متن اعمال می‌شود، نه روی مکانیزم اسلایدر
+   ========================================================= */
+
+.services__slider,
+.services__track {
+  direction: ltr !important;
+}
+
+/* در فارسی فقط محتوای کارت RTL باشد */
+.app.is-rtl .service-card__body {
+  direction: rtl;
+  text-align: right;
+}
+
+.app.is-rtl .service-card__btn {
+  direction: rtl;
+}
+
+/* فلش دکمه همچنان ظاهر درست خودش را حفظ کند */
+.app.is-rtl .service-card__arrow {
+  direction: ltr;
 }
 </style>
