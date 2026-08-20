@@ -1464,23 +1464,27 @@ const translations = {
 
     service1: "Intelligent Network Management Software",
     service1_desc:
-      "Proin ac arcu nisl. Duis eu molestie lectus. Nam quis mauris faucibus, aliquet elit eu, rhoncus ipsum.",
+      "A comprehensive software for intelligent management and monitoring of organizational networks with automated troubleshooting capabilities.",
+
     service2: "Intelligent Search Engine & GPT Assistant",
     service2_desc:
-      "Proin quis pellentesque dui. Ut sed leo neque. Nullam aliquet iaculis neque a commodo.",
+      "An intelligent search engine with a GPT assistant that enables quick access to information across various organizational sources.",
+
     service3: "Raya Intelligent Knowledge Network",
     service3_desc:
-      "Quisque consectetur lectus vel orci porttitor gravida ac eu erat. Nullam accumsan nibh tortor.",
+      "Raya intelligent knowledge network, a platform for managing and exchanging knowledge within the organization.",
+
     service4: "Data Analytics Platform",
     service4_desc:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.",
+      "An advanced data analytics platform for organizational data with interactive and precise reporting.",
+
     service5: "Enterprise Integration Platform",
     service5_desc:
-      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
+      "An integrated enterprise platform for connecting various organizational systems and facilitating data flow.",
+
     service6: "Network Security Solution",
     service6_desc:
-      "Nullam quis mauris faucibus. Aliquam elit eu rhoncus. Proin ac arcu nisl.",
-
+      "A comprehensive network security solution with threat detection and rapid response to attacks.",
     "SEE DETAIL": "See Details",
 
     Marketing: "Knowledge Management",
@@ -2101,7 +2105,6 @@ img {
   letter-spacing: -0.5px;
   line-height: 1;
   position: relative;
-  box-shadow: 0 14px 28px rgba(38, 159, 243, 0.25);
   isolation: isolate;
   overflow: hidden;
   text-align: center;
@@ -5527,9 +5530,9 @@ blockquote {
 }
 
 .testimonial-diamond {
+  top: -10%;
   position: relative;
   width: 230px;
-  height: 230px;
   display: grid;
   place-items: center;
   transform: rotate(45deg);
