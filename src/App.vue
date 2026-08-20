@@ -5660,7 +5660,6 @@ blockquote {
   }
 
   .testimonial-diamond {
-    width: 120px;
     height: 120px;
   }
 
@@ -7280,5 +7279,31 @@ hard-locked closed. */
 /* فلش دکمه همچنان ظاهر درست خودش را حفظ کند */
 .app.is-rtl .service-card__arrow {
   direction: ltr;
+}
+
+/* ===== FIX: جلوگیری از تغییر ارتفاع خدمات در موبایل ===== */
+@media (max-width: 480px) {
+  .service-card {
+    flex: 0 0 240px !important; /* عرض ثابت ۲۴۰ پیکسل */
+    width: 240px !important;
+  }
+
+  /* اگر خواستید کمی ارتفاع تصویر را کم کنید تا کارت جمع‌وجورتر شود */
+  .service-card__media {
+    height: 140px !important;
+  }
+
+  .service-card__body {
+    padding: 16px 20px 20px !important;
+  }
+
+  /* در صورت نیاز فونت‌ها را کمی کوچک‌تر کنید (اختیاری) */
+  .service-card__body h3 {
+    font-size: 14px !important;
+  }
+
+  .service-card__body p {
+    font-size: 12px !important;
+  }
 }
 </style>
