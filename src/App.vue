@@ -4304,7 +4304,7 @@ blockquote {
   .hero__image img {
     width: 145% !important;
     height: 145% !important;
-    filter: none !important;
+    filter: brightness(0.52) saturate(0.8) !important;
   }
 
   .hero::before,
@@ -4633,7 +4633,7 @@ blockquote {
   }
 
   .hero p {
-    max-width: 620px;
+    max-width: 480px;
     margin: 0 auto 34px;
     color: #ffffff;
     font-size: clamp(20px, 2.8vw, 29px);
@@ -5844,7 +5844,7 @@ blockquote {
   }
   .app.is-rtl .header__inner .nav {
     position: absolute;
-    left: 32%;
+    left: 25%;
     transform: translateX(-50%);
     order: 2;
     margin: 0;
@@ -7307,6 +7307,21 @@ hard-locked closed. */
 
   .service-card__body p {
     font-size: 12px !important;
+  }
+}
+
+/* =========================================================
+   APP BAR TYPOGRAPHY — DESKTOP ONLY
+   ≥ 1170px
+========================================================= */
+
+@media (min-width: 1170px) {
+  .header .nav a,
+  .header.scrolled .nav a {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0 !important;
   }
 }
 </style>
