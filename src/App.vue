@@ -710,6 +710,131 @@ const activeSection = ref("home");
 const isSwitchingLanguage = ref(false);
 
 /* =========================================================
+   SEO / ACCESSIBILITY METADATA
+   No visual impact
+   ========================================================= */
+const SEO = {
+  en: {
+    title: "Raybod Pouye | Intelligent Software & Digital Solutions",
+    description:
+      "Raybod Pouye provides intelligent software, AI, knowledge management, network management, data analytics, enterprise integration, and network security solutions for organizations.",
+    locale: "en_US",
+  },
+  fa: {
+    title: "رایبد پویه | راهکارهای هوشمند نرم‌افزاری و سازمانی",
+    description:
+      "رایبد پویه در زمینه تولید نرم‌افزارهای هوشمند، هوش مصنوعی، مدیریت دانش، مدیریت شبکه، تحلیل داده، یکپارچه‌سازی سازمانی و امنیت شبکه فعالیت می‌کند.",
+    locale: "fa_IR",
+  },
+};
+
+const setMeta = (name, content, attribute = "name") => {
+  if (!content) return;
+
+  let element = document.head.querySelector(`meta[${attribute}="${name}"]`);
+
+  if (!element) {
+    element = document.createElement("meta");
+    element.setAttribute(attribute, name);
+    document.head.appendChild(element);
+  }
+
+  element.setAttribute("content", content);
+};
+
+const setLink = (rel, href, id = "") => {
+  let element = id
+    ? document.head.querySelector(`#${id}`)
+    : document.head.querySelector(`link[rel="${rel}"]`);
+
+  if (!element) {
+    element = document.createElement("link");
+    element.rel = rel;
+    if (id) element.id = id;
+    document.head.appendChild(element);
+  }
+
+  element.href = href;
+};
+
+const updateSEO = () => {
+  if (typeof document === "undefined") return;
+
+  const content = SEO[currentLanguage.value] ?? SEO.en;
+  const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
+
+  document.documentElement.lang = currentLanguage.value;
+  document.documentElement.dir = currentLanguage.value === "fa" ? "rtl" : "ltr";
+  document.title = content.title;
+
+  setMeta("description", content.description);
+  setMeta(
+    "robots",
+    "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+  );
+  setMeta("author", "Raybod Pouye");
+  setMeta("theme-color", "#ffffff");
+
+  setMeta("og:type", "website", "property");
+  setMeta("og:title", content.title, "property");
+  setMeta("og:description", content.description, "property");
+  setMeta("og:url", canonicalUrl, "property");
+  setMeta("og:site_name", "Raybod Pouye", "property");
+  setMeta("og:locale", content.locale, "property");
+
+  setMeta("twitter:card", "summary", "name");
+  setMeta("twitter:title", content.title, "name");
+  setMeta("twitter:description", content.description, "name");
+
+  setLink("canonical", canonicalUrl, "seo-canonical");
+
+  let schema = document.head.querySelector("#raybod-pouye-schema");
+
+  if (!schema) {
+    schema = document.createElement("script");
+    schema.id = "raybod-pouye-schema";
+    schema.type = "application/ld+json";
+    document.head.appendChild(schema);
+  }
+
+  schema.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${canonicalUrl}#organization`,
+        name: currentLanguage.value === "fa" ? "رایبد پویه" : "Raybod Pouye",
+        url: canonicalUrl,
+        email: "info@raybidpouye.com",
+        description: content.description,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${canonicalUrl}#website`,
+        url: canonicalUrl,
+        name: content.title,
+        description: content.description,
+        inLanguage: currentLanguage.value,
+        publisher: { "@id": `${canonicalUrl}#organization` },
+      },
+      {
+        "@type": "ItemList",
+        name:
+          currentLanguage.value === "fa"
+            ? "خدمات رایبد پویه"
+            : "Raybod Pouye Services",
+        itemListElement: servicesList.map((service, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: t(service.title),
+          description: t(service.desc),
+        })),
+      },
+    ],
+  });
+};
+
+/* =========================================================
    FOOTER ACCORDION
    ========================================================= */
 const openFooterSection = ref(null);
@@ -1473,9 +1598,9 @@ const translations = {
     "Nulla lobortis nunc vitae nisi semper semper velit":
       "Raybod Pouye is a leading company in consulting and development of intelligent software, providing innovative solutions in network communications.",
 
-    Employee: "Years of Experience",
-    Projects: "Successful Projects",
-    Clients: "Major Organizations",
+    Employee: "Experience",
+    Projects: "Projects",
+    Clients: "Organizations",
 
     "Aliquam lobortis magna neque, gravida consequat velit venenatis at.":
       "Leveraging advanced technologies and a dedicated expert team, we provide intelligent services and products that help organizations improve their performance.",
@@ -1642,6 +1767,7 @@ const toggleLanguage = () => {
 
   window.setTimeout(() => {
     currentLanguage.value = currentLanguage.value === "en" ? "fa" : "en";
+    updateSEO();
 
     nextTick(() => {
       checkStatsVisibility();
@@ -1818,6 +1944,7 @@ const handleDocumentClick = (event) => {
    LIFECYCLE
    ========================================================= */
 onMounted(async () => {
+  updateSEO();
   document.documentElement.classList.add("ray-loader-active");
 
   const minimumIntro = new Promise((resolve) =>
@@ -7158,6 +7285,16 @@ hard-locked closed. */
   .brand--footer .brand__text {
     color: #0751af !important;
     text-shadow: none !important;
+  }
+}
+
+/* =========================================
+   FOOTER — فاصله عنوان از لینک‌ها
+   فقط قبل از حالت آکاردئونی
+   ========================================= */
+@media (min-width: 421px) {
+  .footer-col__links {
+    margin-top: 16px;
   }
 }
 </style>
