@@ -6222,7 +6222,6 @@ select:focus-visible {
       visibility 0s linear 0s !important;
   }
   .app.is-rtl .nav {
-    left: auto !important;
     right: 20px !important;
     transform-origin: top right !important;
   }
@@ -7231,11 +7230,106 @@ hard-locked closed. */
   }
 }
 
-@media (max-width: 576px) {
-  .testimonial-card {
-    flex: 0 0 260px !important;
-    width: 260px !important;
-    max-width: 260px !important;
+/* =========================================================
+   ABOUT — FINAL RTL/LTR GEOMETRY FIX
+   Persian version must mirror English version exactly
+   ========================================================= */
+
+/* LTR = original geometry */
+.app.is-ltr .about-card {
+  left: 75px;
+  right: auto;
+}
+
+.app.is-ltr .diamond-image {
+  left: 140px;
+  right: auto;
+}
+
+.app.is-ltr .soft-diamond--one {
+  left: -45px;
+  right: auto;
+}
+
+/* RTL = exact horizontal mirror */
+.app.is-rtl .about-card {
+  left: auto !important;
+  right: 75px !important;
+}
+
+.app.is-rtl .diamond-image {
+  left: auto !important;
+  right: 140px !important;
+  translate: none !important;
+}
+
+.app.is-rtl .soft-diamond--one {
+  left: auto !important;
+  right: -45px !important;
+}
+
+/* Keep the diamond rotation identical in both languages */
+.app.is-rtl .diamond-title,
+.app.is-rtl .diamond-image,
+.app.is-rtl .soft-diamond {
+  transform: rotate(45deg);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .app.is-ltr .about-card {
+    left: auto;
+    right: auto;
+  }
+
+  .app.is-ltr .diamond-image {
+    left: 90px;
+    right: auto;
+  }
+
+  .app.is-ltr .soft-diamond--one {
+    left: -30px;
+    right: auto;
+  }
+
+  .app.is-rtl .about-card {
+    left: auto !important;
+    right: auto !important;
+  }
+
+  .app.is-rtl .diamond-image {
+    left: auto !important;
+    right: 90px !important;
+    translate: none !important;
+  }
+
+  .app.is-rtl .soft-diamond--one {
+    left: auto !important;
+    right: -30px !important;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .app.is-ltr .diamond-image {
+    left: 70px;
+    right: auto;
+  }
+
+  .app.is-ltr .soft-diamond--one {
+    left: -20px;
+    right: auto;
+  }
+
+  .app.is-rtl .diamond-image {
+    left: auto !important;
+    right: 70px !important;
+    translate: none !important;
+  }
+
+  .app.is-rtl .soft-diamond--one {
+    left: auto !important;
+    right: -20px !important;
   }
 }
 </style>
