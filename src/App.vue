@@ -658,9 +658,13 @@
             <a href="#" aria-label="Instagram">ig</a>
           </div>
 
-          <select aria-label="Language">
-            <option>{{ t("English - En") }}</option>
-            <option>{{ t("Persian - Fa") }}</option>
+          <select
+            aria-label="Language"
+            :value="currentLanguage"
+            @change="changeLanguage($event.target.value)"
+          >
+            <option value="en">{{ t("English - En") }}</option>
+            <option value="fa">{{ t("Persian - Fa") }}</option>
           </select>
         </div>
       </div>
@@ -1760,13 +1764,13 @@ const t = (key) => {
 /* =========================================================
    LANGUAGE SWITCH
    ========================================================= */
-const toggleLanguage = () => {
-  if (isSwitchingLanguage.value) return;
+const changeLanguage = (language) => {
+  if (isSwitchingLanguage.value || language === currentLanguage.value) return;
 
   isSwitchingLanguage.value = true;
 
   window.setTimeout(() => {
-    currentLanguage.value = currentLanguage.value === "en" ? "fa" : "en";
+    currentLanguage.value = language;
     updateSEO();
 
     nextTick(() => {
@@ -1778,6 +1782,10 @@ const toggleLanguage = () => {
       isSwitchingLanguage.value = false;
     }, 30);
   }, 180);
+};
+
+const toggleLanguage = () => {
+  changeLanguage(currentLanguage.value === "en" ? "fa" : "en");
 };
 
 /* =========================================================
@@ -6000,8 +6008,8 @@ select:focus-visible {
 }
 
 /* =========================================================
-   TESTIMONIALS — ENGLISH LAYOUT IS THE ONLY LAYOUT
-   Persian changes text direction only; geometry never flips.
+   TESTIMONIALS — CONSOLIDATED LAYOUT
+   LTR geometry is preserved; Persian changes text direction only.
    ========================================================= */
 .testimonials,
 .testimonials__inner,
@@ -6015,10 +6023,8 @@ select:focus-visible {
 }
 
 .testimonials__title {
+  left: 0 !important;
   right: auto !important;
-}
-
-.testimonials__track {
 }
 
 .testimonials__track::before {
@@ -6036,7 +6042,6 @@ select:focus-visible {
   border-radius: 45px 45px 45px 0 !important;
 }
 
-/* Long testimonials scroll vertically inside the fixed card. */
 .testimonial-card__text {
   height: 150px !important;
   max-height: 150px !important;
@@ -6070,7 +6075,7 @@ select:focus-visible {
   background: #7fd9ea;
 }
 
-/* Persian: only the actual text is RTL. */
+/* Persian: text only is RTL; slider geometry stays unchanged. */
 .app.is-rtl .testimonial-card__text {
   direction: rtl !important;
   text-align: right !important;
@@ -6083,14 +6088,40 @@ select:focus-visible {
   text-align: center !important;
 }
 
-.app.is-rtl .testimonial-card__client {
-  direction: ltr !important;
-}
-
+.app.is-rtl .testimonial-card__client,
 .app.is-rtl .testimonial-card__client h3,
 .app.is-rtl .testimonial-card__client span {
   direction: ltr !important;
   text-align: left !important;
+}
+
+/* Full width: no horizontal spacing at any viewport. */
+.testimonials {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.testimonials__inner {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.testimonials__cards {
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.testimonials__track {
+  width: max-content !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 @media (max-width: 1199px) {
@@ -6100,14 +6131,16 @@ select:focus-visible {
   }
 
   .testimonials__cards {
-    margin-left: 100px !important;
+    width: 100% !important;
+    margin-left: 0 !important;
     margin-right: 0 !important;
-    width: calc(100% - 100px) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .testimonials__track {
-    padding-left: clamp(150px, 20vw, 250px) !important;
-    padding-right: 30px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .testimonial-card__text {
@@ -6124,16 +6157,14 @@ select:focus-visible {
   }
 
   .testimonials__cards {
-    width: calc(100% + 24px) !important;
-    margin-left: -12px !important;
-    margin-right: 0 !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    width: 100% !important;
+    margin: 70px 0 0 !important;
+    padding: 0 !important;
   }
 
   .testimonials__track {
-    padding-left: 4px !important;
-    padding-right: 4px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .testimonials__track::before {
@@ -6154,118 +6185,20 @@ select:focus-visible {
   }
 
   .testimonials__cards {
-    width: calc(100% + 24px) !important;
-    margin-left: -12px !important;
-    margin-right: 0 !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    width: 100% !important;
+    margin: 70px 0 0 !important;
+    padding: 0 !important;
   }
 
   .testimonials__track {
-    padding-left: 4px !important;
-    padding-right: 14px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .testimonial-card__text {
     height: 110px !important;
     max-height: 110px !important;
     font-size: 12px !important;
-  }
-}
-
-/* =========================================================
-   TESTIMONIALS – فاصله ثابت ۵px از گوشه‌ها
-   ========================================================= */
-.testimonials {
-  padding-left: 5px !important;
-  padding-right: 5px !important;
-}
-
-.testimonials__inner {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* اسلایدر: عرض را بر اساس فاصله‌ی ۵px تنظیم می‌کنیم */
-.testimonials__cards {
-  width: calc(100% - 10px) !important; /* 5px از چپ + 5px از راست */
-  margin-left: 5px !important;
-  margin-right: 5px !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-/* عنوان چرخشی (Diamond) را ۵px از لبه چپ قرار می‌دهیم */
-.testimonials__title {
-  left: 5px !important;
-}
-
-/* لوپ کارت‌ها را طوری تنظیم می‌کنیم که اولین آیتم پشت عنوان نرود و از حاشیه بیرون نزند */
-.testimonials__track {
-  padding-left: clamp(180px, 22vw, 300px) !important;
-  padding-right: 5px !important;
-}
-
-/* RTL: آینه‌سازی موقعیت‌ها برای زبان فارسی */
-.app.is-rtl .testimonials__title {
-  left: auto !important;
-  right: 5px !important;
-}
-
-.app.is-rtl .testimonials__cards {
-  margin-left: 0 !important;
-  margin-right: 5px !important;
-}
-
-.app.is-rtl .testimonials__track {
-  padding-left: 5px !important;
-  padding-right: clamp(180px, 22vw, 300px) !important;
-}
-
-/* در تبلت و موبایل: فاصله‌ها حفظ شود */
-@media (max-width: 1199px) {
-  .testimonials__cards {
-    width: calc(100% - 10px) !important;
-    margin-left: 5px !important;
-    margin-right: 5px !important;
-  }
-
-  .testimonials__track {
-    padding-left: clamp(150px, 20vw, 250px) !important;
-    padding-right: 5px !important;
-  }
-
-  .app.is-rtl .testimonials__track {
-    padding-left: 5px !important;
-    padding-right: clamp(150px, 20vw, 250px) !important;
-  }
-}
-
-@media (max-width: 992px) {
-  .testimonials__cards {
-    width: calc(100% - 10px) !important;
-    margin-left: 5px !important;
-    margin-right: 5px !important;
-    margin-top: 70px !important; /* ← این خط را اضافه کنید */
-  }
-
-  .testimonials__track {
-    padding-left: 5px !important;
-    padding-right: 5px !important;
-  }
-
-  .testimonials__track::before {
-    display: none !important;
-  }
-
-  /* عنوان در موبایل وسط‌چین می‌شود، اما همچنان از گوشه فاصله دارد */
-  .testimonials__title {
-    left: 5px !important;
-  }
-
-  .app.is-rtl .testimonials__title {
-    left: auto !important;
-    right: 5px !important;
   }
 }
 
@@ -7295,6 +7228,14 @@ hard-locked closed. */
 @media (min-width: 421px) {
   .footer-col__links {
     margin-top: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .testimonial-card {
+    flex: 0 0 260px !important;
+    width: 260px !important;
+    max-width: 260px !important;
   }
 }
 </style>
