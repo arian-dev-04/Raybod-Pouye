@@ -8,6 +8,9 @@
     }"
     :dir="currentLanguage === 'fa' ? 'rtl' : 'ltr'"
   >
+    <!-- =========================================================
+         LOADER
+         ========================================================= -->
     <Transition name="ray-loader">
       <div v-if="isInitialLoading" class="ray-loader" aria-hidden="true">
         <div class="ray-loader__pieces">
@@ -31,7 +34,9 @@
       </div>
     </Transition>
 
-    <!-- ================= Header ================= -->
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
     <header class="header" :class="{ scrolled: isScrolled }">
       <div class="container header__inner">
         <a href="#home" class="brand">
@@ -93,7 +98,9 @@
       </div>
     </header>
 
-    <!-- ================= Hero ================= -->
+    <!-- =========================================================
+         HERO
+         ========================================================= -->
     <section id="home" class="hero section">
       <div class="hero__image">
         <img :src="getImage('hero-1.jpg')" alt="Hero" />
@@ -122,7 +129,9 @@
       </div>
     </section>
 
-    <!-- ================= About ================= -->
+    <!-- =========================================================
+         ABOUT
+         ========================================================= -->
     <section id="about" class="about section">
       <div class="container about__inner">
         <div class="about__visual reveal reveal--left" v-reveal>
@@ -188,7 +197,9 @@
       </div>
     </section>
 
-    <!-- ================= Services ================= -->
+    <!-- =========================================================
+         SERVICES
+         ========================================================= -->
     <section id="services" class="services section">
       <!-- Floating Title -->
       <div class="services__floating-title">
@@ -265,7 +276,9 @@
       </div>
     </section>
 
-    <!-- ================= Expertise ================= -->
+    <!-- =========================================================
+         EXPERTISE
+         ========================================================= -->
     <section id="expertise" class="expertise section">
       <div class="container expertise__inner">
         <div class="expertise__visual reveal reveal--left" v-reveal>
@@ -321,7 +334,9 @@
       </div>
     </section>
 
-    <!-- ================= Testimonials ================= -->
+    <!-- =========================================================
+         TESTIMONIALS
+         ========================================================= -->
     <section id="testimonials" class="testimonials section">
       <div class="container testimonials__inner">
         <div class="testimonials__title reveal reveal--left" v-reveal>
@@ -410,7 +425,9 @@
       </div>
     </section>
 
-    <!-- ================= Case Studies ================= -->
+    <!-- =========================================================
+         CASE STUDIES
+         ========================================================= -->
     <section id="case-studies" class="case section">
       <div class="container case__inner">
         <aside class="case__sidebar reveal reveal--left" v-reveal>
@@ -455,7 +472,9 @@
       </div>
     </section>
 
-    <!-- ================= CTA ================= -->
+    <!-- =========================================================
+         CTA
+         ========================================================= -->
     <section class="cta">
       <div class="container reveal reveal--up" v-reveal>
         <div class="cta__box">
@@ -477,7 +496,9 @@
       </div>
     </section>
 
-    <!-- ================= Contact / Office ================= -->
+    <!-- =========================================================
+         OFFICE / CONTACT
+         ========================================================= -->
     <section id="contact" class="office section">
       <div class="container office__inner">
         <div class="office__left reveal reveal--left" v-reveal>
@@ -531,7 +552,9 @@
       </div>
     </section>
 
-    <!-- ================= Footer ================= -->
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
     <footer class="footer">
       <div class="container footer__inner">
         <!-- Brand -->
@@ -643,6 +666,9 @@
       </div>
     </footer>
 
+    <!-- =========================================================
+         BACK TO TOP
+         ========================================================= -->
     <button
       class="to-top"
       type="button"
@@ -655,9 +681,15 @@
   </div>
 </template>
 
+<!-- =========================================================
+     SCRIPT
+     ========================================================= -->
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 
+/* =========================================================
+   IMAGE HELPERS
+   ========================================================= */
 const images = import.meta.glob("./assets/images/*", {
   eager: true,
   import: "default",
@@ -670,7 +702,6 @@ const getImage = (name) => {
 /* =========================================================
    STATE
    ========================================================= */
-
 const isScrolled = ref(false);
 const isMenuOpen = ref(false);
 const isInitialLoading = ref(true);
@@ -680,9 +711,7 @@ const isSwitchingLanguage = ref(false);
 
 /* =========================================================
    FOOTER ACCORDION
-   فقط برای ریسپانسیو فوتر
    ========================================================= */
-
 const openFooterSection = ref(null);
 
 const toggleFooterSection = (section) => {
@@ -693,7 +722,6 @@ const toggleFooterSection = (section) => {
 /* =========================================================
    REVEAL ON SCROLL
    ========================================================= */
-
 let revealObserver = null;
 
 const vReveal = {
@@ -711,7 +739,6 @@ const vReveal = {
 /* =========================================================
    ANIMATED STATS
    ========================================================= */
-
 const animatedStats = ref({
   employee: 0,
   projects: 0,
@@ -776,9 +803,8 @@ const checkStatsVisibility = () => {
 };
 
 /* =========================================================
-   SERVICES DATA — NEW
+   SERVICES DATA
    ========================================================= */
-
 const servicesList = [
   {
     title: "service1",
@@ -815,7 +841,6 @@ const servicesList = [
 /* =========================================================
    SERVICES SLIDER
    ========================================================= */
-
 const servicesCards = ref(null);
 const servicesTrack = ref(null);
 
@@ -935,7 +960,6 @@ const resumeServicesAutoSlide = () => {
 /* =========================================================
    SERVICES DRAG
    ========================================================= */
-
 const startServicesDrag = (event) => {
   if (event.pointerType === "mouse" && event.button !== 0) {
     return;
@@ -987,7 +1011,6 @@ const endServicesDrag = (event) => {
 /* =========================================================
    TESTIMONIALS DATA
    ========================================================= */
-
 const testimonials = [
   {
     text: "test1_text",
@@ -1042,7 +1065,6 @@ const displayedTestimonials = computed(() => [
 /* =========================================================
    TESTIMONIAL SLIDER
    ========================================================= */
-
 const testimonialsCards = ref(null);
 
 let testimonialsAutoSlideTimer = null;
@@ -1212,7 +1234,6 @@ const resumeTestimonialsAutoSlide = () => {
 /* =========================================================
    TESTIMONIAL DRAG
    ========================================================= */
-
 const startTestimonialsDrag = (event) => {
   if (event.pointerType === "mouse" && event.button !== 0) {
     return;
@@ -1266,7 +1287,6 @@ const endTestimonialsDrag = (event) => {
 /* =========================================================
    TRANSLATIONS
    ========================================================= */
-
 const translations = {
   fa: {
     About: "درباره",
@@ -1608,7 +1628,6 @@ const translations = {
 /* =========================================================
    TRANSLATION FUNCTION
    ========================================================= */
-
 const t = (key) => {
   return translations[currentLanguage.value]?.[key] ?? key;
 };
@@ -1616,7 +1635,6 @@ const t = (key) => {
 /* =========================================================
    LANGUAGE SWITCH
    ========================================================= */
-
 const toggleLanguage = () => {
   if (isSwitchingLanguage.value) return;
 
@@ -1639,7 +1657,6 @@ const toggleLanguage = () => {
 /* =========================================================
    NAVIGATION
    ========================================================= */
-
 const navItems = [
   {
     label: "About",
@@ -1666,7 +1683,6 @@ const navItems = [
 /* =========================================================
    CASE STUDIES
    ========================================================= */
-
 const projects = [
   {
     title: "proj1",
@@ -1696,7 +1712,6 @@ const projects = [
 /* =========================================================
    SCROLLSPY
    ========================================================= */
-
 const sectionIds = [
   "home",
   "about",
@@ -1730,7 +1745,6 @@ const handleScroll = () => {
 /* =========================================================
    SCROLL TO TOP
    ========================================================= */
-
 const scrollTop = () => {
   window.scrollTo({
     top: 0,
@@ -1741,7 +1755,6 @@ const scrollTop = () => {
 /* =========================================================
    ALIGN TESTIMONIAL SLIDER ON LOAD
    ========================================================= */
-
 const alignTestimonialSlider = () => {
   const slider = testimonialsCards.value;
 
@@ -1764,7 +1777,6 @@ const alignTestimonialSlider = () => {
 /* =========================================================
    RESPONSIVE MENU
    ========================================================= */
-
 let resizeMenuLockTimer = null;
 
 const handleResize = () => {
@@ -1786,7 +1798,6 @@ const handleResize = () => {
 /* =========================================================
    DOCUMENT CLICK
    ========================================================= */
-
 const handleDocumentClick = (event) => {
   if (!isMenuOpen.value) return;
 
@@ -1806,7 +1817,6 @@ const handleDocumentClick = (event) => {
 /* =========================================================
    LIFECYCLE
    ========================================================= */
-
 onMounted(async () => {
   document.documentElement.classList.add("ray-loader-active");
 
@@ -1886,7 +1896,6 @@ onMounted(async () => {
 /* =========================================================
    CLEANUP
    ========================================================= */
-
 onUnmounted(() => {
   document.documentElement.classList.remove("ray-loader-active");
 
@@ -1929,6 +1938,9 @@ onUnmounted(() => {
 });
 </script>
 
+<!-- =========================================================
+     STYLES
+     ========================================================= -->
 <style>
 /* ==============================
    1. FONTS & CSS VARIABLES
@@ -2098,7 +2110,7 @@ img {
   color: white;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, #14b3ff, #1679e9);
+  background: linear-gradient(135deg, #37cae0, #0e55a7, #37cae0);
   border-radius: 14px;
   transform: rotate(45deg);
   font-weight: 900;
@@ -2131,10 +2143,6 @@ img {
   font-weight: 900;
   color: white;
   transform: rotate(-45deg);
-}
-
-.brand__text {
-  font-size: 22px;
 }
 
 .nav {
@@ -2200,35 +2208,6 @@ img {
   color: var(--blue-dark);
 }
 
-.setting-btn {
-  width: 42px;
-  height: 42px;
-  border: 0;
-  background: white;
-  border-radius: 50%;
-  color: var(--blue-dark);
-  display: grid;
-  place-items: center;
-  font-size: 15px;
-  font-weight: 800;
-  box-shadow: 0 8px 22px rgba(23, 81, 138, 0.13);
-  cursor: pointer;
-  transition:
-    transform 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
-  overflow: hidden;
-}
-
-.setting-btn:hover {
-  transform: translateY(-2px) rotate(8deg);
-  box-shadow: 0 12px 26px rgba(23, 81, 138, 0.22);
-}
-
-.setting-btn__label {
-  display: inline-block;
-  animation: settingPop 0.35s var(--ease);
-}
-
 @keyframes settingPop {
   from {
     opacity: 0;
@@ -2267,19 +2246,7 @@ img {
 }
 
 /* Hide language button on mobile/tablet */
-@media (max-width: 992px) {
-  .lang-btn {
-    display: none !important;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1169px) {
-  .lang-btn {
-    display: none !important;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 1168px) {
   .lang-btn {
     display: none !important;
   }
@@ -3024,7 +2991,7 @@ blockquote {
 .orbit-line {
   position: absolute;
   inset: 45px;
-  border: 2px solid rgba(38, 159, 243, 0.12);
+  border: 3px solid rgba(38, 48, 243, 0.12);
   border-radius: 42px;
   transform: rotate(45deg);
   animation: orbitSpin 22s linear infinite;
@@ -3196,8 +3163,6 @@ blockquote {
    TESTIMONIALS - COMPACT VERSION
    ===================================================== */
 .testimonials {
-  position: relative;
-  overflow: hidden;
   padding: 70px 0 60px;
   background: #edf8fd;
 }
@@ -3216,39 +3181,24 @@ blockquote {
 }
 
 .testimonials__inner {
-  position: relative;
   z-index: 1;
-  min-height: 380px;
 }
 
 .testimonials__title {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 0;
   width: 240px;
   height: 240px;
-  transform: translateY(-50%);
 }
 
 .testimonial-diamond {
-  position: relative;
-  width: 100%;
   height: 100%;
-  display: flex;
+
   align-items: center;
   justify-content: center;
-  background: #fff;
-  transform: rotate(45deg);
 }
 
 .testimonial-diamond h2 {
-  margin: 0;
-  color: #0d4eae;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 38px;
-  font-weight: 500;
-  line-height: 1.18;
+
   white-space: nowrap;
   transform: rotate(-45deg);
 }
@@ -3258,28 +3208,14 @@ blockquote {
 }
 
 .testimonial-quote {
-  position: absolute;
-  top: 18px;
   left: 80px;
-  color: #aeeaf4;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 90px;
+
   font-weight: 700;
-  line-height: 0.8;
+
   transform: rotate(-45deg);
 }
 
 .testimonials__cards {
-  position: relative;
-  z-index: 2;
-  width: calc(100% - 130px);
-  margin-left: 130px;
-  padding: 15px 0 25px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
 }
 
 .testimonials__cards::-webkit-scrollbar {
@@ -3287,16 +3223,11 @@ blockquote {
 }
 
 .testimonials__track {
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  width: max-content;
   min-width: 100%;
   padding: 0 10px 10px;
 }
 
 .testimonial-card {
-  flex: 0 0 240px;
   scroll-snap-align: start;
 }
 
@@ -3307,7 +3238,7 @@ blockquote {
   height: 230px;
   padding: 22px 24px;
   background: #fff;
-  border-radius: 45px 45px 45px 0;
+
   box-shadow: 0 10px 18px rgba(40, 86, 110, 0.08);
   transition:
     transform 0.35s var(--ease),
@@ -3326,7 +3257,7 @@ blockquote {
 .testimonial-card__text {
   margin: 0;
   color: #272b30;
-  font-size: 13px;
+
   line-height: 1.55;
 }
 
@@ -3377,8 +3308,6 @@ blockquote {
 }
 
 .testimonial-dots {
-  position: relative;
-  z-index: 3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3653,16 +3582,8 @@ blockquote {
   transform: scale(1.07);
 }
 
-.case-card--blue {
-  background: linear-gradient(135deg, #19aef8, #1689ed);
-}
-
 .case-card--wide {
   grid-column: span 1;
-}
-
-.case-card--tall {
-  grid-row: span 2;
 }
 
 .case-card--logo {
@@ -3694,12 +3615,6 @@ blockquote {
   padding: 18px;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
   color: white;
-}
-
-.case-card--blue .case-card__overlay {
-  inset: 0;
-  background: transparent;
-  padding: 24px;
 }
 
 .case-card__overlay h3 {
@@ -3799,7 +3714,7 @@ blockquote {
 .office::before {
   content: "";
   position: absolute;
-  left: 200px;
+  left: 230px;
   top: -10px;
   width: 480px;
   height: 480px;
@@ -3973,7 +3888,7 @@ blockquote {
 }
 
 .brand--footer .brand__text {
-  color: #a4acb7;
+  color: #0751af;
   font-size: 19px;
 }
 
@@ -4116,10 +4031,6 @@ blockquote {
 @media (max-width: 992px) {
   .container {
     width: min(100% - 34px, var(--container));
-  }
-
-  .setting-btn {
-    display: none;
   }
 
   .menu-btn {
@@ -4291,7 +4202,7 @@ blockquote {
 /* ==============================
    16. HERO DESKTOP FIX (≥1170px)
    ============================== */
-@media (min-width: 1170px) {
+@media (min-width: 1169px) {
   .hero__image {
     width: 88vw !important;
     max-width: none !important;
@@ -4314,9 +4225,9 @@ blockquote {
 }
 
 /* ==============================
-   17. TABLET LAYOUT (769px – 1169px)
+   17. TABLET LAYOUT (769px – 1168px)
    ============================== */
-@media (min-width: 769px) and (max-width: 1169px) {
+@media (min-width: 769px) and (max-width: 1168px) {
   body,
   .app {
     overflow-x: hidden;
@@ -4387,10 +4298,6 @@ blockquote {
     line-height: 1 !important;
     text-shadow: 0 2px 7px rgba(0, 0, 0, 0.28);
     white-space: nowrap !important;
-  }
-
-  .setting-btn {
-    display: none !important;
   }
 
   .menu-btn {
@@ -4814,33 +4721,6 @@ blockquote {
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.28) !important;
   }
 
-  .setting-btn {
-    position: fixed !important;
-    top: 83px !important;
-    right: 16px !important;
-    left: auto !important;
-    z-index: 145 !important;
-    display: grid !important;
-    place-items: center !important;
-    width: 42px !important;
-    height: 42px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color: #ffffff !important;
-    font-size: 28px !important;
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    animation: fadeDown 0.7s 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-
-  .setting-btn svg {
-    fill: #ffffff !important;
-    stroke: #ffffff !important;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.22));
-  }
-
   .nav {
     position: fixed !important;
     top: 132px !important;
@@ -5045,7 +4925,7 @@ blockquote {
 /* ==============================
    19. HEADER SCROLL FIX – TABLET
    ============================== */
-@media (min-width: 769px) and (max-width: 1169px) {
+@media (min-width: 769px) and (max-width: 1168px) {
   .header,
   .header.scrolled {
     height: 76px !important;
@@ -5121,11 +5001,6 @@ blockquote {
     height: 42px !important;
   }
 
-  .setting-btn {
-    top: 14px !important;
-    right: 14px !important;
-  }
-
   .nav {
     top: 70px !important;
   }
@@ -5140,26 +5015,12 @@ blockquote {
     box-shadow: none !important;
   }
 
-  .header.scrolled .setting-btn {
-    color: var(--blue-dark) !important;
-  }
-
-  .header.scrolled .setting-btn svg {
-    fill: var(--blue-dark) !important;
-    stroke: var(--blue-dark) !important;
-    filter: none !important;
-  }
-
   .header:not(.scrolled) .brand__text {
     color: #ffffff !important;
   }
 
   .header:not(.scrolled) .menu-btn span {
     background: #ffffff !important;
-  }
-
-  .header:not(.scrolled) .setting-btn {
-    color: #ffffff !important;
   }
 }
 
@@ -5512,7 +5373,6 @@ blockquote {
    ========================================================= */
 .testimonials {
   position: relative;
-  overflow: hidden;
 }
 
 .testimonials__inner {
@@ -5523,8 +5383,7 @@ blockquote {
 .testimonials__title {
   position: absolute;
   top: 50%;
-  left: 0;
-  z-index: 1;
+
   pointer-events: none;
   transform: translateY(-50%);
 }
@@ -5536,7 +5395,6 @@ blockquote {
   display: grid;
   place-items: center;
   transform: rotate(45deg);
-  background: #f0f9ff;
 }
 
 .testimonial-diamond h2,
@@ -5565,37 +5423,19 @@ blockquote {
 }
 
 .testimonials__cards {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 20px 0 30px;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  cursor: grab;
-  user-select: none;
-  touch-action: pan-y;
-  -webkit-user-select: none;
+
   -webkit-overflow-scrolling: touch;
 }
 
-.testimonials__cards::-webkit-scrollbar {
-  display: none;
-}
-
 .testimonials__cards.is-dragging {
-  cursor: grabbing;
-  scroll-behavior: auto !important;
 }
 
 .testimonials__track {
   display: flex;
   align-items: stretch;
   gap: 20px;
-  width: max-content;
-  padding-left: clamp(180px, 22vw, 300px);
-  padding-right: 30px;
 }
 
 .testimonial-card {
@@ -5688,16 +5528,6 @@ blockquote {
 }
 
 .testimonials__cards {
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: pan-y;
-  overscroll-behavior-x: contain;
-}
-
-.testimonials__cards.is-dragging {
-  cursor: grabbing;
-  scroll-behavior: auto !important;
 }
 
 .testimonials__track,
@@ -5708,22 +5538,17 @@ blockquote {
 
 .testimonial-card img,
 .testimonial-card__avatar {
-  pointer-events: none;
   user-select: none;
-  -webkit-user-drag: none;
 }
 
 /* =========================================
    TESTIMONIALS – SMOOTH DRAG / NO JUMP
    ========================================= */
 .testimonials__cards {
-  scroll-snap-type: none !important;
-  scroll-behavior: auto !important;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
-  overflow-x: auto;
-  overflow-y: hidden;
+
   touch-action: pan-y;
   overscroll-behavior-x: contain;
 }
@@ -5762,8 +5587,7 @@ blockquote {
 .testimonials__cards {
   overflow-x: auto !important;
   overflow-y: visible !important;
-  width: calc(100% + 40px) !important;
-  margin-left: -20px !important;
+
   padding: 20px 20px 35px !important;
   scroll-snap-type: none !important;
   scroll-behavior: auto !important;
@@ -5771,14 +5595,9 @@ blockquote {
 
 .testimonials__track {
   width: max-content !important;
-  padding-left: 0 !important;
-  padding-right: 30px !important;
 }
 
 .testimonials__track::before {
-  content: "";
-  display: block;
-  flex: 0 0 clamp(180px, 22vw, 300px);
 }
 
 .testimonial-card {
@@ -5795,7 +5614,7 @@ blockquote {
   z-index: 4 !important;
 }
 
-@media (max-width: 1169px) {
+@media (max-width: 1168px) {
   .testimonials::before {
     display: none;
   }
@@ -5834,7 +5653,7 @@ blockquote {
 }
 
 /* --- هدر دسکتاپ (پهنای ≥1170px) --- */
-@media (min-width: 1170px) {
+@media (min-width: 1169px) {
   .app.is-rtl .header__inner {
     flex-direction: row;
   }
@@ -5849,10 +5668,7 @@ blockquote {
     order: 2;
     margin: 0;
   }
-  .app.is-rtl .header__inner .setting-btn {
-    order: 3;
-    margin: 0;
-  }
+
   .app.is-rtl .nav a {
     text-align: center;
   }
@@ -5868,10 +5684,7 @@ blockquote {
     left: 24px !important;
     right: auto !important;
   }
-  .app.is-rtl .setting-btn {
-    right: 16px !important;
-    left: auto !important;
-  }
+
   .app.is-rtl .nav {
     left: 20px !important;
     right: auto !important;
@@ -5883,7 +5696,7 @@ blockquote {
 }
 
 /* --- Hero Desktop (≥1170px) --- */
-@media (min-width: 1170px) {
+@media (min-width: 1169px) {
   .app.is-rtl .hero__image {
     right: auto !important;
     left: -360px !important;
@@ -6075,13 +5888,10 @@ select:focus-visible {
 }
 
 .testimonials__title {
-  left: 0 !important;
   right: auto !important;
 }
 
 .testimonials__track {
-  padding-left: clamp(180px, 22vw, 300px) !important;
-  padding-right: 30px !important;
 }
 
 .testimonials__track::before {
@@ -7094,12 +6904,6 @@ hard-locked closed. */
    ========================= */
 
 @media (max-width: 420px) {
-  .footer {
-    width: 100%;
-    overflow: hidden;
-    padding: 48px 0 30px;
-  }
-
   .footer__inner {
     width: 100%;
     max-width: 100%;
@@ -7129,16 +6933,6 @@ hard-locked closed. */
     font-size: 18px !important;
     white-space: normal !important;
     overflow-wrap: anywhere;
-  }
-
-  .footer__brand p {
-    width: 100%;
-    max-width: 100%;
-    margin: 16px auto 12px;
-    font-size: 12px;
-    line-height: 1.8;
-    overflow-wrap: anywhere;
-    word-break: break-word;
   }
 
   .footer__brand small {
@@ -7226,13 +7020,6 @@ hard-locked closed. */
     padding-top: 28px;
   }
 
-  .socials {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
   .footer-social select {
     width: 100%;
     max-width: 240px;
@@ -7315,13 +7102,62 @@ hard-locked closed. */
    ≥ 1170px
 ========================================================= */
 
-@media (min-width: 1170px) {
+@media (min-width: 1169px) {
   .header .nav a,
   .header.scrolled .nav a {
     font-size: 15px !important;
     font-weight: 800 !important;
     line-height: 1.25 !important;
     letter-spacing: 0 !important;
+  }
+}
+
+/* =========================================
+   OFFICE DECORATIVE DIAMOND
+   RTL / LTR — ALL DEVICES
+   ========================================= */
+
+.app.is-ltr .office::before {
+  left: 230px;
+  right: auto;
+}
+
+.app.is-rtl .office::before {
+  left: auto;
+  right: 230px;
+}
+
+/* =========================================
+   EXPERTISE DECORATIVE SHAPE
+   LTR = LEFT
+   RTL = RIGHT
+   DESKTOP
+   ========================================= */
+
+@media (min-width: 1170px) {
+  .expertise::after {
+    left: -90px;
+    right: auto;
+  }
+}
+
+/* =========================================================
+   FIX: Footer brand text color override
+   ========================================================= */
+
+/* Tablet (769px – 1168px) */
+@media (min-width: 769px) and (max-width: 1168px) {
+  .brand--footer .brand__text {
+    color: #0751af !important;
+    text-shadow: none !important;
+  }
+}
+
+/* Mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .brand--footer .brand__text {
+    color: #0751af !important;
+    text-shadow: none !important;
   }
 }
 </style>
