@@ -659,9 +659,9 @@
           </div>
 
           <select
+            v-model="currentLanguage"
+            @change="changeLanguage(currentLanguage)"
             aria-label="Language"
-            :value="currentLanguage"
-            @change="changeLanguage($event.target.value)"
           >
             <option value="en">{{ t("English - En") }}</option>
             <option value="fa">{{ t("Persian - Fa") }}</option>
@@ -4013,7 +4013,7 @@ blockquote {
   width: 34px;
   height: 34px;
   border-radius: 9px;
-  background: #d7dce2;
+  background: #3153bc;
   box-shadow: none;
 }
 
@@ -7330,6 +7330,22 @@ hard-locked closed. */
   .app.is-rtl .soft-diamond--one {
     left: auto !important;
     right: -20px !important;
+  }
+}
+
+/* =========================================
+   FOOTER LANGUAGE - RTL TABLET FIX
+   ========================================= */
+@media (min-width: 421px) and (max-width: 992px) {
+  .app.is-rtl .footer-social {
+    direction: rtl;
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  .app.is-rtl .footer-social select {
+    direction: rtl;
+    text-align: right;
   }
 }
 </style>
