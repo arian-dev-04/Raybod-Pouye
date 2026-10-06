@@ -7703,7 +7703,7 @@ hard-locked closed. */
     display: block !important;
     content: "" !important;
     position: absolute !important;
-    left: 190px !important;
+    left: 700px !important;
     top: 140px !important;
     right: auto !important;
     width: 290px !important;
@@ -7754,7 +7754,7 @@ hard-locked closed. */
 @media (min-width: 1169px) {
   .app.is-rtl .hero::before {
     left: auto !important;
-    right: 190px !important;
+    right: 700px !important;
     top: 140px !important;
   }
 
