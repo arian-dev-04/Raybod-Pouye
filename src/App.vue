@@ -7680,9 +7680,9 @@ hard-locked closed. */
      3) هیرو LTR
      ============================================ */
   .app.is-ltr .hero__image {
-    width: 720px !important;
-    height: 720px !important;
-    top: -340px !important;
+    width: 820px !important;
+    height: 820px !important;
+    top: -430px !important;
     left: calc(65.3% - 350px) !important;
     right: auto !important;
     transform: rotate(45deg) !important;
@@ -7699,9 +7699,9 @@ hard-locked closed. */
      4) هیرو RTL — آینه‌ی افقی کامل LTR
      ============================================ */
   .app.is-rtl .hero__image {
-    width: 720px !important;
-    height: 720px !important;
-    top: -340px !important;
+    width: 820px !important;
+    height: 820px !important;
+    top: -430px !important;
     right: calc(65.3% - 350px) !important; /* آینه‌ی left */
     left: auto !important;
     transform: rotate(-45deg) !important; /* آینه‌ی زاویه */
@@ -7821,6 +7821,33 @@ hard-locked closed. */
     left: auto !important;
     right: 1190px !important;
     top: 400px !important;
+  }
+}
+
+/* =========================================================
+   HERO DIAMONDS — FIX: برن پشت عکس هیرو
+   ========================================================= */
+@media (min-width: 1169px) {
+  .hero {
+    isolation: isolate;
+  }
+
+  .hero::before,
+  .hero::after {
+    z-index: -1 !important;
+  }
+
+  .hero__content {
+    z-index: auto !important;
+  }
+
+  .hero__text {
+    position: relative;
+    z-index: 3;
+  }
+
+  .hero__content::after {
+    z-index: -1 !important;
   }
 }
 </style>
