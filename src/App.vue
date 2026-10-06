@@ -209,24 +209,6 @@
                 {{ t("Services") }}
               </h2>
             </div>
-            <nav class="services__arrows">
-              <button
-                type="button"
-                class="services__arrow-btn services__arrow-btn--prev"
-                aria-label="Previous"
-                @click="goToPreviousService"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                class="services__arrow-btn services__arrow-btn--next"
-                aria-label="Next"
-                @click="goToNextService"
-              >
-                ›
-              </button>
-            </nav>
           </div>
         </div>
       </div>
@@ -271,6 +253,25 @@
           <div class="services__spacer" aria-hidden="true"></div>
         </div>
       </div>
+
+      <nav class="services__arrows">
+        <button
+          type="button"
+          class="services__arrow-btn services__arrow-btn--prev"
+          aria-label="Previous"
+          @click="goToPreviousService"
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          class="services__arrow-btn services__arrow-btn--next"
+          aria-label="Next"
+          @click="goToNextService"
+        >
+          ›
+        </button>
+      </nav>
     </section>
 
     <!-- =========================================================
@@ -2801,10 +2802,54 @@ blockquote {
 /* ==============================
    7. SERVICES – NEW DESIGN
    ============================== */
+/* =========================================================
+   SERVICES – DECORATIVE DIAMONDS (white + blue)
+   ========================================================= */
 .services {
+  position: relative;
   background: #eef9ff;
   padding: 80px 0 90px;
   overflow: hidden;
+}
+
+/* لوزی سفید — گوشه بالا راست */ /***************************************************************************************************************************************************************************************************************************************** */
+.services::before {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  top: -130px;
+  right: 60px;
+  background: rgba(255, 255, 255, 0.95);
+  transform: rotate(45deg);
+  border-radius: 42px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* لوزی آبی — کمی پایین‌تر و چپ‌تر از لوزی سفید */ /**************************************************************************************************************** */
+/*.services::after {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  top: 20px;
+  right: 50px;
+  background: rgba(8, 118, 168, 0.15);
+  transform: rotate(45deg);
+  border-radius: 32px;
+  z-index: 0;
+}//
+
+/* آینه در حالت فارسی */
+.app.is-rtl .services::before {
+  right: auto;
+  left: 60px;
+}
+
+.app.is-rtl .services::after {
+  right: auto;
+  left: 230px;
 }
 
 .services__floating-title {
@@ -2842,10 +2887,17 @@ blockquote {
   color: var(--blue-dark);
 }
 
+/* =========================================================
+   FIX: services arrows — aligned with container, RTL auto-mirror
+   ========================================================= */
 .services__arrows {
   display: flex;
+  justify-content: flex-end;
   gap: 12px;
-  margin-top: 48px;
+  width: min(var(--container), calc(100% - 52px));
+  margin-inline: auto;
+  position: relative;
+  z-index: 5;
 }
 
 .services__arrow-btn {
@@ -2882,6 +2934,7 @@ blockquote {
   touch-action: pan-y;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  z-index: 2;
 }
 
 .services__slider::-webkit-scrollbar {
@@ -7703,7 +7756,7 @@ hard-locked closed. */
     display: block !important;
     content: "" !important;
     position: absolute !important;
-    left: 700px !important;
+    left: 650px !important;
     top: 140px !important;
     right: auto !important;
     width: 290px !important;
@@ -7720,7 +7773,7 @@ hard-locked closed. */
     display: block !important;
     content: "" !important;
     position: absolute !important;
-    left: 1420px !important;
+    left: 1200px !important;
     top: 350px !important;
     right: auto !important;
     width: 140px !important;
@@ -7754,13 +7807,13 @@ hard-locked closed. */
 @media (min-width: 1169px) {
   .app.is-rtl .hero::before {
     left: auto !important;
-    right: 700px !important;
+    right: 650px !important;
     top: 140px !important;
   }
 
   .app.is-rtl .hero::after {
     left: auto !important;
-    right: 1420px !important;
+    right: 1200px !important;
     top: 350px !important;
   }
 
