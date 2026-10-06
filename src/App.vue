@@ -2736,7 +2736,6 @@ img {
   letter-spacing: -0.7px;
   margin: 0 0 35px;
   font-weight: 900;
-  max-width: 450px;
 }
 
 .stats {
@@ -7542,7 +7541,7 @@ hard-locked closed. */
 
   /* Let the next section begin where it does in the reference screenshot. */
   .about {
-    padding-top: 30px !important;
+    padding-top: 70px !important;
   }
 }
 
@@ -7586,7 +7585,7 @@ hard-locked closed. */
   .app.is-ltr .header__inner .brand {
     position: fixed !important;
     top: 11px !important;
-    left: 60px !important;
+    left: 120px !important;
     right: auto !important;
     margin: 0 !important;
     z-index: 110 !important;
@@ -7595,7 +7594,7 @@ hard-locked closed. */
   .app.is-rtl .header__inner .brand {
     position: fixed !important;
     top: 11px !important;
-    right: 60px !important;
+    right: 120px !important;
     left: auto !important;
     margin: 0 !important;
     z-index: 110 !important;
@@ -7628,8 +7627,8 @@ hard-locked closed. */
      3) هیرو LTR
      ============================================ */
   .app.is-ltr .hero__image {
-    width: 700px !important;
-    height: 700px !important;
+    width: 720px !important;
+    height: 720px !important;
     top: -340px !important;
     left: calc(65.3% - 350px) !important;
     right: auto !important;
@@ -7647,8 +7646,8 @@ hard-locked closed. */
      4) هیرو RTL — آینه‌ی افقی کامل LTR
      ============================================ */
   .app.is-rtl .hero__image {
-    width: 700px !important;
-    height: 700px !important;
+    width: 720px !important;
+    height: 720px !important;
     top: -340px !important;
     right: calc(65.3% - 350px) !important; /* آینه‌ی left */
     left: auto !important;
@@ -7679,6 +7678,96 @@ hard-locked closed. */
     width: 370px !important;
     max-width: 370px !important;
     font-size: 19px !important;
+  }
+
+  .hero__image img {
+    filter: brightness(0.4) saturate(1) !important;
+  }
+
+  .hero__image::before {
+    background: rgba(0, 0, 0, 0.05) !important;
+  }
+}
+
+/* =========================================================
+   HERO DECORATIVE DIAMONDS — مانند لوزی‌های بخش About
+   فقط دسکتاپ
+   ========================================================= */
+@media (min-width: 1169px) {
+  .hero {
+    overflow: visible !important;
+  }
+
+  /* ---- لوزی نرم بزرگ: سمت چپ، پشت متن ---- */
+  .hero::before {
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    left: 190px !important;
+    top: 140px !important;
+    right: auto !important;
+    width: 290px !important;
+    height: 290px !important;
+    background: rgba(228, 246, 255, 0.9) !important;
+    border-radius: 48px !important;
+    transform: rotate(45deg) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* ---- لوزی نرم کوچک: پایین چپ ---- */
+  .hero::after {
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    left: 1420px !important;
+    top: 350px !important;
+    right: auto !important;
+    width: 140px !important;
+    height: 140px !important;
+    background: rgba(225, 243, 255, 0.92) !important;
+    border-radius: 40px !important;
+    transform: rotate(45deg) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* ---- لوزی کوچک زیر متن (کمی سرریز به about) ---- */
+  .hero__content::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 1190px !important;
+    top: 400px !important;
+    width: 85px !important;
+    height: 85px !important;
+    background: rgba(220, 240, 255, 0.9) !important;
+    border-radius: 26px !important;
+    transform: rotate(45deg) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
+/* =========================================================
+   HERO DIAMONDS — آینه کامل در حالت فارسی (RTL)
+   ========================================================= */
+@media (min-width: 1169px) {
+  .app.is-rtl .hero::before {
+    left: auto !important;
+    right: 190px !important;
+    top: 140px !important;
+  }
+
+  .app.is-rtl .hero::after {
+    left: auto !important;
+    right: 1420px !important;
+    top: 350px !important;
+  }
+
+  .app.is-rtl .hero__content::after {
+    left: auto !important;
+    right: 1190px !important;
+    top: 400px !important;
   }
 }
 </style>
