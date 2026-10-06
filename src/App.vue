@@ -2625,7 +2625,7 @@ img {
   content: "";
   position: absolute;
   left: -110px;
-  top: 115px;
+  top: 195px;
   width: 310px;
   height: 310px;
   border-radius: 48px;
@@ -2898,6 +2898,7 @@ blockquote {
   margin-inline: auto;
   position: relative;
   z-index: 5;
+  top: 15px;
 }
 
 .services__arrow-btn {
@@ -7594,7 +7595,7 @@ hard-locked closed. */
 
   /* Let the next section begin where it does in the reference screenshot. */
   .about {
-    padding-top: 70px !important;
+    padding-top: 150px !important;
   }
 }
 
