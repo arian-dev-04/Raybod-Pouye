@@ -108,10 +108,7 @@
 
       <div class="container hero__content">
         <div class="hero__text reveal reveal--visible">
-          <h1>
-            {{ t("Create") }}<br />
-            {{ t("Business Solution") }}
-          </h1>
+          <h1>{{ t("Create") }} {{ t("Business Solution") }}</h1>
 
           <p>
             {{ t("Lorem ipsum dolor sit amet consectetur adipisicing") }}
@@ -3099,7 +3096,7 @@ blockquote {
   bottom: -140px;
   width: 250px;
   height: 250px;
-  background: #f0f9ff;
+  background: #edf8fd;
   border-radius: 55px;
   transform: rotate(45deg);
 }
@@ -4331,31 +4328,6 @@ blockquote {
 
   .footer__inner {
     grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* ==============================
-   16. HERO DESKTOP FIX (≥1170px)
-   ============================== */
-@media (min-width: 1169px) {
-  .hero__image {
-    width: 88vw !important;
-    max-width: none !important;
-    height: 760px !important;
-    top: -145px !important;
-    right: -360px !important;
-    box-shadow: none !important;
-  }
-
-  .hero__image img {
-    width: 145% !important;
-    height: 145% !important;
-    filter: brightness(0.52) saturate(0.8) !important;
-  }
-
-  .hero::before,
-  .hero::after {
-    display: none !important;
   }
 }
 
@@ -5838,9 +5810,6 @@ blockquote {
     transform: rotate(-42deg) !important;
     border-right: 42px solid var(--blue) !important;
     border-left: 0 !important;
-  }
-  .app.is-rtl .hero__image img {
-    transform: rotate(42deg) translate(130px, 30px) !important;
   }
   .app.is-rtl .hero__text {
     text-align: right;
@@ -7346,6 +7315,370 @@ hard-locked closed. */
   .app.is-rtl .footer-social select {
     direction: rtl;
     text-align: right;
+  }
+}
+
+/* =========================================================
+   REFERENCE HERO — CALIBRATED TO THE PROVIDED 1765×849 IMAGE
+   Desktop only. Mobile/tablet rules remain untouched.
+   ========================================================= */
+@media (min-width: 1169px) {
+  .header {
+    height: 58px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* === NEW: پس‌زمینه سفید نوبار هنگام اسکرول === */
+  .header.scrolled {
+    background: #ffffff !important;
+    box-shadow: 0 8px 26px rgba(20, 95, 160, 0.1) !important;
+    backdrop-filter: blur(16px) !important;
+  }
+
+  .header .container {
+    width: min(965px, calc(100% - 52px)) !important;
+  }
+
+  .header__inner {
+    gap: 32px !important;
+  }
+
+  .brand {
+    gap: 9px !important;
+  }
+
+  .brand__mark {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 9px !important;
+  }
+
+  .brand__mark::after {
+    font-size: 14px !important;
+  }
+
+  .brand__text {
+    font-size: 17px !important;
+    font-weight: 700 !important;
+  }
+
+  .nav {
+    gap: 43px !important;
+  }
+
+  .nav a {
+    font-size: 13px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .lang-btn {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 13px !important;
+  }
+
+  .hero {
+    height: 450px !important;
+    min-height: 450px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  /* Reference image / blue diamond:
+     at 1765px viewport ≈ 610px square, center ≈ (1118px,-4px),
+     producing the same visible diagonals and bottom rounded point. */
+  .hero__image {
+    width: 610px !important;
+    height: 710px !important;
+    max-width: none !important;
+    position: absolute !important;
+    top: -305px !important;
+    left: calc(53.3% - 15px) !important;
+    right: auto !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    border: 27px solid var(--blue) !important;
+    border-top: 27px solid var(--blue) !important;
+    border-right: 27px solid var(--blue) !important;
+    border-bottom: 27px solid var(--blue) !important;
+    border-left: 27px solid var(--blue) !important;
+    border-radius: 0 !important;
+    border-bottom-right-radius: 58px !important;
+    transform: rotate(45deg) !important;
+    transform-origin: 50% 50% !important;
+    box-shadow: none !important;
+    background: #000 !important;
+    z-index: 0 !important;
+    animation: none !important;
+  }
+
+  .hero__image img {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+
+    object-fit: cover !important;
+    object-position: center center !important;
+
+    /* Keep the image visually normal inside the rotated frame. */
+    transform: rotate(-45deg) scale(1.41421356) !important;
+    transform-origin: center center !important;
+
+    filter: brightness(0.33) saturate(0.72) !important;
+  }
+
+  .hero__image::before {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+    background: rgba(0, 0, 0, 0.34) !important;
+  }
+
+  .hero__image::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .hero::before,
+  .hero::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .hero__content {
+    position: relative !important;
+    z-index: 3 !important;
+
+    min-height: 0 !important;
+    height: 450px !important;
+
+    margin-inline: auto !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+
+  .hero__text {
+    width: 430px !important;
+    margin-top: 147px !important;
+    text-align: left !important;
+  }
+
+  .hero h1 {
+    margin: 0 0 24px !important;
+    color: #26282c !important;
+
+    font-size: 36px !important;
+    line-height: 1.18 !important;
+    letter-spacing: -1.35px !important;
+    font-weight: 900 !important;
+
+    text-shadow: none !important;
+  }
+
+  .hero p {
+    width: 405px !important;
+    max-width: 405px !important;
+    margin: 0 0 34px !important;
+
+    color: #2c2d30 !important;
+    font-size: 21px !important;
+    line-height: 1.47 !important;
+    font-weight: 600 !important;
+
+    text-shadow: none !important;
+  }
+
+  .hero .btn--primary {
+    width: 154px !important;
+    min-width: 154px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+
+    padding: 0 18px !important;
+    gap: 12px !important;
+
+    border: 1px solid #12bfe5 !important;
+    border-radius: 3px !important;
+
+    background: #fff !important;
+    color: #03aeca !important;
+
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.15px !important;
+
+    box-shadow: 0 4px 12px rgba(20, 150, 200, 0.08) !important;
+  }
+
+  .hero .btn--primary span {
+    position: relative !important;
+    display: inline-block !important;
+
+    width: 0 !important;
+    height: 0 !important;
+    margin-left: 2px !important;
+
+    border-top: 6px solid transparent !important;
+    border-bottom: 6px solid transparent !important;
+    border-left: 10px solid #05b8dc !important;
+
+    font-size: 0 !important;
+    line-height: 0 !important;
+  }
+
+  .hero__scroll-cue {
+    display: none !important;
+  }
+
+  /* Let the next section begin where it does in the reference screenshot. */
+  .about {
+    padding-top: 30px !important;
+  }
+}
+
+/* =========================================================
+   Large desktop tuning: hero بزرگ‌تر، پایین‌تر و با گوشه‌های گرد
+   ========================================================= */
+@media (min-width: 1169px) {
+  .hero__image {
+    width: 700px !important;
+    height: 700px !important;
+    top: -340px !important; /* پایین‌تر از قبل */
+    left: calc(65.3% - 350px) !important; /* مرکز افقی حفظ شده */
+
+    /* همه‌ی گوشه‌ها گرد */
+    border-radius: 55px !important;
+  }
+
+  .hero__text {
+    margin-top: 142px !important;
+  }
+
+  .hero h1 {
+    font-size: 33px !important;
+  }
+
+  .hero p {
+    width: 370px !important;
+    max-width: 370px !important;
+    font-size: 19px !important;
+  }
+}
+
+/* =========================================================
+   DESKTOP FINAL — hero + navbar RTL mirror + brand corner
+   این باید آخرین بلوک فایل باشه
+   ========================================================= */
+@media (min-width: 1169px) {
+  /* ============================================
+     1) برند به گوشه (هر دو زبان)
+     ============================================ */
+  .app.is-ltr .header__inner .brand {
+    position: fixed !important;
+    top: 11px !important;
+    left: 60px !important;
+    right: auto !important;
+    margin: 0 !important;
+    z-index: 110 !important;
+  }
+
+  .app.is-rtl .header__inner .brand {
+    position: fixed !important;
+    top: 11px !important;
+    right: 60px !important;
+    left: auto !important;
+    margin: 0 !important;
+    z-index: 110 !important;
+  }
+
+  /* ============================================
+     2) نوبار: حذف موقعیت absolute قدیمی فارسی
+        LTR → چسبیده به راستِ کانتینر
+        RTL → چسبیده به چپِ کانتینر (آینه)
+     ============================================ */
+  .app.is-ltr .header__inner .nav {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    order: 0 !important;
+    margin: 0 0 0 auto !important; /* left: auto → راست */
+  }
+
+  .app.is-rtl .header__inner .nav {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    order: 0 !important;
+    margin: 0 auto 0 0 !important; /* right: auto → چپ */
+  }
+
+  /* ============================================
+     3) هیرو LTR
+     ============================================ */
+  .app.is-ltr .hero__image {
+    width: 700px !important;
+    height: 700px !important;
+    top: -340px !important;
+    left: calc(65.3% - 350px) !important;
+    right: auto !important;
+    transform: rotate(45deg) !important;
+    transform-origin: 50% 50% !important;
+    border: 27px solid var(--blue) !important;
+    border-radius: 55px !important;
+  }
+
+  .app.is-ltr .hero__image img {
+    transform: rotate(-45deg) scale(1.41421356) !important;
+  }
+
+  /* ============================================
+     4) هیرو RTL — آینه‌ی افقی کامل LTR
+     ============================================ */
+  .app.is-rtl .hero__image {
+    width: 700px !important;
+    height: 700px !important;
+    top: -340px !important;
+    right: calc(65.3% - 350px) !important; /* آینه‌ی left */
+    left: auto !important;
+    transform: rotate(-45deg) !important; /* آینه‌ی زاویه */
+    transform-origin: 50% 50% !important;
+    border: 27px solid var(--blue) !important;
+    border-radius: 55px !important;
+  }
+
+  .app.is-rtl .hero__image img {
+    transform: rotate(45deg) scale(1.41421356) !important;
+  }
+
+  .app.is-rtl .hero__text {
+    text-align: right !important;
+  }
+
+  /* ============================================
+     5) تایپوگرافی هیرو (هر دو زبان)
+     ============================================ */
+  .hero__text {
+    margin-top: 142px !important;
+  }
+  .hero h1 {
+    font-size: 33px !important;
+  }
+  .hero p {
+    width: 370px !important;
+    max-width: 370px !important;
+    font-size: 19px !important;
   }
 }
 </style>
