@@ -7783,7 +7783,7 @@ hard-locked closed. */
     width: 240px !important;
     height: 290px !important;
 
-    background: rgba(228, 246, 255, 0.9) !important;
+    background: rgba(210, 238, 252, 0.95) !important;
     border-radius: 48px !important;
 
     transform: rotate(45deg) !important;
@@ -7817,7 +7817,7 @@ hard-locked closed. */
     width: 140px !important;
     height: 140px !important;
 
-    background: rgba(225, 243, 255, 0.92) !important;
+    background: rgba(196, 232, 250, 0.97) !important;
     border-radius: 40px !important;
 
     transform: rotate(45deg) !important;
@@ -7856,8 +7856,8 @@ hard-locked closed. */
       50% + 15.3vw + 37.5px
     */
 
-    top: 185px !important;
-    left: -205px;
+    top: 225px !important;
+    left: 205px;
 
     width: 145px !important;
     height: 145px !important;
@@ -7876,36 +7876,43 @@ hard-locked closed. */
      RTL
      همان حرکت، فقط از سمت مقابل
      ======================================================= */
+  /* =======================================================
+   RTL — آینه‌ی دقیق LTR
+   (همون عدد، فقط right به جای left)
+   ======================================================= */
 
   .app.is-rtl .hero::before {
     left: auto !important;
-    right: calc(65.3vw - 502.5px) !important;
+    right: calc(65.3% - 175.5px) !important;
     top: 140px !important;
   }
 
   .app.is-rtl .hero::after {
     left: auto !important;
-    right: calc(68.3vw + 47.5px) !important;
+    right: calc(65.3vw + 47.5px) !important;
     top: 350px !important;
   }
 
   .app.is-rtl .hero__content::after {
     left: auto !important;
-    right: calc(60% + 15.3vw + 37.5px) !important;
-    top: 400px !important;
+    right: 205px !important;
+    top: 225px !important;
   }
 
   /* =======================================================
-     ROTATION
-     ======================================================= */
+   ROTATION — چرخش لوزی مستطیلی باید قرینه بشه
+   ======================================================= */
 
   .hero::before,
   .hero::after,
-  .hero__content::after,
+  .hero__content::after {
+    transform: rotate(45deg) !important;
+  }
+
   .app.is-rtl .hero::before,
   .app.is-rtl .hero::after,
   .app.is-rtl .hero__content::after {
-    transform: rotate(45deg) !important;
+    transform: rotate(-45deg) !important;
   }
 }
 </style>
