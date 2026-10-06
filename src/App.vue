@@ -7743,111 +7743,169 @@ hard-locked closed. */
 }
 
 /* =========================================================
-   HERO DECORATIVE DIAMONDS — مانند لوزی‌های بخش About
-   فقط دسکتاپ
+   HERO DIAMONDS — FINAL
+   Fixed size + move together with HERO IMAGE
+   فقط لوزی‌های انتهایی
+   هیچ بخش دیگری تغییر نمی‌کند
    ========================================================= */
+
 @media (min-width: 1169px) {
+  /* =======================================================
+     HERO
+     ======================================================= */
+
   .hero {
+    position: relative !important;
     overflow: visible !important;
+    isolation: isolate !important;
   }
 
-  /* ---- لوزی نرم بزرگ: سمت چپ، پشت متن ---- */
+  /* =======================================================
+     1. LARGE DIAMOND
+     Reference:
+     left: 650px
+     top: 140px
+     width: 290px
+     ======================================================= */
+
   .hero::before {
-    display: block !important;
     content: "" !important;
+    display: block !important;
+
     position: absolute !important;
-    left: 650px !important;
+
+    /* Moves with hero image */
+    left: calc(65.3% - 175.5px) !important;
+
     top: 140px !important;
-    right: auto !important;
-    width: 290px !important;
+
+    /* Fixed size */
+    width: 240px !important;
     height: 290px !important;
+
     background: rgba(228, 246, 255, 0.9) !important;
     border-radius: 48px !important;
+
     transform: rotate(45deg) !important;
-    z-index: 0 !important;
+    transform-origin: center center !important;
+
+    z-index: -1 !important;
     pointer-events: none !important;
   }
+  /* =======================================================
+     2. SECOND DIAMOND
+     Reference:
+     left: 1200px
+     top: 350px
+     width: 140px
+     ======================================================= */
 
-  /* ---- لوزی نرم کوچک: پایین چپ ---- */
   .hero::after {
-    display: block !important;
     content: "" !important;
+    display: block !important;
+
     position: absolute !important;
-    left: 1200px !important;
+
+    /*
+      At 1765px:
+      65.3vw + 47.5px ≈ 1200px
+    */
+    left: calc(65.3vw + 47.5px) !important;
+
     top: 350px !important;
-    right: auto !important;
+
     width: 140px !important;
     height: 140px !important;
+
     background: rgba(225, 243, 255, 0.92) !important;
     border-radius: 40px !important;
+
     transform: rotate(45deg) !important;
-    z-index: 0 !important;
+    transform-origin: center center !important;
+
+    z-index: -1 !important;
     pointer-events: none !important;
   }
 
-  /* ---- لوزی کوچک زیر متن (کمی سرریز به about) ---- */
+  /* =======================================================
+     3. SMALL DIAMOND
+     Reference:
+     global left: 1190px
+     top: 400px
+     width: 85px
+
+     چون این pseudo روی hero__content است،
+     موقعیت viewport را به مختصات container تبدیل می‌کنیم.
+     ======================================================= */
+
+  .hero__content {
+    position: relative !important;
+  }
+
   .hero__content::after {
     content: "" !important;
+    display: block !important;
+
     position: absolute !important;
-    left: 1190px !important;
-    top: 400px !important;
-    width: 85px !important;
-    height: 85px !important;
-    background: rgba(220, 240, 255, 0.9) !important;
+
+    /*
+      Global target:
+      65.3vw + 37.5px
+
+      تبدیل به مختصات داخلی hero__content:
+      50% + 15.3vw + 37.5px
+    */
+
+    top: 185px !important;
+    left: -205px;
+
+    width: 145px !important;
+    height: 145px !important;
+
+    background: rgba(225, 243, 255, 0.92) !important;
     border-radius: 26px !important;
+
     transform: rotate(45deg) !important;
-    z-index: 0 !important;
+    transform-origin: center center !important;
+
+    z-index: -1 !important;
     pointer-events: none !important;
   }
-}
 
-/* =========================================================
-   HERO DIAMONDS — آینه کامل در حالت فارسی (RTL)
-   ========================================================= */
-@media (min-width: 1169px) {
+  /* =======================================================
+     RTL
+     همان حرکت، فقط از سمت مقابل
+     ======================================================= */
+
   .app.is-rtl .hero::before {
     left: auto !important;
-    right: 650px !important;
+    right: calc(65.3vw - 502.5px) !important;
     top: 140px !important;
   }
 
   .app.is-rtl .hero::after {
     left: auto !important;
-    right: 1200px !important;
+    right: calc(68.3vw + 47.5px) !important;
     top: 350px !important;
   }
 
   .app.is-rtl .hero__content::after {
     left: auto !important;
-    right: 1190px !important;
+    right: calc(60% + 15.3vw + 37.5px) !important;
     top: 400px !important;
   }
-}
 
-/* =========================================================
-   HERO DIAMONDS — FIX: برن پشت عکس هیرو
-   ========================================================= */
-@media (min-width: 1169px) {
-  .hero {
-    isolation: isolate;
-  }
+  /* =======================================================
+     ROTATION
+     ======================================================= */
 
   .hero::before,
-  .hero::after {
-    z-index: -1 !important;
-  }
-
-  .hero__content {
-    z-index: auto !important;
-  }
-
-  .hero__text {
-    position: relative;
-    z-index: 3;
-  }
-
-  .hero__content::after {
-    z-index: -1 !important;
+  .hero::after,
+  .hero__content::after,
+  .app.is-rtl .hero::before,
+  .app.is-rtl .hero::after,
+  .app.is-rtl .hero__content::after {
+    transform: rotate(45deg) !important;
   }
 }
 </style>
