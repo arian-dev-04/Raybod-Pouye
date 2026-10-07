@@ -103,7 +103,7 @@
          ========================================================= -->
     <section id="home" class="hero section">
       <div class="hero__image">
-        <img :src="getImage('hero-1.jpg')" alt="Hero" />
+        <img :src="getImage('pic1.jpg')" alt="Hero" />
       </div>
 
       <div class="container hero__content">
@@ -144,10 +144,7 @@
             </div>
 
             <div class="about-image diamond-image">
-              <img
-                src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=800&auto=format&fit=crop"
-                alt="Office"
-              />
+              <img :src="getImage('pic2.jpg')" alt="Office" />
             </div>
           </div>
         </div>
@@ -536,10 +533,7 @@
         </div>
 
         <div class="map reveal reveal--right" v-reveal>
-          <img
-            src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1000&auto=format&fit=crop"
-            alt="Map"
-          />
+          <img :src="getImage('pic18.jpg')" alt="Map" />
 
           <div class="map-pin"></div>
 
@@ -936,32 +930,32 @@ const servicesList = [
   {
     title: "service1",
     desc: "service1_desc",
-    img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop",
+    img: getImage("pic3.jpg"),
   },
   {
     title: "service2",
     desc: "service2_desc",
-    img: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600&auto=format&fit=crop",
+    img: getImage("pic4.jpg"),
   },
   {
     title: "service3",
     desc: "service3_desc",
-    img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=600&auto=format&fit=crop",
+    img: getImage("pic5.jpg"),
   },
   {
     title: "service4",
     desc: "service4_desc",
-    img: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=600&auto=format&fit=crop",
+    img: getImage("pic6.jpg"),
   },
   {
     title: "service5",
     desc: "service5_desc",
-    img: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600&auto=format&fit=crop",
+    img: getImage("pic7.jpg"),
   },
   {
     title: "service6",
     desc: "service6_desc",
-    img: "https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=600&auto=format&fit=crop",
+    img: getImage("pic8.jpg"),
   },
 ];
 
@@ -1144,42 +1138,42 @@ const testimonials = [
     name: "مهندس علی کیانی",
     role: "role1",
     rating: 5,
-    image: "https://i.pravatar.cc/150?img=12",
+    image: getImage("pic9.jpg"),
   },
   {
     text: "test2_text",
     name: "مهندس رضا صادقی",
     role: "role2",
     rating: 5,
-    image: "https://i.pravatar.cc/150?img=11",
+    image: getImage("pic10.jpg"),
   },
   {
     text: "test3_text",
     name: "دکتر آرین مطاعی",
     role: "role3",
     rating: 5,
-    image: "https://i.pravatar.cc/150?img=47",
+    image: getImage("pic11.jpg"),
   },
   {
     text: "test4_text",
     name: "X",
     role: "role4",
     rating: 5,
-    image: "https://i.pravatar.cc/150?img=32",
+    image: getImage("pic12.jpg"),
   },
   {
     text: "test5_text",
     name: "Y",
     role: "role5",
     rating: 5,
-    image: "https://i.pravatar.cc/150?img=53",
+    image: getImage("pic13.jpg"),
   },
   {
     text: "test6_text",
     name: "Z",
     role: "role6",
     rating: 5,
-    image: "https://i.pravatar.cc/150?img=45",
+    image: getImage("pic14.jpg"),
   },
 ];
 
@@ -1819,8 +1813,7 @@ const projects = [
   {
     title: "proj1",
     class: "case-card--large",
-    image:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1000&auto=format&fit=crop",
+    image: getImage("pic15.jpg"),
   },
   {
     title: "proj2",
@@ -1830,14 +1823,12 @@ const projects = [
   {
     title: "proj3",
     class: "case-card--small",
-    image:
-      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=800&auto=format&fit=crop",
+    image: getImage("pic16.jpg"),
   },
   {
     title: "proj4",
     class: "case-card--wide",
-    image:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop",
+    image: getImage("pic17.jpg"),
   },
 ];
 
@@ -2262,7 +2253,7 @@ img {
 
 .brand:hover .brand__mark {
   transform: rotate(45deg) scale(1.08);
-  box-shadow: 0 16px 34px rgba(38, 159, 243, 0.35);
+  box-shadow: none;
 }
 
 .brand__mark::after {
@@ -3400,9 +3391,6 @@ blockquote {
   transform: rotate(-45deg);
 }
 
-.testimonials__cards {
-}
-
 .testimonials__cards::-webkit-scrollbar {
   display: none;
 }
@@ -3835,7 +3823,7 @@ blockquote {
    ============================== */
 .cta {
   background: #eef9ff;
-  padding: 32px 0 90px;
+  padding: 32px 0 150px;
 }
 
 .cta__box {
@@ -3903,7 +3891,8 @@ blockquote {
   top: -10px;
   width: 480px;
   height: 480px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
   border-radius: 62px;
   transform: rotate(45deg);
 }
@@ -5589,9 +5578,6 @@ blockquote {
   -webkit-overflow-scrolling: touch;
 }
 
-.testimonials__cards.is-dragging {
-}
-
 .testimonials__track {
   display: flex;
   align-items: stretch;
@@ -5687,9 +5673,6 @@ blockquote {
   }
 }
 
-.testimonials__cards {
-}
-
 .testimonials__track,
 .testimonial-card {
   user-select: none;
@@ -5755,9 +5738,6 @@ blockquote {
 
 .testimonials__track {
   width: max-content !important;
-}
-
-.testimonials__track::before {
 }
 
 .testimonial-card {
@@ -7560,17 +7540,23 @@ hard-locked closed. */
     padding: 0 18px !important;
     gap: 12px !important;
 
-    border: 1px solid #12bfe5 !important;
+    border: 1px solid rgba(18, 191, 229, 0.75) !important;
     border-radius: 3px !important;
 
-    background: #fff !important;
+    /* Glass effect */
+    background: rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(12px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+
     color: #03aeca !important;
 
     font-size: 11px !important;
     font-weight: 800 !important;
     letter-spacing: 0.15px !important;
 
-    box-shadow: 0 4px 12px rgba(20, 150, 200, 0.08) !important;
+    box-shadow:
+      0 4px 12px rgba(20, 150, 200, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
   }
 
   .hero .btn--primary span {
@@ -7843,6 +7829,32 @@ hard-locked closed. */
     position: relative !important;
   }
 
+  /* =======================================================
+     3.5. LARGE DIAMOND BESIDE THE DESCRIPTION DIAMOND
+     ======================================================= */
+
+  .hero__content::before {
+    content: "" !important;
+    display: block !important;
+
+    position: absolute !important;
+
+    top: 185px !important;
+    left: 55px !important;
+
+    width: 190px !important;
+    height: 190px !important;
+
+    background: rgba(207, 237, 252, 0.94) !important;
+    border-radius: 38px !important;
+
+    transform: rotate(45deg) !important;
+    transform-origin: center center !important;
+
+    z-index: -1 !important;
+    pointer-events: none !important;
+  }
+
   .hero__content::after {
     content: "" !important;
     display: block !important;
@@ -7894,6 +7906,12 @@ hard-locked closed. */
     top: 350px !important;
   }
 
+  .app.is-rtl .hero__content::before {
+    left: auto !important;
+    right: 55px !important;
+    top: 185px !important;
+  }
+
   .app.is-rtl .hero__content::after {
     left: auto !important;
     right: 205px !important;
@@ -7906,12 +7924,14 @@ hard-locked closed. */
 
   .hero::before,
   .hero::after,
+  .hero__content::before,
   .hero__content::after {
     transform: rotate(45deg) !important;
   }
 
   .app.is-rtl .hero::before,
   .app.is-rtl .hero::after,
+  .app.is-rtl .hero__content::before,
   .app.is-rtl .hero__content::after {
     transform: rotate(-45deg) !important;
   }
