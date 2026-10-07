@@ -7936,4 +7936,561 @@ hard-locked closed. */
     transform: rotate(-45deg) !important;
   }
 }
+
+/* =========================================================
+   FINAL RTL / LTR DIRECTION SYSTEM
+   فقط برای:
+   1. Blockquote
+   2. Hero
+   3. Expertise
+
+   هیچ بخش دیگری تغییر نمی‌کند.
+   ========================================================= */
+
+/* =========================================================
+   1. BLOCKQUOTE
+   LTR = line LEFT
+   RTL = line RIGHT
+   ========================================================= */
+
+blockquote {
+  direction: ltr !important;
+  text-align: left !important;
+
+  border-left: 4px solid #d9d9d9 !important;
+  border-right: 0 !important;
+
+  padding-left: 28px !important;
+  padding-right: 0 !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.app.is-rtl blockquote {
+  direction: rtl !important;
+  text-align: right !important;
+
+  border-left: 0 !important;
+  border-right: 4px solid #d9d9d9 !important;
+
+  padding-left: 0 !important;
+  padding-right: 28px !important;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+@media (max-width: 768px) {
+  blockquote {
+    padding-left: 16px !important;
+    padding-right: 0 !important;
+    border-left: 4px solid #d9d9d9 !important;
+    border-right: 0 !important;
+    text-align: left !important;
+    direction: ltr !important;
+  }
+
+  .app.is-rtl blockquote {
+    padding-left: 0 !important;
+    padding-right: 16px !important;
+    border-left: 0 !important;
+    border-right: 4px solid #d9d9d9 !important;
+    text-align: right !important;
+    direction: rtl !important;
+  }
+}
+
+/* =========================================================
+   2. HERO — FINAL DIRECTION
+   ========================================================= */
+
+/* ---------- LTR ---------- */
+
+.app.is-ltr .hero__text {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.app.is-ltr .hero h1,
+.app.is-ltr .hero p {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Hero button keeps LTR geometry */
+.app.is-ltr .hero .btn--primary {
+  direction: ltr !important;
+}
+
+/* Hero image — LTR side */
+@media (min-width: 1169px) {
+  .app.is-ltr .hero__image {
+    left: calc(65.3% - 350px) !important;
+    right: auto !important;
+
+    transform: rotate(45deg) !important;
+  }
+
+  .app.is-ltr .hero__image img {
+    transform: rotate(-45deg) scale(1.41421356) !important;
+  }
+
+  /* Large decorative diamond */
+  .app.is-ltr .hero::before {
+    left: calc(65.3% - 175.5px) !important;
+    right: auto !important;
+    transform: rotate(45deg) !important;
+  }
+
+  /* Small decorative diamond */
+  .app.is-ltr .hero::after {
+    left: calc(65.3vw + 47.5px) !important;
+    right: auto !important;
+    transform: rotate(45deg) !important;
+  }
+
+  /* Hero content decorations */
+  .app.is-ltr .hero__content::before {
+    left: 55px !important;
+    right: auto !important;
+    transform: rotate(45deg) !important;
+  }
+
+  .app.is-ltr .hero__content::after {
+    left: 205px !important;
+    right: auto !important;
+    transform: rotate(45deg) !important;
+  }
+}
+
+/* ---------- RTL ---------- */
+
+.app.is-rtl .hero__text {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.app.is-rtl .hero h1,
+.app.is-rtl .hero p {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* Hero button */
+.app.is-rtl .hero .btn--primary {
+  direction: rtl !important;
+}
+
+/* Hero image — exact horizontal mirror */
+@media (min-width: 1169px) {
+  .app.is-rtl .hero__image {
+    left: auto !important;
+    right: calc(65.3% - 350px) !important;
+
+    transform: rotate(-45deg) !important;
+  }
+
+  .app.is-rtl .hero__image img {
+    transform: rotate(45deg) scale(1.41421356) !important;
+  }
+
+  /* Large decorative diamond */
+  .app.is-rtl .hero::before {
+    left: auto !important;
+    right: calc(65.3% - 175.5px) !important;
+    transform: rotate(-45deg) !important;
+  }
+
+  /* Small decorative diamond */
+  .app.is-rtl .hero::after {
+    left: auto !important;
+    right: calc(65.3vw + 47.5px) !important;
+    transform: rotate(-45deg) !important;
+  }
+
+  /* Hero content decorations */
+  .app.is-rtl .hero__content::before {
+    left: auto !important;
+    right: 55px !important;
+    transform: rotate(-45deg) !important;
+  }
+
+  .app.is-rtl .hero__content::after {
+    left: auto !important;
+    right: 205px !important;
+    transform: rotate(-45deg) !important;
+  }
+}
+
+/* ---------- Hero desktop geometry ---------- */
+
+@media (min-width: 1169px) {
+  .app.is-ltr .hero__content {
+    direction: ltr !important;
+  }
+
+  .app.is-rtl .hero__content {
+    direction: rtl !important;
+  }
+
+  .app.is-ltr .hero__text {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+
+  .app.is-rtl .hero__text {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* ---------- Hero tablet ---------- */
+
+@media (min-width: 769px) and (max-width: 1168px) {
+  .app.is-ltr .hero__text {
+    direction: ltr !important;
+    text-align: center !important;
+  }
+
+  .app.is-rtl .hero__text {
+    direction: rtl !important;
+    text-align: center !important;
+  }
+
+  .app.is-ltr .hero h1,
+  .app.is-ltr .hero p,
+  .app.is-rtl .hero h1,
+  .app.is-rtl .hero p {
+    text-align: center !important;
+  }
+}
+
+/* ---------- Hero mobile ---------- */
+
+@media (max-width: 768px) {
+  /* Geometry remains centered in both languages.
+     Only text direction changes. */
+
+  .app.is-ltr .hero__text {
+    direction: ltr !important;
+    text-align: center !important;
+  }
+
+  .app.is-rtl .hero__text {
+    direction: rtl !important;
+    text-align: center !important;
+  }
+
+  .app.is-ltr .hero h1,
+  .app.is-ltr .hero p,
+  .app.is-rtl .hero h1,
+  .app.is-rtl .hero p {
+    text-align: center !important;
+  }
+
+  /* Mobile hero stays full-screen and is NOT horizontally shifted */
+  .app.is-ltr .hero__image,
+  .app.is-rtl .hero__image {
+    left: 0 !important;
+    right: auto !important;
+    transform: none !important;
+  }
+
+  .app.is-ltr .hero__image img,
+  .app.is-rtl .hero__image img {
+    left: 0 !important;
+    right: auto !important;
+    transform: none !important;
+  }
+}
+
+/* =========================================================
+   3. EXPERTISE — FINAL DIRECTION
+   ========================================================= */
+
+/* ---------- Desktop LTR ---------- */
+
+@media (min-width: 1169px) {
+  .app.is-ltr .expertise__inner {
+    direction: ltr !important;
+  }
+
+  .app.is-ltr .expertise__visual {
+    order: 1 !important;
+  }
+
+  .app.is-ltr .expertise__content {
+    order: 2 !important;
+    direction: ltr !important;
+    text-align: left !important;
+  }
+
+  .app.is-ltr .expertise__content h2,
+  .app.is-ltr .expertise__content p {
+    text-align: left !important;
+    direction: ltr !important;
+  }
+
+  .app.is-ltr .tags {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+  }
+
+  /* Decorative shape */
+  .app.is-ltr .expertise::after {
+    left: -90px !important;
+    right: auto !important;
+  }
+
+  /* Orbit */
+  .app.is-ltr .expertise-orbit {
+    margin-left: 95px !important;
+    margin-right: 0 !important;
+  }
+
+  /* Main diamond */
+  .app.is-ltr .diamond-title--large {
+    left: 106px !important;
+    right: auto !important;
+  }
+
+  /* Floating icons */
+  .app.is-ltr .icon-bubble--camera {
+    left: -15px !important;
+    right: auto !important;
+  }
+
+  .app.is-ltr .icon-bubble--play {
+    left: 192px !important;
+    right: auto !important;
+  }
+
+  .app.is-ltr .icon-bubble--wifi {
+    left: 45px !important;
+    right: auto !important;
+  }
+
+  .app.is-ltr .icon-bubble--star {
+    right: -4px !important;
+    left: auto !important;
+  }
+
+  .app.is-ltr .icon-bubble--lab {
+    right: 55px !important;
+    left: auto !important;
+  }
+
+  .app.is-ltr .icon-bubble--small {
+    left: -48px !important;
+    right: auto !important;
+  }
+}
+
+/* ---------- Desktop RTL — exact mirror ---------- */
+
+@media (min-width: 1169px) {
+  .app.is-rtl .expertise__inner {
+    direction: rtl !important;
+  }
+
+  .app.is-rtl .expertise__visual {
+    order: 1 !important;
+  }
+
+  .app.is-rtl .expertise__content {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+  }
+
+  .app.is-rtl .expertise__content h2,
+  .app.is-rtl .expertise__content p {
+    text-align: right !important;
+    direction: rtl !important;
+  }
+
+  .app.is-rtl .tags {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+  }
+
+  /* Decorative shape */
+  .app.is-rtl .expertise::after {
+    left: auto !important;
+    right: -90px !important;
+  }
+
+  /* Orbit */
+  .app.is-rtl .expertise-orbit {
+    margin-left: 0 !important;
+    margin-right: 95px !important;
+  }
+
+  /* Main diamond */
+  .app.is-rtl .diamond-title--large {
+    left: auto !important;
+    right: 106px !important;
+  }
+
+  /* Floating icons */
+  .app.is-rtl .icon-bubble--camera {
+    left: auto !important;
+    right: -15px !important;
+  }
+
+  .app.is-rtl .icon-bubble--play {
+    left: auto !important;
+    right: 192px !important;
+  }
+
+  .app.is-rtl .icon-bubble--wifi {
+    left: auto !important;
+    right: 45px !important;
+  }
+
+  .app.is-rtl .icon-bubble--star {
+    right: auto !important;
+    left: -4px !important;
+  }
+
+  .app.is-rtl .icon-bubble--lab {
+    right: auto !important;
+    left: 55px !important;
+  }
+
+  .app.is-rtl .icon-bubble--small {
+    left: auto !important;
+    right: -48px !important;
+  }
+}
+
+/* =========================================================
+   EXPERTISE RESPONSIVE
+   در تبلت و موبایل تصویر مخفی است،
+   بنابراین فقط متن RTL/LTR می‌شود.
+   ========================================================= */
+
+@media (max-width: 1168px) {
+  .app.is-ltr .expertise__inner,
+  .app.is-rtl .expertise__inner {
+    direction: ltr !important;
+  }
+
+  .app.is-ltr .expertise__content {
+    direction: ltr !important;
+    text-align: center !important;
+  }
+
+  .app.is-rtl .expertise__content {
+    direction: rtl !important;
+    text-align: center !important;
+  }
+
+  .app.is-ltr .expertise__content h2,
+  .app.is-ltr .expertise__content p,
+  .app.is-rtl .expertise__content h2,
+  .app.is-rtl .expertise__content p {
+    text-align: center !important;
+  }
+
+  .app.is-ltr .tags,
+  .app.is-rtl .tags {
+    justify-content: center !important;
+  }
+
+  .app.is-ltr .expertise__responsive-title {
+    direction: ltr !important;
+    text-align: center !important;
+  }
+
+  .app.is-rtl .expertise__responsive-title {
+    direction: rtl !important;
+    text-align: center !important;
+  }
+}
+
+/* =========================================================
+   FINAL RTL TEXT SAFETY
+   فقط متن‌های Hero / Expertise
+   ========================================================= */
+
+.app.is-rtl .hero h1,
+.app.is-rtl .hero p,
+.app.is-rtl .expertise__content h2,
+.app.is-rtl .expertise__content p,
+.app.is-rtl .expertise__responsive-title,
+.app.is-rtl .expertise .tags span {
+  direction: rtl !important;
+}
+
+/* =========================================================
+   FINAL LTR TEXT SAFETY
+   ========================================================= */
+
+.app.is-ltr .hero h1,
+.app.is-ltr .hero p,
+.app.is-ltr .expertise__content h2,
+.app.is-ltr .expertise__content p,
+.app.is-ltr .expertise__responsive-title,
+.app.is-ltr .expertise .tags span {
+  direction: ltr !important;
+}
+
+/* =========================================================
+   FINAL PERSIAN TEXT DIRECTION FIX
+   فقط جهت و تراز متن فارسی
+   بدون تغییر در موقعیت المان‌ها
+   ========================================================= */
+
+.app.is-rtl .hero p,
+.app.is-rtl .expertise__content p,
+.app.is-rtl .about__content h2,
+.app.is-rtl .about__content p {
+  direction: rtl !important;
+  unicode-bidi: plaintext !important;
+  text-align: right !important;
+  writing-mode: horizontal-tb !important;
+
+  /* جلوگیری از اثرگذاری marginهای LTR */
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Hero فارسی */
+@media (min-width: 1169px) {
+  .app.is-rtl .hero p {
+    direction: rtl !important;
+    unicode-bidi: plaintext !important;
+    text-align: right !important;
+
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Expertise فارسی */
+@media (min-width: 1169px) {
+  .app.is-rtl .expertise__content p {
+    direction: rtl !important;
+    unicode-bidi: plaintext !important;
+    text-align: right !important;
+
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+}
+
+/* Tablet / Mobile */
+@media (max-width: 1168px) {
+  .app.is-rtl .hero p,
+  .app.is-rtl .expertise__content p {
+    direction: rtl !important;
+    unicode-bidi: plaintext !important;
+    text-align: center !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
 </style>
