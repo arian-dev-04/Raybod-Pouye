@@ -1,3 +1,4 @@
+```vue
 <template>
   <div
     class="app"
@@ -147,6 +148,11 @@
               <img :src="getImage('pic2.jpg')" alt="Office" />
             </div>
           </div>
+        </div>
+
+        <div class="about__responsive-title">
+          <span class="about__responsive-title-bar"></span>
+          <span>{{ currentLanguage === "fa" ? "درباره ما" : "About Us" }}</span>
         </div>
 
         <div class="about__content reveal reveal--right" v-reveal>
@@ -2171,7 +2177,6 @@ select:focus-visible {
   }
 }
 
-/* جهت: خود تگ .app با :dir مقدار می‌گیرد؛ اینجا فقط متغیرهای آینه */
 .app {
   --dir: 1;
   --rot: 45deg;
@@ -2475,7 +2480,6 @@ select:focus-visible {
   box-shadow: 0 12px 26px rgba(23, 81, 138, 0.22);
 }
 
-/* برند در گوشه (فقط دسکتاپ) */
 @media (min-width: 1169px) {
   .header__inner .brand {
     position: fixed;
@@ -2659,12 +2663,6 @@ select:focus-visible {
   }
 }
 
-@media (min-width: 1169px) and (max-width: 1320px) {
-  .hero__image {
-    inset-inline-start: calc(65.3% - 300px);
-  }
-}
-
 /* ============ 7. ABOUT ============ */
 .about {
   padding: 150px 0 120px;
@@ -2687,7 +2685,6 @@ select:focus-visible {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   min-height: 420px;
-  gap: 40px;
 }
 
 .about__visual {
@@ -2728,7 +2725,6 @@ select:focus-visible {
   transform: rotate(-45deg);
 }
 
-/* فارسی: «خدمات» بالا، «ما» وسط و پایینش */
 .app.is-rtl .diamond-title span,
 .app.is-rtl .services__title-icon h2 {
   text-align: center;
@@ -2782,6 +2778,19 @@ select:focus-visible {
 .about__content {
   max-width: 530px;
   padding-top: 30px;
+}
+
+.about__responsive-title {
+  display: none;
+}
+
+.about__responsive-title-bar {
+  display: inline-block;
+  width: 34px;
+  height: 5px;
+  flex: 0 0 34px;
+  border-radius: 999px;
+  background: var(--blue);
 }
 
 .about__content h2,
@@ -2917,7 +2926,6 @@ blockquote {
   color: var(--blue-dark);
 }
 
-/* هندسه‌ی اسلایدر همیشه LTR؛ فقط متن کارت‌ها RTL می‌شود */
 .services__slider,
 .services__track,
 .services__arrows {
@@ -3290,7 +3298,6 @@ blockquote {
 }
 
 /* ============ 10. TESTIMONIALS ============ */
-/* هندسه‌ی اسلایدر همیشه LTR؛ در فارسی فقط متن‌ها RTL می‌شوند */
 .testimonials {
   position: relative;
   overflow: hidden;
@@ -3309,33 +3316,23 @@ blockquote {
 
 .testimonials::before {
   content: "";
-
   position: absolute;
-
   top: -310px;
-
   right: -30px;
   left: auto;
-
   z-index: 0;
-
   width: 280px;
   height: 350px;
-
   border-radius: 40px;
-
   background: rgba(255, 255, 255, 0.95);
-
   transform: rotate(45deg);
 }
 
-/* Persian / RTL */
 .app.is-rtl .testimonials::before {
   right: auto;
   left: -30px;
 }
 
-/* English / LTR */
 .app.is-ltr .testimonials::before {
   left: auto;
   right: -30px;
@@ -3350,7 +3347,6 @@ blockquote {
   margin: 0;
 }
 
-/* عنوان: لوزی فقط یک box چیدمانی است، متن به‌صورت افقی برمی‌گردد */
 .testimonials__title {
   position: absolute;
   top: 50%;
@@ -3440,7 +3436,6 @@ blockquote {
   flex: 0 0 clamp(180px, 22vw, 300px);
 }
 
-/* جای عنوان */
 .testimonial-card {
   position: relative;
   z-index: 5;
@@ -4084,7 +4079,7 @@ blockquote {
 }
 
 /* =========================================================
-   17. ≤1199 — Testimonials (کمی فشرده‌تر)
+   17. ≤1199 — Testimonials
    ========================================================= */
 @media (max-width: 1199px) {
   .testimonials {
@@ -4210,7 +4205,6 @@ blockquote {
     transform: translateY(-9px) rotate(-45deg);
   }
 
-  /* منوی کشویی: باز شدن انیمیشن دارد، بسته شدن آنی است */
   .nav {
     position: fixed;
     top: 78px;
@@ -4515,14 +4509,32 @@ blockquote {
     grid-template-columns: 1fr;
   }
 
+  /* About: در تبلت و موبایل لوزی و تصویر حذف می‌شوند */
   .about__visual {
-    max-width: 520px;
-    margin-inline: auto;
+    display: none;
   }
 
-  .about-card {
-    inset: 65px auto auto 50%;
-    margin-left: -190px;
+  /* About: عنوان ساده مثل بخش Expertise */
+  .about__responsive-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    margin: 0 auto 20px;
+    text-align: center;
+    color: var(--blue-dark);
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.15;
+    font-weight: 900;
+  }
+
+  .about__responsive-title-bar {
+    width: 34px;
+    height: 5px;
+    flex: 0 0 34px;
+    border-radius: 999px;
+    background: var(--blue);
   }
 
   .office-title {
@@ -4788,52 +4800,12 @@ blockquote {
   }
 
   .about__visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 320px;
-  }
-
-  .about-card {
-    position: relative;
-    inset: auto;
-    width: 280px;
-    height: 220px;
-    margin: 0 auto;
-  }
-
-  .diamond-title {
-    width: 130px;
-    height: 130px;
-    border-radius: 22px;
-  }
-
-  .diamond-title span {
-    font-size: 24px;
-  }
-
-  .diamond-image {
-    top: -18px;
-    inset-inline-start: 90px;
-    width: 150px;
-    height: 150px;
-    border-radius: 24px;
-  }
-
-  .diamond-image img {
-    transform: rotate(-45deg) translate(45px, -40px);
-  }
-
-  .soft-diamond--one {
-    inset-inline-start: -30px;
-    top: 70px;
-    width: 180px;
-    height: 180px;
-  }
-
-  .soft-diamond--two {
     display: none;
+  }
+
+  .about__responsive-title {
+    margin-bottom: 0;
+    font-size: clamp(28px, 7vw, 36px);
   }
 
   .about__content {
@@ -4884,7 +4856,6 @@ blockquote {
     display: none;
   }
 
-  /* «خدمات ما» در یک خط */
   .services__arrows {
     display: none;
   }
@@ -5124,39 +5095,6 @@ blockquote {
 
   .cta h3 {
     font-size: 20px;
-  }
-
-  .about-card {
-    height: 180px;
-  }
-
-  .diamond-title {
-    width: 105px;
-    height: 105px;
-    border-radius: 18px;
-  }
-
-  .diamond-title span {
-    font-size: 20px;
-  }
-
-  .diamond-image {
-    top: -14px;
-    inset-inline-start: 70px;
-    width: 120px;
-    height: 120px;
-    border-radius: 20px;
-  }
-
-  .diamond-image img {
-    transform: rotate(-45deg) translate(60px, -32px);
-  }
-
-  .soft-diamond--one {
-    inset-inline-start: -20px;
-    top: 50px;
-    width: 140px;
-    height: 140px;
   }
 
   .service-card__media {
