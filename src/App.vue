@@ -302,7 +302,6 @@
               </span>
             </div>
 
-            <!-- Modern SVG icons -->
             <div class="icon-bubble icon-bubble--camera" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <rect x="3" y="6.5" width="18" height="13" rx="3"></rect>
@@ -516,10 +515,8 @@
               :alt="t(project.title)"
             />
 
-            <div v-if="project.logo" class="case-logo">RP</div>
-
             <div class="case-card__overlay">
-              <span v-if="index !== 1" class="case-icon">◆</span>
+              <span class="case-icon">◆</span>
 
               <h3>{{ t(project.title) }}</h3>
 
@@ -596,7 +593,7 @@
         </div>
 
         <div class="map reveal reveal--right" v-reveal>
-          <img :src="getImage('pic18.jpg')" alt="Map" />
+          <img :src="getImage('pic19.jpg')" alt="Map" />
 
           <div class="map-pin"></div>
 
@@ -1895,8 +1892,8 @@ const projects = [
   },
   {
     title: "proj2",
-    class: "case-card--logo",
-    logo: true,
+    class: "case-card--medium",
+    image: getImage("pic18.jpg"),
   },
   {
     title: "proj3",
@@ -3213,7 +3210,6 @@ blockquote {
   animation: iconFloat 5s ease-in-out infinite;
 }
 
-/* Modern SVG icon styling */
 .icon-bubble svg {
   width: 42%;
   height: 42%;
@@ -3704,29 +3700,6 @@ blockquote {
 
 .case-card:hover img {
   transform: scale(1.07);
-}
-
-.case-card--logo {
-  display: grid;
-  place-items: center;
-}
-
-.case-logo {
-  width: 86px;
-  height: 86px;
-  display: grid;
-  place-items: center;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #a050ff, #00bff2);
-  color: #fff;
-  font-size: 31px;
-  font-weight: 900;
-  transform: rotate(45deg);
-  transition: transform 0.4s var(--ease);
-}
-
-.case-card--logo:hover .case-logo {
-  transform: rotate(45deg) scale(1.08);
 }
 
 .case-card__overlay {
@@ -4556,12 +4529,10 @@ blockquote {
     grid-template-columns: 1fr;
   }
 
-  /* About: hide old diamond layout */
   .about__visual {
     display: none;
   }
 
-  /* About: modern responsive title */
   .about__responsive-title {
     display: flex;
     align-items: center;
