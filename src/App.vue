@@ -1,4 +1,3 @@
-```vue
 <template>
   <div
     class="app"
@@ -69,7 +68,6 @@
             <span>{{ currentLanguage === "en" ? "فا" : "En" }}</span>
           </button>
 
-          <!-- Language switch inside mobile/tablet menu -->
           <button
             class="nav-language"
             type="button"
@@ -210,7 +208,6 @@
          SERVICES
          ========================================================= -->
     <section id="services" class="services section">
-      <!-- Floating Title -->
       <div class="services__floating-title">
         <div class="container">
           <div class="services__title-wrapper">
@@ -225,7 +222,6 @@
         </div>
       </div>
 
-      <!-- Slider -->
       <div
         ref="servicesCards"
         class="services__slider"
@@ -252,9 +248,11 @@
                 draggable="false"
               />
             </div>
+
             <div class="service-card__body">
               <h3>{{ t(service.title) }}</h3>
               <p>{{ t(service.desc) }}</p>
+
               <a href="#contact" class="service-card__btn">
                 {{ t("SEE DETAIL") }}
                 <span class="service-card__arrow">›</span>
@@ -275,6 +273,7 @@
         >
           ‹
         </button>
+
         <button
           type="button"
           class="services__arrow-btn services__arrow-btn--next"
@@ -303,12 +302,61 @@
               </span>
             </div>
 
-            <div class="icon-bubble icon-bubble--camera">📷</div>
-            <div class="icon-bubble icon-bubble--play">▶</div>
-            <div class="icon-bubble icon-bubble--wifi">☊</div>
-            <div class="icon-bubble icon-bubble--star">★</div>
-            <div class="icon-bubble icon-bubble--lab">♟</div>
-            <div class="icon-bubble icon-bubble--small">✹</div>
+            <!-- Modern SVG icons -->
+            <div class="icon-bubble icon-bubble--camera" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="6.5" width="18" height="13" rx="3"></rect>
+                <path d="M8 6.5l1.4-2h5.2l1.4 2"></path>
+                <circle cx="12" cy="13" r="3.2"></circle>
+              </svg>
+            </div>
+
+            <div class="icon-bubble icon-bubble--play" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M8 5.5v13l10-6.5L8 5.5Z"></path>
+              </svg>
+            </div>
+
+            <div class="icon-bubble icon-bubble--wifi" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M3.5 8.5a13.5 13.5 0 0 1 17 0"></path>
+                <path d="M6.5 12a8.5 8.5 0 0 1 11 0"></path>
+                <path d="M9.5 15.5a4 4 0 0 1 5 0"></path>
+                <circle cx="12" cy="19" r="1"></circle>
+              </svg>
+            </div>
+
+            <div class="icon-bubble icon-bubble--star" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="m12 3 2.1 5.4 5.9.4-4.5 3.8 1.4 5.7L12 15.1l-4.9 3.2 1.4-5.7L4 8.8l5.9-.4L12 3Z"
+                ></path>
+              </svg>
+            </div>
+
+            <div class="icon-bubble icon-bubble--lab" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M9 3h6"></path>
+                <path
+                  d="M10 3v5l-5 9.2A2.8 2.8 0 0 0 7.5 21h9a2.8 2.8 0 0 0 2.5-3.8L14 8V3"
+                ></path>
+                <path d="M8 15h8"></path>
+              </svg>
+            </div>
+
+            <div class="icon-bubble icon-bubble--small" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 2v4"></path>
+                <path d="M12 18v4"></path>
+                <path d="m4.9 4.9 2.8 2.8"></path>
+                <path d="m16.3 16.3 2.8 2.8"></path>
+                <path d="M2 12h4"></path>
+                <path d="M18 12h4"></path>
+                <path d="m4.9 19.1 2.8-2.8"></path>
+                <path d="m16.3 7.7 2.8-2.8"></path>
+              </svg>
+            </div>
           </div>
         </div>
 
@@ -564,7 +612,6 @@
          ========================================================= -->
     <footer class="footer">
       <div class="container footer__inner">
-        <!-- Brand -->
         <div class="footer__brand">
           <a href="#home" class="brand brand--footer">
             <span class="brand__mark"></span>
@@ -582,7 +629,6 @@
           <small>{{ t("© Lu Theme 2019") }}</small>
         </div>
 
-        <!-- Company -->
         <div
           class="footer-col"
           :class="{
@@ -607,7 +653,6 @@
           </div>
         </div>
 
-        <!-- Services -->
         <div
           class="footer-col"
           :class="{
@@ -632,7 +677,6 @@
           </div>
         </div>
 
-        <!-- Resources -->
         <div
           class="footer-col"
           :class="{
@@ -656,7 +700,6 @@
           </div>
         </div>
 
-        <!-- Social -->
         <div class="footer-social">
           <div class="socials">
             <a href="#" aria-label="Facebook">f</a>
@@ -692,9 +735,6 @@
   </div>
 </template>
 
-<!-- =========================================================
-     SCRIPT
-     ========================================================= -->
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 
@@ -721,8 +761,7 @@ const activeSection = ref("home");
 const isSwitchingLanguage = ref(false);
 
 /* =========================================================
-   SEO / ACCESSIBILITY METADATA
-   No visual impact
+   SEO
    ========================================================= */
 const SEO = {
   en: {
@@ -776,13 +815,16 @@ const updateSEO = () => {
 
   document.documentElement.lang = currentLanguage.value;
   document.documentElement.dir = currentLanguage.value === "fa" ? "rtl" : "ltr";
+
   document.title = content.title;
 
   setMeta("description", content.description);
+
   setMeta(
     "robots",
     "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   );
+
   setMeta("author", "Raybod Pouye");
   setMeta("theme-color", "#ffffff");
 
@@ -1457,18 +1499,23 @@ const translations = {
     service1: "نرم‌افزار مدیریت هوشمند شبکه",
     service1_desc:
       "نرم‌افزاری جامع برای مدیریت و پایش هوشمند شبکه‌های سازمانی با قابلیت عیب‌یابی خودکار.",
+
     service2: "موتور جستجوی هوشمند و دستیار GPT",
     service2_desc:
       "موتور جستجوی هوشمند همراه با دستیار GPT که امکان دستیابی سریع به اطلاعات را فراهم می‌کند.",
+
     service3: "شبکه دانش هوشمند رایا",
     service3_desc:
       "شبکه دانش هوشمند رایا، بستری برای مدیریت و تبادل دانش در سازمان.",
+
     service4: "سامانه تحلیل داده",
     service4_desc:
       "سامانه پیشرفته تحلیل داده‌های سازمانی با گزارش‌های تعاملی و دقیق.",
+
     service5: "پلتفرم یکپارچه سازمانی",
     service5_desc:
       "پلتفرم یکپارچه جهت اتصال سامانه‌های مختلف سازمان و تسهیل جریان داده.",
+
     service6: "راهکار امنیت شبکه",
     service6_desc:
       "راهکار جامع امنیت شبکه با قابلیت شناسایی تهدیدات و پاسخ سریع به حملات.",
@@ -1572,13 +1619,9 @@ const translations = {
     "Aenean facilisis": "نمونه کارها",
 
     "Cras convallis": "مشاوره مدیریت دانش",
-
     "Vestibulum faucibus": "توسعه نرم‌افزارهای هوشمند",
-
     "Quisque lacinia purus": "پیاده‌سازی سیستم‌های دانش",
-
     "Aliquam nec ex": "پشتیبانی و آموزش",
-
     "Suspendisse porttitor": "مستندات",
 
     "Services ◆": "خدمات ◆",
@@ -1699,11 +1742,8 @@ const translations = {
     "Vestibulum consequat hendrerit.": "View Project Details",
 
     proj1: "Mobarakeh Steel Knowledge Management Project",
-
     proj2: "Sangan Steel Intelligent Network Project",
-
     proj3: "Public Libraries Management System",
-
     proj4: "Enterprise Search Engine",
 
     "Ready to get started ?": "Ready to collaborate?",
@@ -1718,7 +1758,6 @@ const translations = {
     "Branch Office": "Branch",
 
     "+123 456 789 01": "+98-21-12345678",
-
     "+98 765 432 10": "+98-21-76543210",
 
     "Lorem ipsum street no 14 Block A":
@@ -1745,13 +1784,9 @@ const translations = {
     "Aenean facilisis": "Projects",
 
     "Cras convallis": "Knowledge Management Consulting",
-
     "Vestibulum faucibus": "Intelligent Software Development",
-
     "Quisque lacinia purus": "Knowledge Systems Implementation",
-
     "Aliquam nec ex": "Support and Training",
-
     "Suspendisse porttitor": "Documentation",
 
     "Services ◆": "Services ◆",
@@ -1798,7 +1833,9 @@ const tl = (key) => titles[currentLanguage.value]?.[key] ?? titles.en[key];
    LANGUAGE SWITCH
    ========================================================= */
 const changeLanguage = (language) => {
-  if (isSwitchingLanguage.value || language === currentLanguage.value) return;
+  if (isSwitchingLanguage.value || language === currentLanguage.value) {
+    return;
+  }
 
   isSwitchingLanguage.value = true;
 
@@ -1917,11 +1954,10 @@ const scrollTop = () => {
 };
 
 /* =========================================================
-   ALIGN TESTIMONIAL SLIDER ON LOAD
+   ALIGN TESTIMONIAL SLIDER
    ========================================================= */
 const alignTestimonialSlider = () => {
   const slider = testimonialsCards.value;
-
   const track = slider?.querySelector(".testimonials__track");
 
   if (!slider || !track) return;
@@ -1968,7 +2004,6 @@ const handleDocumentClick = (event) => {
   const target = event.target;
 
   const nav = document.querySelector(".nav");
-
   const menuButton = document.querySelector(".menu-btn");
 
   if (nav?.contains(target) || menuButton?.contains(target)) {
@@ -1983,6 +2018,7 @@ const handleDocumentClick = (event) => {
    ========================================================= */
 onMounted(async () => {
   updateSEO();
+
   document.documentElement.classList.add("ray-loader-active");
 
   const minimumIntro = new Promise((resolve) =>
@@ -2024,14 +2060,16 @@ onMounted(async () => {
   await nextTick();
 
   alignTestimonialSlider();
-
   handleScroll();
-
   checkStatsVisibility();
 
-  window.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("scroll", handleScroll, {
+    passive: true,
+  });
 
-  window.addEventListener("resize", handleResize, { passive: true });
+  window.addEventListener("resize", handleResize, {
+    passive: true,
+  });
 
   document.addEventListener("click", handleDocumentClick);
 
@@ -2043,11 +2081,8 @@ onMounted(async () => {
 
   window.setTimeout(() => {
     startServicesAutoSlide();
-
     startTestimonialsAutoSlide();
-
     updateTestimonialActiveDot();
-
     checkStatsVisibility();
   }, 500);
 
@@ -2065,14 +2100,11 @@ onUnmounted(() => {
   document.documentElement.classList.remove("ray-loader-active");
 
   window.removeEventListener("scroll", handleScroll);
-
   window.removeEventListener("resize", handleResize);
-
   document.removeEventListener("click", handleDocumentClick);
 
   if (resizeMenuLockTimer) {
     window.clearTimeout(resizeMenuLockTimer);
-
     resizeMenuLockTimer = null;
   }
 
@@ -2084,28 +2116,21 @@ onUnmounted(() => {
   );
 
   stopServicesAutoSlide();
-
   stopTestimonialsAutoSlide();
 
   window.clearTimeout(servicesResumeTimer);
-
   window.clearTimeout(testimonialsResumeTimer);
 
   if (statsAnimationFrame) {
     cancelAnimationFrame(statsAnimationFrame);
-
     statsAnimationFrame = null;
   }
 
   revealObserver?.disconnect();
-
   revealObserver = null;
 });
 </script>
 
-<!-- =========================================================
-     STYLES
-     ========================================================= -->
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Vazirmatn:wght@400;500;600;700;800;900&display=swap");
 
@@ -2232,12 +2257,13 @@ select:focus-visible {
   transform: translate(0, 0);
 }
 
-/* ============ 3. KEYFRAMES مشترک ============ */
+/* ============ 3. KEYFRAMES ============ */
 @keyframes headerDrop {
   from {
     opacity: 0;
     transform: translateY(-16px);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -2249,6 +2275,7 @@ select:focus-visible {
     opacity: 0;
     transform: translateY(-25px);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -2260,6 +2287,7 @@ select:focus-visible {
     opacity: 0;
     transform: translateY(-60px);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -2271,6 +2299,7 @@ select:focus-visible {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -2525,7 +2554,6 @@ select:focus-visible {
   margin: 0 0 34px;
 }
 
-/* ---- دسکتاپ ---- */
 @media (min-width: 1169px) {
   .hero {
     isolation: isolate;
@@ -3185,6 +3213,23 @@ blockquote {
   animation: iconFloat 5s ease-in-out infinite;
 }
 
+/* Modern SVG icon styling */
+.icon-bubble svg {
+  width: 42%;
+  height: 42%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.icon-bubble--small svg {
+  width: 52%;
+  height: 52%;
+}
+
 @keyframes iconFloat {
   50% {
     transform: translateY(-10px);
@@ -3197,7 +3242,6 @@ blockquote {
   background: var(--blue);
   inset-inline-start: -15px;
   top: 94px;
-  font-size: 30px;
 }
 
 .icon-bubble--play {
@@ -3233,7 +3277,6 @@ blockquote {
   background: #681be7;
   inset-inline-end: 55px;
   bottom: 35px;
-  font-size: 34px;
   animation-delay: 2.4s;
 }
 
@@ -3915,7 +3958,12 @@ blockquote {
 
 .footer__inner {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1.1fr;
+  grid-template-columns:
+    1.5fr
+    1fr
+    1fr
+    1fr
+    1.1fr;
   gap: 48px;
 }
 
@@ -4079,7 +4127,7 @@ blockquote {
 }
 
 /* =========================================================
-   17. ≤1199 — Testimonials
+   17. ≤1199
    ========================================================= */
 @media (max-width: 1199px) {
   .testimonials {
@@ -4107,7 +4155,7 @@ blockquote {
 }
 
 /* =========================================================
-   18. تبلت + موبایل (≤1168)
+   18. ≤1168
    ========================================================= */
 @media (max-width: 1168px) {
   .lang-btn {
@@ -4118,7 +4166,6 @@ blockquote {
     display: none;
   }
 
-  /* ---- Header ---- */
   .header {
     height: 76px;
     background: transparent;
@@ -4306,7 +4353,6 @@ blockquote {
     font-weight: 900;
   }
 
-  /* ---- Hero ---- */
   .hero {
     display: flex;
     align-items: center;
@@ -4319,12 +4365,14 @@ blockquote {
 
   .hero__image {
     --clip: polygon(0 0, 100% 0, calc(100% - 175px) 100%, 0 calc(100% - 205px));
+
     --clip-img: polygon(
       0 0,
       100% 0,
       calc(100% - 152px) 100%,
       0 calc(100% - 180px)
     );
+
     top: 0;
     inset-inline-start: 0;
     width: calc(100% - 48px);
@@ -4336,6 +4384,7 @@ blockquote {
 
   .app.is-rtl .hero__image {
     --clip: polygon(0 0, 100% 0, 100% calc(100% - 205px), 175px 100%);
+
     --clip-img: polygon(0 0, 100% 0, 100% calc(100% - 180px), 152px 100%);
   }
 
@@ -4399,12 +4448,10 @@ blockquote {
     box-shadow: none;
   }
 
-  /* ---- About (تبلت: padding کمتر) ---- */
   .about {
     padding: 30px 0 120px;
   }
 
-  /* ---- Expertise: نسخه‌ی متنی ---- */
   .expertise {
     overflow: hidden;
     padding: 58px 0 95px;
@@ -4497,11 +4544,11 @@ blockquote {
 }
 
 /* =========================================================
-   19. ≤992 — چیدمان تک‌ستونه
+   19. ≤992
    ========================================================= */
 @media (max-width: 992px) {
   .container {
-    width: min(100% - 34px, var(--container));
+    width: min(calc(100% - 34px), var(--container));
   }
 
   .about__inner,
@@ -4509,12 +4556,12 @@ blockquote {
     grid-template-columns: 1fr;
   }
 
-  /* About: در تبلت و موبایل لوزی و تصویر حذف می‌شوند */
+  /* About: hide old diamond layout */
   .about__visual {
     display: none;
   }
 
-  /* About: عنوان ساده مثل بخش Expertise */
+  /* About: modern responsive title */
   .about__responsive-title {
     display: flex;
     align-items: center;
@@ -4600,7 +4647,6 @@ blockquote {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Testimonials */
   .testimonials {
     padding: 40px 0;
   }
@@ -4659,10 +4705,9 @@ blockquote {
 }
 
 /* =========================================================
-   20. موبایل (≤768)
+   20. ≤768
    ========================================================= */
 @media (max-width: 768px) {
-  /* ---- Header ---- */
   .header {
     height: 70px;
   }
@@ -4718,7 +4763,6 @@ blockquote {
     width: min(310px, calc(100vw - 28px));
   }
 
-  /* ---- Hero ---- */
   .hero {
     min-height: clamp(560px, 92vh, 760px);
     min-height: clamp(560px, 92svh, 760px);
@@ -4751,7 +4795,7 @@ blockquote {
   }
 
   .hero__content {
-    width: min(100% - 42px, 520px);
+    width: min(calc(100% - 42px), 520px);
     padding: 120px 0 60px;
     animation-delay: 0.24s;
   }
@@ -4786,7 +4830,6 @@ blockquote {
     background: rgba(22, 35, 43, 0.48);
   }
 
-  /* ---- About ---- */
   .about {
     padding: 40px 0 80px;
   }
@@ -4835,7 +4878,6 @@ blockquote {
     font-size: 18px;
   }
 
-  /* ---- Services ---- */
   .services {
     padding: 40px 0 60px;
   }
@@ -4865,7 +4907,6 @@ blockquote {
     width: 240px;
   }
 
-  /* ---- Case ---- */
   .case {
     padding: 50px 0 70px;
   }
@@ -4880,12 +4921,10 @@ blockquote {
     font-size: 34px;
   }
 
-  /* ---- Office ---- */
   .office {
     padding-bottom: 80px;
   }
 
-  /* ---- CTA ---- */
   .cta {
     padding-bottom: 90px;
   }
@@ -4906,7 +4945,7 @@ blockquote {
 }
 
 /* =========================================================
-   21. موبایل کوچک
+   21. ≤576
    ========================================================= */
 @media (max-width: 576px) {
   .footer__inner {
@@ -4961,10 +5000,6 @@ blockquote {
     font-size: 12px;
   }
 
-  /* =========================================================
-     TESTIMONIALS - MOBILE
-     ========================================================= */
-
   .testimonials {
     padding: 32px 0 42px;
   }
@@ -4982,12 +5017,9 @@ blockquote {
     top: 0;
     left: auto;
     right: auto;
-
     width: 888px;
     height: 38px;
-
     margin: 0 auto -28px;
-
     flex: 0 0 138px;
   }
 
@@ -4999,7 +5031,6 @@ blockquote {
   .testimonial-diamond h2 {
     width: 100px;
     margin: 0;
-
     font-size: 15px;
     line-height: 1.45;
   }
@@ -5007,7 +5038,6 @@ blockquote {
   .testimonial-quote {
     top: 67px;
     left: 18px;
-
     font-size: 32px;
     line-height: 1;
   }
@@ -5064,7 +5094,6 @@ blockquote {
     font-size: 11px;
   }
 
-  /* Slider dots */
   .testimonial-dots {
     margin-top: 18px;
     width: 100%;
@@ -5131,7 +5160,7 @@ blockquote {
 }
 
 /* =========================================================
-   22. Footer — آکاردئون (≤420)
+   22. FOOTER ≤420
    ========================================================= */
 @media (max-width: 420px) {
   .footer {
@@ -5263,7 +5292,7 @@ blockquote {
 }
 
 /* =========================================================
-   23. LOADER (دست‌نخورده، فقط فشرده)
+   23. LOADER
    ========================================================= */
 .ray-loader {
   position: fixed;
