@@ -131,8 +131,24 @@
     <section id="about" class="about section">
       <div class="container about__inner">
         <div class="about__visual reveal reveal--left" v-reveal>
-          <div class="soft-diamond soft-diamond--one"></div>
-          <div class="soft-diamond soft-diamond--two"></div>
+          <!-- Keep the original large blue diamond -->
+          <div class="about-blue-diamond" aria-hidden="true"></div>
+
+          <!-- Small image diamond: upper-left -->
+          <div
+            class="about-image-diamond about-image-diamond--one"
+            aria-hidden="true"
+          >
+            <img :src="getImage('pic2.jpg')" alt="" draggable="false" />
+          </div>
+
+          <!-- Small image diamond: lower-left -->
+          <div
+            class="about-image-diamond about-image-diamond--two"
+            aria-hidden="true"
+          >
+            <img :src="getImage('pic2.jpg')" alt="" draggable="false" />
+          </div>
 
           <div class="about-card">
             <div class="diamond-title">
@@ -2515,6 +2531,12 @@ select:focus-visible {
   }
 }
 
+@media (max-width: 1168px) {
+  .about::before {
+    display: none;
+  }
+}
+
 /* ============ 6. HERO ============ */
 .hero {
   padding-top: 0;
@@ -2703,8 +2725,8 @@ select:focus-visible {
   border-radius: 48px;
   background: rgba(228, 246, 255, 0.95);
   transform: rotate(45deg);
+  margin-inline-start: 200px;
 }
-
 .about__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2786,18 +2808,52 @@ select:focus-visible {
   transform: rotate(-45deg) translate(30px, -48px);
 }
 
-.soft-diamond {
+/* Preserve the original large pale-blue diamond */
+.about-blue-diamond {
   position: absolute;
-  border-radius: 42px;
-  transform: rotate(45deg);
-}
-
-.soft-diamond--one {
+  z-index: 0;
   inset-inline-start: -45px;
   top: 105px;
   width: 250px;
   height: 250px;
+  border-radius: 42px;
   background: rgba(224, 246, 255, 0.86);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+/* Two matching small image diamonds */
+.about-image-diamond {
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(17, 80, 140, 0.18);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.about-image-diamond img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 145%;
+  height: 145%;
+  max-width: none;
+  object-fit: cover;
+  transform: translate(-50%, -50%) rotate(-45deg) scale(1.02);
+}
+
+.about-image-diamond--one {
+  inset-inline-start: 184px;
+  top: -36px;
+}
+
+.about-image-diamond--two {
+  inset-inline-start: 207px;
+  top: 248px;
 }
 
 .about__content {
