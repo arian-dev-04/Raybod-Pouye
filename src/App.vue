@@ -11,26 +11,117 @@
     <!-- =========================================================
          LOADER
          ========================================================= -->
-    <Transition name="ray-loader">
-      <div v-if="isInitialLoading" class="ray-loader" aria-hidden="true">
-        <div class="ray-loader__pieces">
-          <span class="ray-piece ray-piece--1"></span>
-          <span class="ray-piece ray-piece--2"></span>
-          <span class="ray-piece ray-piece--3"></span>
-          <span class="ray-piece ray-piece--4"></span>
-          <span class="ray-piece ray-piece--5"></span>
-          <span class="ray-piece ray-piece--6"></span>
-          <span class="ray-piece ray-piece--7"></span>
-          <span class="ray-piece ray-piece--8"></span>
-          <span class="ray-piece ray-piece--9"></span>
+    <Transition name="ray-loader" :duration="1250">
+      <div
+        v-if="isInitialLoading"
+        class="ray-loader"
+        :class="{ 'is-done': loaderProgress >= 100 }"
+        aria-hidden="true"
+      >
+        <!-- two diagonal panels that slide apart at the end -->
+        <div class="ray-panel ray-panel--a">
+          <div class="ray-panel__bg"></div>
+        </div>
+        <div class="ray-panel ray-panel--b">
+          <div class="ray-panel__bg"></div>
         </div>
 
-        <div class="ray-loader__center">
-          <div class="ray-loader__mark"><span></span></div>
-          <div class="ray-loader__brand">{{ t("BrandName") }}</div>
+        <svg class="ray-seam" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient
+              id="raySeamGradient"
+              gradientUnits="userSpaceOnUse"
+              x1="100"
+              y1="0"
+              x2="0"
+              y2="100"
+            >
+              <stop offset="0" stop-color="#2b6bd6" stop-opacity="0" />
+              <stop offset="0.3" stop-color="#2b6bd6" />
+              <stop offset="0.55" stop-color="#3a9eb0" />
+              <stop offset="0.8" stop-color="#c79a3b" />
+              <stop offset="1" stop-color="#c79a3b" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <line
+            x1="100"
+            y1="0"
+            x2="0"
+            y2="100"
+            pathLength="1"
+            vector-effect="non-scaling-stroke"
+          />
+        </svg>
+
+        <div class="ray-loader__content">
+          <div class="ray-loader__stage">
+            <svg class="ray-draw" viewBox="0 0 240 240" fill="none">
+              <defs>
+                <linearGradient id="rayStroke" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#2b6bd6" />
+                  <stop offset="0.55" stop-color="#3a9eb0" />
+                  <stop offset="1" stop-color="#c79a3b" />
+                </linearGradient>
+              </defs>
+              <rect
+                class="ray-draw__r ray-draw__r--1"
+                x="70"
+                y="70"
+                width="100"
+                height="100"
+                rx="18"
+                pathLength="1"
+              />
+              <rect
+                class="ray-draw__r ray-draw__r--2"
+                x="55"
+                y="55"
+                width="130"
+                height="130"
+                rx="22"
+                pathLength="1"
+              />
+              <rect
+                class="ray-draw__r ray-draw__r--3"
+                x="40"
+                y="40"
+                width="160"
+                height="160"
+                rx="26"
+                pathLength="1"
+              />
+            </svg>
+
+            <span class="ray-orbit ray-orbit--1"><i></i></span>
+            <span class="ray-orbit ray-orbit--2"><i></i></span>
+
+            <span class="ray-sat ray-sat--1"></span>
+            <span class="ray-sat ray-sat--2"></span>
+            <span class="ray-sat ray-sat--3"></span>
+            <span class="ray-sat ray-sat--4"></span>
+            <span class="ray-shock"></span>
+            <div class="ray-loader__mark"></div>
+          </div>
+
+          <div class="ray-loader__brand">
+            <span>{{ t("BrandName") }}</span>
+          </div>
+
+          <div class="ray-loader__tag">
+            <span>{{ t("LoaderTag") }}</span>
+          </div>
         </div>
 
-        <div class="ray-loader__flash"></div>
+        <div class="ray-loader__foot">
+          <span class="ray-loader__count">
+            {{ loaderCountLabel
+            }}<small>{{ currentLanguage === "fa" ? "٪" : "%" }}</small>
+          </span>
+
+          <span class="ray-loader__bar">
+            <i :style="{ transform: `scaleX(${loaderProgress / 100})` }"></i>
+          </span>
+        </div>
       </div>
     </Transition>
 
@@ -393,15 +484,13 @@
           </p>
 
           <div class="tags">
-            <span>{{ t("Marketing") }}</span>
-            <span>{{ t("SEO") }}</span>
-            <span>{{ t("Social Media") }}</span>
-            <span class="active">{{ t("Web Development") }}</span>
-            <span class="active">{{ t("UI Design") }}</span>
-            <span class="active">{{ t("Mobile Apps") }}</span>
-            <span>{{ t("Photography") }}</span>
-            <span>{{ t("Company Profile") }}</span>
-            <span>{{ t("Visual Editing") }}</span>
+            <span
+              v-for="(tag, index) in expertiseTags"
+              :key="tag"
+              :class="{ active: isTagActive(index) }"
+            >
+              {{ t(tag) }}
+            </span>
           </div>
         </div>
       </div>
@@ -1476,6 +1565,46 @@ const endTestimonialsDrag = (event) => {
 };
 
 /* =========================================================
+   EXPERTISE TAGS (moving blue highlight)
+   ========================================================= */
+const expertiseTags = [
+  "Marketing",
+  "SEO",
+  "Social Media",
+  "Web Development",
+  "UI Design",
+  "Mobile Apps",
+  "Photography",
+  "Company Profile",
+  "Visual Editing",
+];
+
+const ACTIVE_TAG_COUNT = 3;
+const activeTagStart = ref(3);
+let expertiseTagsTimer = null;
+
+const isTagActive = (index) => {
+  const total = expertiseTags.length;
+  return (index - activeTagStart.value + total) % total < ACTIVE_TAG_COUNT;
+};
+
+const startExpertiseTags = () => {
+  stopExpertiseTags();
+
+  expertiseTagsTimer = window.setInterval(() => {
+    activeTagStart.value =
+      (activeTagStart.value + ACTIVE_TAG_COUNT) % expertiseTags.length;
+  }, 2200);
+};
+
+const stopExpertiseTags = () => {
+  if (expertiseTagsTimer) {
+    window.clearInterval(expertiseTagsTimer);
+    expertiseTagsTimer = null;
+  }
+};
+
+/* =========================================================
    TRANSLATIONS
    ========================================================= */
 const translations = {
@@ -1642,6 +1771,7 @@ const translations = {
     "hello@lulu.com": "info@raybidpouye.com",
 
     BrandName: "رایبد پویه",
+    LoaderTag: "راهکارهای هوشمند سازمانی",
   },
 
   en: {
@@ -1807,6 +1937,7 @@ const translations = {
     "hello@lulu.com": "info@raybidpouye.com",
 
     BrandName: "Raybod Pouye",
+    LoaderTag: "Intelligent Solutions",
   },
 };
 
@@ -2027,6 +2158,45 @@ const handleDocumentClick = (event) => {
 };
 
 /* =========================================================
+   LOADER PROGRESS
+   ========================================================= */
+const loaderProgress = ref(0);
+let loaderFrame = null;
+
+const loaderCountLabel = computed(() => {
+  const value = Math.round(loaderProgress.value);
+
+  return currentLanguage.value === "fa"
+    ? value.toLocaleString("fa-IR")
+    : String(value);
+});
+
+const runLoaderProgress = () =>
+  new Promise((resolve) => {
+    const duration = 3400;
+    const hold = 750;
+    const start = performance.now();
+
+    const tick = (now) => {
+      const raw = Math.min((now - start) / duration, 1);
+      const eased =
+        raw < 0.5 ? 4 * raw * raw * raw : 1 - Math.pow(-2 * raw + 2, 3) / 2;
+
+      loaderProgress.value = eased * 100;
+
+      if (raw < 1) {
+        loaderFrame = requestAnimationFrame(tick);
+      } else {
+        loaderProgress.value = 100;
+        loaderFrame = null;
+        window.setTimeout(resolve, hold);
+      }
+    };
+
+    loaderFrame = requestAnimationFrame(tick);
+  });
+
+/* =========================================================
    LIFECYCLE
    ========================================================= */
 onMounted(async () => {
@@ -2034,9 +2204,7 @@ onMounted(async () => {
 
   document.documentElement.classList.add("ray-loader-active");
 
-  const minimumIntro = new Promise((resolve) =>
-    window.setTimeout(resolve, 2800),
-  );
+  const minimumIntro = runLoaderProgress();
 
   const fontsReady = document.fonts?.ready ?? Promise.resolve();
 
@@ -2095,6 +2263,7 @@ onMounted(async () => {
   window.setTimeout(() => {
     startServicesAutoSlide();
     startTestimonialsAutoSlide();
+    startExpertiseTags();
     updateTestimonialActiveDot();
     checkStatsVisibility();
   }, 500);
@@ -2110,6 +2279,7 @@ onMounted(async () => {
    CLEANUP
    ========================================================= */
 onUnmounted(() => {
+  if (loaderFrame) cancelAnimationFrame(loaderFrame);
   document.documentElement.classList.remove("ray-loader-active");
 
   window.removeEventListener("scroll", handleScroll);
@@ -2130,6 +2300,7 @@ onUnmounted(() => {
 
   stopServicesAutoSlide();
   stopTestimonialsAutoSlide();
+  stopExpertiseTags();
 
   window.clearTimeout(servicesResumeTimer);
   window.clearTimeout(testimonialsResumeTimer);
@@ -3238,24 +3409,84 @@ blockquote {
 }
 
 .icon-bubble {
+  --c1: #4cc3ff;
+  --c2: #1478e0;
+  --glow: rgba(38, 159, 243, 0.42);
   position: absolute;
+  z-index: 5; /* always above the pale-blue diamond */
+  isolation: isolate;
   display: grid;
   place-items: center;
   border-radius: 50%;
   color: #fff;
   font-weight: 900;
-  box-shadow: var(--shadow-soft);
+  background:
+    radial-gradient(
+      circle at 30% 24%,
+      rgba(255, 255, 255, 0.55),
+      transparent 46%
+    ),
+    linear-gradient(145deg, var(--c1), var(--c2));
+  box-shadow:
+    0 14px 28px -6px var(--glow),
+    0 0 0 5px rgba(255, 255, 255, 0.85),
+    0 0 0 6px rgba(255, 255, 255, 0.5),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.14),
+    inset 0 2px 3px rgba(255, 255, 255, 0.5);
   animation: iconFloat 5s ease-in-out infinite;
+  transition: box-shadow 0.35s var(--ease);
+}
+
+/* soft pulsing halo behind each bubble */
+.icon-bubble::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  z-index: -1;
+  border-radius: 50%;
+  border: 1.5px dashed var(--c1);
+  opacity: 0.35;
+  animation: bubbleHalo 7s linear infinite;
+}
+
+/* glossy highlight */
+.icon-bubble::after {
+  content: "";
+  position: absolute;
+  top: 7%;
+  left: 16%;
+  width: 46%;
+  height: 26%;
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: rotate(-24deg);
+  pointer-events: none;
+}
+
+.icon-bubble:hover {
+  box-shadow:
+    0 18px 34px -6px var(--glow),
+    0 0 0 5px #fff,
+    0 0 0 9px var(--glow),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.14),
+    inset 0 2px 3px rgba(255, 255, 255, 0.5);
 }
 
 .icon-bubble svg {
-  width: 42%;
-  height: 42%;
+  position: relative;
+  z-index: 1;
+  width: 44%;
+  height: 44%;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.8;
+  stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
   pointer-events: none;
 }
 
@@ -3270,57 +3501,83 @@ blockquote {
   }
 }
 
+@keyframes bubbleHalo {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .icon-bubble--camera {
+  --c1: #6fd0ff;
+  --c2: #1b84ec;
+  --glow: rgba(27, 132, 236, 0.45);
   width: 70px;
   height: 70px;
-  background: var(--blue);
   inset-inline-start: -15px;
   top: 94px;
 }
 
 .icon-bubble--play {
+  --c1: #5cf0e4;
+  --c2: #0aa5c9;
+  --glow: rgba(10, 165, 201, 0.45);
   width: 70px;
   height: 70px;
-  background: #12c3ce;
   top: 30px;
   inset-inline-start: 192px;
   animation-delay: 0.6s;
 }
 
 .icon-bubble--wifi {
+  --c1: #4fe6c8;
+  --c2: #05998f;
+  --glow: rgba(5, 153, 143, 0.45);
   width: 54px;
   height: 54px;
-  background: #02bfb8;
   inset-inline-start: 45px;
   bottom: 92px;
   animation-delay: 1.2s;
 }
 
 .icon-bubble--star {
+  --c1: #ffd36b;
+  --c2: #ff8a3d;
+  --glow: rgba(255, 138, 61, 0.45);
   width: 36px;
   height: 36px;
-  background: var(--blue);
   inset-inline-end: -4px;
   top: 190px;
   animation-delay: 1.8s;
 }
 
+.icon-bubble--star::before {
+  inset: -8px;
+}
+
 .icon-bubble--lab {
+  --c1: #a77bff;
+  --c2: #5a14d6;
+  --glow: rgba(104, 27, 231, 0.45);
   width: 80px;
   height: 80px;
-  background: #681be7;
   inset-inline-end: 55px;
   bottom: 35px;
   animation-delay: 2.4s;
 }
 
 .icon-bubble--small {
+  --c1: #c08bff;
+  --c2: #7a3df0;
+  --glow: rgba(134, 71, 255, 0.45);
   width: 34px;
   height: 34px;
-  background: #8647ff;
   inset-inline-start: -48px;
   bottom: 50px;
   animation-delay: 3s;
+}
+
+.icon-bubble--small::before {
+  inset: -8px;
 }
 
 .expertise__content {
@@ -3351,10 +3608,11 @@ blockquote {
   font-size: 12px;
   font-weight: 600;
   transition:
+    background-color 0.45s var(--ease),
     transform 0.25s var(--ease),
     box-shadow 0.25s var(--ease),
-    border-color 0.25s var(--ease),
-    color 0.25s var(--ease);
+    border-color 0.45s var(--ease),
+    color 0.45s var(--ease);
 }
 
 .tags span:hover {
@@ -5307,202 +5565,330 @@ blockquote {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  overflow: hidden;
-  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   isolation: isolate;
 }
 
-.ray-loader__pieces,
-.ray-loader__pieces::before {
+.ray-loader-active,
+.ray-loader-active body {
+  overflow: hidden;
+}
+
+/* ---------- diagonal panels ---------- */
+.ray-panel {
   position: absolute;
   inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: #f8fbff;
+  will-change: transform;
 }
 
-.ray-loader__pieces {
-  filter: saturate(1.08) contrast(1.03);
+.ray-panel--a {
+  clip-path: polygon(0 0, 100.3% 0, 0 100.3%);
 }
 
-.ray-loader__pieces::before {
-  content: "";
+.ray-panel--b {
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.ray-panel__bg {
+  position: absolute;
+  inset: 0;
   background:
+    radial-gradient(circle at 50% 46%, #fff 0, rgba(255, 255, 255, 0) 55%),
     radial-gradient(
-      circle at 50% 48%,
-      #fff 0 8%,
-      rgba(255, 255, 255, 0.9) 17%,
+      circle at 88% 10%,
+      rgba(43, 107, 214, 0.1),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 10% 92%,
+      rgba(58, 158, 176, 0.1),
+      transparent 44%
+    ),
+    radial-gradient(
+      circle at 92% 90%,
+      rgba(199, 154, 59, 0.07),
       transparent 38%
-    ),
-    radial-gradient(
-      circle at 18% 24%,
-      rgba(46, 91, 255, 0.13),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 82% 22%,
-      rgba(24, 76, 170, 0.16),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 18% 78%,
-      rgba(0, 167, 160, 0.14),
-      transparent 31%
-    ),
-    radial-gradient(
-      circle at 82% 78%,
-      rgba(199, 154, 59, 0.13),
-      transparent 30%
-    ),
-    linear-gradient(120deg, rgba(78, 108, 190, 0.06), transparent 38%),
-    linear-gradient(300deg, rgba(16, 54, 108, 0.08), transparent 44%);
-  transform: scale(0.96);
-  animation: ray-loader-glow 2.55s var(--ease) 0.08s both;
+    );
 }
 
-.ray-loader__pieces::after {
+/* faint diamond lattice, empty around the logo */
+.ray-panel__bg::before {
   content: "";
   position: absolute;
-  inset: -22%;
-  background: conic-gradient(
-    from 18deg at 50% 50%,
-    transparent 0deg,
-    rgba(42, 102, 214, 0.09) 48deg,
-    transparent 88deg,
-    rgba(47, 84, 177, 0.09) 138deg,
-    transparent 186deg,
-    rgba(0, 156, 150, 0.09) 234deg,
-    transparent 278deg,
-    rgba(184, 138, 45, 0.09) 324deg,
-    transparent 360deg
+  inset: 0;
+  background-image:
+    linear-gradient(45deg, rgba(43, 107, 214, 0.07) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(43, 107, 214, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 46%,
+    transparent 16%,
+    #000 78%
   );
-  animation: ray-loader-ambient 3s var(--ease) 0.02s both;
+  mask-image: radial-gradient(circle at 50% 46%, transparent 16%, #000 78%);
+  opacity: 0;
+  animation: ray-fade-in 1.6s ease 0.1s forwards;
 }
 
-.ray-piece {
+/* slow light sweep */
+.ray-panel__bg::after {
+  content: "";
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.75) 50%,
+    transparent 58%
+  );
+  transform: translateX(-60%);
+  animation: ray-sweep 3.4s cubic-bezier(0.45, 0, 0.2, 1) 0.4s infinite;
+}
+
+/* leave: the two halves slide away along the diagonal */
+.ray-loader-leave-active .ray-panel {
+  transition: transform 1.1s cubic-bezier(0.76, 0, 0.18, 1);
+}
+
+.ray-loader-leave-active .ray-panel--b {
+  transition-delay: 0.05s;
+}
+
+.ray-loader-leave-to .ray-panel--a {
+  transform: translate(-102%, -102%);
+}
+
+.ray-loader-leave-to .ray-panel--b {
+  transform: translate(102%, 102%);
+}
+
+.ray-loader-leave-active .ray-seam {
+  transition: opacity 0.3s ease;
+}
+
+.ray-loader-leave-to .ray-seam {
+  opacity: 0;
+}
+
+/* ---------- seam of light ---------- */
+.ray-seam {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(0 0 7px rgba(58, 158, 176, 0.85));
+}
+
+.ray-seam line {
+  stroke: url(#raySeamGradient);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.75s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.ray-loader.is-done .ray-seam line {
+  stroke-dashoffset: 0;
+}
+
+/* ---------- content ---------- */
+.ray-loader__content,
+.ray-loader__foot {
+  transition:
+    opacity 0.4s ease,
+    transform 0.55s var(--ease);
+}
+
+.ray-loader__content {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ray-loader.is-done .ray-loader__content {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.ray-loader.is-done .ray-loader__foot {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.ray-loader__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 260px;
+  height: 260px;
+}
+
+/* ---------- self-drawing diamonds ---------- */
+.ray-draw {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ray-draw__r {
+  stroke: url(#rayStroke);
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(45deg);
+  animation:
+    ray-draw 1.5s cubic-bezier(0.65, 0, 0.35, 1) var(--d) forwards,
+    ray-sway 7s ease-in-out calc(var(--d) + 1.6s) infinite;
+}
+
+.ray-draw__r--1 {
+  --d: 0.1s;
+  stroke-width: 1.6;
+}
+
+.ray-draw__r--2 {
+  --d: 0.3s;
+  stroke-width: 1.2;
+  opacity: 0.8;
+  animation-direction: normal, reverse;
+}
+
+.ray-draw__r--3 {
+  --d: 0.5s;
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+/* ---------- orbiting sparks ---------- */
+.ray-orbit {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 42vw;
-  height: 44vh;
-  border: 1px solid rgba(255, 255, 255, 0.66);
-  box-shadow:
-    inset 0 0 56px rgba(255, 255, 255, 0.28),
-    0 28px 86px rgba(20, 48, 86, 0.1);
-  transform: translate(-50%, -50%) scale(1.2);
-  will-change: transform, opacity, filter;
-  animation: ray-piece-release 1.82s var(--ease) forwards;
+  opacity: 0;
+  animation:
+    ray-fade-in 0.8s ease 2s forwards,
+    ray-orbit 6s linear 2s infinite;
 }
 
-.ray-piece--1 {
-  background: linear-gradient(145deg, #eef3ff, #b9ccff 52%, #7299f2);
-  clip-path: polygon(0 0, 100% 4%, 88% 100%, 7% 88%);
-  --x: -44vw;
-  --y: -38vh;
-  --r: -9deg;
-  animation-delay: 1.42s;
-}
-
-.ray-piece--2 {
-  background: linear-gradient(145deg, #f6f3df, #e9d39a 55%, #c79a3b);
-  clip-path: polygon(6% 0, 96% 8%, 100% 96%, 0 100%);
-  --x: -15vw;
-  --y: -41vh;
-  --r: -4deg;
-  animation-delay: 1.49s;
-}
-
-.ray-piece--3 {
-  background: linear-gradient(145deg, #edf2ff, #b9c9f4 52%, #6d86c7);
-  clip-path: polygon(4% 4%, 100% 0, 94% 100%, 0 90%);
-  --x: 15vw;
-  --y: -40vh;
-  --r: 5deg;
-  animation-delay: 1.56s;
-}
-
-.ray-piece--4 {
-  background: linear-gradient(145deg, #e8faf7, #9edfd6 52%, #49aaa1);
-  clip-path: polygon(0 6%, 92% 0, 100% 100%, 8% 94%);
-  --x: 43vw;
-  --y: -36vh;
-  --r: 10deg;
-  animation-delay: 1.63s;
-}
-
-.ray-piece--5 {
-  background: linear-gradient(145deg, #e8f2fb, #9fc2e8 55%, #4d82bf);
-  clip-path: polygon(0 0, 94% 8%, 100% 100%, 6% 92%);
-  --x: -48vw;
-  --y: 31vh;
-  --r: -11deg;
-  animation-delay: 1.6s;
-}
-
-.ray-piece--6 {
-  background: linear-gradient(145deg, #eef1fb, #b7c1df 52%, #788db8);
-  clip-path: polygon(6% 0, 100% 4%, 92% 100%, 0 94%);
-  --x: -16vw;
-  --y: 37vh;
-  --r: -5deg;
-  animation-delay: 1.67s;
-}
-
-.ray-piece--7 {
-  background: linear-gradient(145deg, #f8f5ec, #e7d5ad 54%, #b98b42);
-  clip-path: polygon(0 8%, 100% 0, 94% 94%, 8% 100%);
-  --x: 16vw;
-  --y: 38vh;
-  --r: 6deg;
-  animation-delay: 1.74s;
-}
-
-.ray-piece--8 {
-  background: linear-gradient(145deg, #e9f4f8, #9acbd1 52%, #4e9ca4);
-  clip-path: polygon(7% 0, 100% 8%, 92% 100%, 0 92%);
-  --x: 44vw;
-  --y: 32vh;
-  --r: 11deg;
-  animation-delay: 1.81s;
-}
-
-.ray-piece--9 {
-  z-index: 2;
-  width: 30vw;
-  height: 30vw;
-  background:
-    radial-gradient(
-      circle at 38% 34%,
-      rgba(255, 255, 255, 0.96),
-      transparent 34%
-    ),
-    linear-gradient(135deg, #eef3fb, #b9c8e8 38%, #8eb7d0 70%, #7db8aa);
-  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
-  box-shadow:
-    0 0 120px rgba(47, 84, 177, 0.16),
-    0 0 70px rgba(42, 102, 214, 0.11),
-    inset 0 0 44px rgba(255, 255, 255, 0.34);
-  --x: 0;
-  --y: 0;
-  --r: 45deg;
-  animation-delay: 0.08s;
-}
-
-.ray-loader__center {
+.ray-orbit i {
   position: absolute;
-  inset: 0;
-  z-index: 4;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  text-align: center;
-  pointer-events: none;
-  animation: ray-center-exit 0.82s var(--ease) 1.74s forwards;
+  top: 0;
+  left: 50%;
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 2px;
+  background: #3a9eb0;
+  box-shadow: 0 0 12px 2px rgba(58, 158, 176, 0.65);
+  transform: rotate(45deg);
 }
 
+.ray-orbit--1 {
+  width: 190px;
+  height: 190px;
+  margin: -95px 0 0 -95px;
+}
+
+.ray-orbit--2 {
+  width: 232px;
+  height: 232px;
+  margin: -116px 0 0 -116px;
+  animation-duration: 0.8s, 9s;
+  animation-direction: normal, reverse;
+}
+
+.ray-orbit--2 i {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: #c79a3b;
+  box-shadow: 0 0 12px 2px rgba(199, 154, 59, 0.7);
+}
+
+/* ---------- satellites flying into the mark ---------- */
+.ray-sat {
+  --s: 34px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--s);
+  height: var(--s);
+  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+  border-radius: 28%;
+  background: var(--bg);
+  box-shadow: 0 10px 26px rgba(23, 59, 103, 0.18);
+  opacity: 0;
+  animation: ray-sat-in 1.2s cubic-bezier(0.6, 0, 0.2, 1) var(--d) forwards;
+}
+
+.ray-sat--1 {
+  --sx: -46vw;
+  --sy: -34vh;
+  --d: 0.5s;
+  --bg: linear-gradient(145deg, #6fd0ff, #1b84ec);
+}
+
+.ray-sat--2 {
+  --s: 26px;
+  --sx: 44vw;
+  --sy: -26vh;
+  --d: 0.58s;
+  --bg: linear-gradient(145deg, #5cf0e4, #0aa5c9);
+}
+
+.ray-sat--3 {
+  --s: 42px;
+  --sx: 40vw;
+  --sy: 36vh;
+  --d: 0.66s;
+  --bg: linear-gradient(145deg, #ffd36b, #e0a23a);
+}
+
+.ray-sat--4 {
+  --s: 30px;
+  --sx: -42vw;
+  --sy: 30vh;
+  --d: 0.74s;
+  --bg: linear-gradient(145deg, #4fe6c8, #05998f);
+}
+
+.ray-shock {
+  position: absolute;
+  width: 84px;
+  height: 84px;
+  border: 2px solid rgba(43, 107, 214, 0.55);
+  border-radius: 21px;
+  opacity: 0;
+  transform: rotate(45deg);
+  animation: ray-shock 1.2s var(--ease) 1.75s forwards;
+}
+
+/* ---------- the mark ---------- */
 .ray-loader__mark {
   position: relative;
   display: grid;
   place-items: center;
-  width: 86px;
-  height: 86px;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 21px;
   background: linear-gradient(
@@ -5512,23 +5898,28 @@ blockquote {
     #2b8f9f 72%,
     #6aaea0
   );
-  transform: rotate(45deg) scale(0.68);
+  opacity: 0;
+  transform: rotate(45deg) scale(0);
   box-shadow:
-    0 22px 64px rgba(23, 59, 103, 0.22),
-    0 0 0 11px rgba(255, 255, 255, 0.46),
-    0 0 0 24px rgba(44, 91, 153, 0.07),
-    0 0 46px rgba(0, 156, 150, 0.1);
-  animation: ray-mark-in 1.05s var(--ease) 0.18s both;
+    0 22px 60px rgba(23, 59, 103, 0.25),
+    0 0 0 10px rgba(255, 255, 255, 0.6),
+    0 0 0 22px rgba(44, 91, 153, 0.07);
+  animation: ray-mark-pop 0.95s var(--ease) 1.7s forwards;
 }
 
 .ray-loader__mark::before {
   content: "";
   position: absolute;
-  width: 48%;
-  height: 48%;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.18);
+  inset: -40% auto -40% -60%;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: ray-mark-sheen 2.6s ease-in-out 2.6s infinite;
 }
 
 .ray-loader__mark::after {
@@ -5538,271 +5929,288 @@ blockquote {
   font-weight: 900;
   letter-spacing: -0.02em;
   transform: rotate(-45deg);
-  text-shadow: 0 2px 14px rgba(18, 45, 79, 0.16);
+  text-shadow: 0 2px 14px rgba(18, 45, 79, 0.2);
 }
 
-.ray-loader__mark span {
-  display: none;
-}
-
-.ray-loader__brand {
-  margin-top: 29px;
-  color: #173b67;
-  font-size: clamp(22px, 2.4vw, 36px);
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-shadow: 0 8px 30px rgba(23, 59, 103, 0.12);
-  animation: ray-brand-in 0.94s var(--ease) 0.36s both;
-}
-
-.ray-loader__brand::after {
-  content: "";
-  display: block;
-  width: 58px;
-  height: 2px;
-  margin: 14px auto 0;
-  border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #2b6bd6,
-    #4d73b6,
-    #3a9eb0,
-    #72a99d,
-    transparent
-  );
-  opacity: 0.76;
-}
-
-.ray-loader__flash {
-  position: absolute;
-  inset: -15%;
-  z-index: 5;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0.98) 0 6%,
-    rgba(235, 242, 248, 0.86) 13%,
-    rgba(213, 232, 239, 0.42) 24%,
-    transparent 46%
-  );
-  opacity: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  animation: ray-flash 1.12s var(--ease) 2.58s forwards;
-}
-
-.ray-loader-active,
-.ray-loader-active body {
+/* ---------- brand + tag (masked line reveal) ---------- */
+.ray-loader__brand,
+.ray-loader__tag {
   overflow: hidden;
 }
 
-.ray-loader-leave-active {
-  transition: opacity 0.42s var(--ease);
+.ray-loader__brand {
+  margin-top: 8px;
+  padding: 0.12em 0.2em 0.18em;
+  color: #173b67;
+  font-size: clamp(24px, 2.6vw, 38px);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
 }
 
-.ray-loader-leave-to {
+.ray-loader__brand span,
+.ray-loader__tag span {
+  display: inline-block;
+  transform: translateY(115%);
+  animation: ray-line-up 0.95s var(--ease) 2.1s forwards;
+}
+
+.ray-loader__tag {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+  color: #5a7694;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.ray-loader__tag span {
+  position: relative;
+  padding: 0 40px;
+  animation-delay: 2.4s;
+}
+
+.ray-loader__tag span::before,
+.ray-loader__tag span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #3a9eb0, #c79a3b);
+  animation: ray-line-grow 0.8s var(--ease) 2.6s forwards;
+}
+
+.ray-loader__tag span::before {
+  inset-inline-start: 0;
+}
+
+.ray-loader__tag span::after {
+  inset-inline-end: 0;
+}
+
+.app.is-rtl .ray-loader__brand,
+.app.is-rtl .ray-loader__tag {
+  letter-spacing: 0;
+}
+
+.app.is-rtl .ray-loader__tag {
+  font-size: 14px;
+  text-transform: none;
+}
+
+/* ---------- progress ---------- */
+.ray-loader__foot {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 clamp(20px, 4vw, 56px) clamp(22px, 4vh, 40px);
   opacity: 0;
+  animation: ray-fade-in 0.8s ease 0.4s forwards;
 }
 
-.ray-loader-enter-active {
-  transition: opacity 0.16s ease;
+.ray-loader__count {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 4px;
+  color: #173b67;
+  font-size: clamp(44px, 7vw, 92px);
+  font-weight: 200;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
 }
 
-.ray-loader-enter-from {
-  opacity: 0;
+.ray-loader__count small {
+  margin-top: 0.12em;
+  color: #3a9eb0;
+  font-size: 0.3em;
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
-@keyframes ray-mark-in {
+.ray-loader__bar {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(23, 59, 103, 0.08);
+}
+
+.ray-loader__bar i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(90deg, #2b6bd6, #3a9eb0, #72a99d, #c79a3b);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.app.is-rtl .ray-loader__bar i {
+  transform-origin: right center;
+}
+
+/* ---------- keyframes ---------- */
+@keyframes ray-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ray-sweep {
+  0% {
+    transform: translateX(-60%);
+  }
+
+  70%,
+  100% {
+    transform: translateX(60%);
+  }
+}
+
+@keyframes ray-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes ray-sway {
+  0%,
+  100% {
+    transform: rotate(45deg);
+  }
+
+  50% {
+    transform: rotate(52deg);
+  }
+}
+
+@keyframes ray-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ray-sat-in {
   0% {
     opacity: 0;
-    transform: rotate(45deg) scale(0.34);
-    filter: blur(9px);
+    transform: translate(var(--sx), var(--sy)) rotate(45deg) scale(1.3);
   }
 
-  52% {
+  25% {
     opacity: 1;
-    transform: rotate(45deg) scale(1.06);
-    filter: blur(0);
   }
 
-  76% {
-    transform: rotate(45deg) scale(0.97);
+  85% {
+    opacity: 1;
+    transform: translate(calc(var(--sx) * 0.05), calc(var(--sy) * 0.05))
+      rotate(225deg) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(270deg) scale(0.3);
+  }
+}
+
+@keyframes ray-shock {
+  0% {
+    opacity: 0.9;
+    transform: rotate(45deg) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) scale(3.1);
+  }
+}
+
+@keyframes ray-mark-pop {
+  0% {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.2);
+  }
+
+  55% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.1);
   }
 
   100% {
     opacity: 1;
-    transform: rotate(45deg) scale(0.94);
-    filter: blur(0);
+    transform: rotate(45deg) scale(1);
   }
 }
 
-@keyframes ray-brand-in {
+@keyframes ray-mark-sheen {
   0% {
-    opacity: 0;
-    transform: translateY(18px);
-    filter: blur(10px);
-    letter-spacing: 0.21em;
+    left: -60%;
   }
 
-  58% {
-    opacity: 1;
-    filter: blur(0);
-  }
-
+  45%,
   100% {
-    opacity: 1;
+    left: 160%;
+  }
+}
+
+@keyframes ray-line-up {
+  to {
     transform: none;
-    filter: blur(0);
-    letter-spacing: 0.12em;
   }
 }
 
-@keyframes ray-center-exit {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
-  }
-
-  58% {
-    opacity: 1;
-    transform: scale(1.018);
-    filter: blur(0);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(0.965);
-    filter: blur(4px);
-  }
-}
-
-@keyframes ray-piece-release {
-  0% {
-    opacity: 1;
-    filter: blur(0);
-    transform: translate(-50%, -50%) scale(1.2) rotate(0);
-  }
-
-  30% {
-    opacity: 1;
-    filter: blur(0);
-    transform: translate(-50%, -50%) scale(1.15) rotate(calc(var(--r) * 0.08));
-  }
-
-  58% {
-    opacity: 1;
-    filter: blur(0.15px);
-    transform: translate(
-        calc(-50% + var(--x) * 0.52),
-        calc(-50% + var(--y) * 0.52)
-      )
-      scale(1.09) rotate(calc(var(--r) * 0.48));
-  }
-
-  82% {
-    opacity: 0.96;
-    filter: blur(0.45px);
-    transform: translate(
-        calc(-50% + var(--x) * 0.88),
-        calc(-50% + var(--y) * 0.88)
-      )
-      scale(1.035) rotate(calc(var(--r) * 0.88));
-  }
-
-  100% {
-    opacity: 0;
-    filter: blur(2.2px);
-    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
-      scale(0.97) rotate(var(--r));
-  }
-}
-
-@keyframes ray-loader-glow {
-  0% {
-    opacity: 0.1;
-    transform: scale(0.92);
-  }
-
-  32% {
-    opacity: 0.68;
-    transform: scale(1.01);
-  }
-
-  62% {
-    opacity: 0.38;
-    transform: scale(1.026);
-  }
-
-  100% {
-    opacity: 0.16;
-    transform: scale(1);
-  }
-}
-
-@keyframes ray-loader-ambient {
-  0% {
-    opacity: 0;
-    transform: scale(0.91) rotate(-12deg);
-  }
-
-  34% {
-    opacity: 0.72;
-  }
-
-  100% {
-    opacity: 0.18;
-    transform: scale(1.05) rotate(8deg);
-  }
-}
-
-@keyframes ray-flash {
-  0% {
-    opacity: 0;
-    transform: scale(0.7);
-  }
-
-  28% {
-    opacity: 0.72;
-    transform: scale(0.98);
-  }
-
-  56% {
-    opacity: 0.22;
-    transform: scale(1.1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.3);
+@keyframes ray-line-grow {
+  to {
+    width: 28px;
   }
 }
 
 @media (max-width: 700px) {
-  .ray-piece {
-    width: 62vw;
-    height: 34vh;
+  .ray-loader__stage {
+    width: 220px;
+    height: 220px;
   }
 
-  .ray-piece--9 {
-    width: 48vw;
-    height: 48vw;
+  .ray-orbit--1 {
+    width: 160px;
+    height: 160px;
+    margin: -80px 0 0 -80px;
   }
 
-  .ray-loader__mark {
-    width: 68px;
-    height: 68px;
+  .ray-orbit--2 {
+    width: 196px;
+    height: 196px;
+    margin: -98px 0 0 -98px;
+  }
+
+  .ray-loader__mark,
+  .ray-shock {
+    width: 70px;
+    height: 70px;
     border-radius: 17px;
   }
 
-  .ray-loader__brand {
-    font-size: 21px;
-    letter-spacing: 0.08em;
+  .ray-loader__mark::after {
+    font-size: 16px;
   }
 
-  .ray-loader__brand::after {
-    width: 44px;
-    margin-top: 11px;
+  .ray-loader__brand {
+    font-size: 22px;
+    letter-spacing: 0.1em;
+  }
+
+  .ray-loader__tag {
+    font-size: 10px;
+    letter-spacing: 0.26em;
+  }
+
+  .ray-loader__tag span {
+    padding: 0 34px;
   }
 }
 </style>
