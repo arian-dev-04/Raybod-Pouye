@@ -2531,12 +2531,6 @@ select:focus-visible {
   }
 }
 
-@media (max-width: 1168px) {
-  .about::before {
-    display: none;
-  }
-}
-
 /* ============ 6. HERO ============ */
 .hero {
   padding-top: 0;
@@ -2715,18 +2709,6 @@ select:focus-visible {
   padding: 150px 0 120px;
 }
 
-.about::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: -110px;
-  top: 195px;
-  width: 310px;
-  height: 310px;
-  border-radius: 48px;
-  background: rgba(228, 246, 255, 0.95);
-  transform: rotate(45deg);
-  margin-inline-start: 200px;
-}
 .about__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2812,12 +2794,12 @@ select:focus-visible {
 .about-blue-diamond {
   position: absolute;
   z-index: 0;
-  inset-inline-start: -45px;
-  top: 105px;
-  width: 250px;
-  height: 250px;
+  inset-inline-start: -15px;
+  top: -65px;
+  width: 420px;
+  height: 420px;
   border-radius: 42px;
-  background: rgba(224, 246, 255, 0.86);
+  background: rgba(224, 246, 255, 0.95);
   transform: rotate(45deg);
   pointer-events: none;
 }
