@@ -2965,7 +2965,7 @@ select:focus-visible {
 .about-blue-diamond {
   position: absolute;
   z-index: 0;
-  inset-inline-start: -15px;
+  inset-inline-start: -55px;
   top: -65px;
   width: 420px;
   height: 420px;
