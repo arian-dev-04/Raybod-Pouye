@@ -146,18 +146,55 @@
             {{ t(item.label) }}
           </a>
 
-          <button
-            class="lang-btn"
-            type="button"
-            :aria-label="
-              currentLanguage === 'en'
-                ? 'Switch to Persian'
-                : 'Switch to English'
-            "
-            @click="toggleLanguage"
-          >
-            <span>{{ currentLanguage === "en" ? "فا" : "En" }}</span>
-          </button>
+          <div class="nav-tools">
+            <button
+              class="lang-btn"
+              type="button"
+              :aria-label="
+                currentLanguage === 'en'
+                  ? 'Switch to Persian'
+                  : 'Switch to English'
+              "
+              @click="toggleLanguage"
+            >
+              <span>{{ currentLanguage === "en" ? "فا" : "En" }}</span>
+            </button>
+
+            <button
+              class="theme-btn"
+              type="button"
+              :aria-label="themeToggleLabel"
+              :title="themeToggleLabel"
+              :aria-pressed="theme === 'dark'"
+              @click="toggleTheme"
+            >
+              <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <mask id="themeMaskDesktop">
+                  <rect x="0" y="0" width="24" height="24" fill="#fff" />
+                  <circle
+                    class="theme-icon__cut"
+                    cx="12"
+                    cy="12"
+                    r="7"
+                    fill="#000"
+                  />
+                </mask>
+                <circle
+                  class="theme-icon__core"
+                  cx="12"
+                  cy="12"
+                  r="5.2"
+                  fill="currentColor"
+                  mask="url(#themeMaskDesktop)"
+                />
+                <g class="theme-icon__rays">
+                  <path
+                    d="M12 2.2v2.3M12 19.5v2.3M2.2 12h2.3M19.5 12h2.3M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
 
           <button
             class="nav-language"
@@ -171,6 +208,45 @@
           >
             <span>{{ currentLanguage === "en" ? "فا" : "En" }}</span>
             <span>{{ currentLanguage === "en" ? "فارسی" : "English" }}</span>
+          </button>
+
+          <button
+            class="nav-theme"
+            type="button"
+            :aria-label="themeToggleLabel"
+            :aria-pressed="theme === 'dark'"
+            @click="toggleTheme"
+          >
+            <span>
+              <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <mask id="themeMaskMobile">
+                  <rect x="0" y="0" width="24" height="24" fill="#fff" />
+                  <circle
+                    class="theme-icon__cut"
+                    cx="12"
+                    cy="12"
+                    r="7"
+                    fill="#000"
+                  />
+                </mask>
+                <circle
+                  class="theme-icon__core"
+                  cx="12"
+                  cy="12"
+                  r="5.2"
+                  fill="currentColor"
+                  mask="url(#themeMaskMobile)"
+                />
+                <g class="theme-icon__rays">
+                  <path
+                    d="M12 2.2v2.3M12 19.5v2.3M2.2 12h2.3M19.5 12h2.3M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6"
+                  />
+                </g>
+              </svg>
+            </span>
+            <span>{{
+              theme === "dark" ? t("Light Mode") : t("Dark Mode")
+            }}</span>
           </button>
         </nav>
 
@@ -863,6 +939,131 @@ const activeSection = ref("home");
 const isSwitchingLanguage = ref(false);
 
 /* =========================================================
+   THEME (light / dark)
+   ========================================================= */
+const THEME_KEY = "raybod-theme";
+
+const readStoredTheme = () => {
+  try {
+    const stored = window.localStorage.getItem(THEME_KEY);
+    return stored === "dark" || stored === "light" ? stored : null;
+  } catch {
+    return null;
+  }
+};
+
+const systemPrefersDark = () =>
+  typeof window !== "undefined" &&
+  !!window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+
+const theme = ref(
+  readStoredTheme() ?? (systemPrefersDark() ? "dark" : "light"),
+);
+
+const applyTheme = (value) => {
+  if (typeof document === "undefined") return;
+
+  document.documentElement.dataset.theme = value;
+  document.documentElement.style.colorScheme = value;
+
+  let meta = document.head.querySelector('meta[name="theme-color"]');
+
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.setAttribute("name", "theme-color");
+    document.head.appendChild(meta);
+  }
+
+  meta.setAttribute("content", value === "dark" ? "#0a101c" : "#ffffff");
+};
+
+applyTheme(theme.value);
+
+const themeToggleLabel = computed(() => {
+  const toDark = theme.value === "light";
+
+  if (currentLanguage.value === "fa") {
+    return toDark ? "تغییر به حالت تاریک" : "تغییر به حالت روشن";
+  }
+
+  return toDark ? "Switch to dark mode" : "Switch to light mode";
+});
+
+const setTheme = (value) => {
+  theme.value = value;
+  applyTheme(value);
+
+  try {
+    window.localStorage.setItem(THEME_KEY, value);
+  } catch {
+    /* storage can be blocked: the theme still works for this visit */
+  }
+};
+
+const toggleTheme = (event) => {
+  const next = theme.value === "dark" ? "light" : "dark";
+
+  const reduceMotion = window.matchMedia?.(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  // Browsers with View Transitions: a circle grows from the button.
+  if (document.startViewTransition && !reduceMotion) {
+    const rect = event?.currentTarget?.getBoundingClientRect?.();
+    const x = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+    const y = rect ? rect.top + rect.height / 2 : 0;
+
+    const radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const transition = document.startViewTransition(async () => {
+      setTheme(next);
+      await nextTick();
+    });
+
+    transition.ready
+      .then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${radius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 700,
+            easing: "cubic-bezier(0.65, 0, 0.35, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          },
+        );
+      })
+      .catch(() => {});
+
+    return;
+  }
+
+  // Everyone else: a short, smooth cross-fade of the colors.
+  const root = document.documentElement;
+
+  root.classList.add("theme-fading");
+  setTheme(next);
+
+  window.setTimeout(() => root.classList.remove("theme-fading"), 520);
+};
+
+let themeMedia = null;
+
+const handleSystemTheme = (event) => {
+  // follow the OS only while the visitor has not picked a theme manually
+  if (readStoredTheme()) return;
+
+  theme.value = event.matches ? "dark" : "light";
+  applyTheme(theme.value);
+};
+
+/* =========================================================
    SEO
    ========================================================= */
 const SEO = {
@@ -928,7 +1129,7 @@ const updateSEO = () => {
   );
 
   setMeta("author", "Raybod Pouye");
-  setMeta("theme-color", "#ffffff");
+  setMeta("theme-color", theme.value === "dark" ? "#0a101c" : "#ffffff");
 
   setMeta("og:type", "website", "property");
   setMeta("og:title", content.title, "property");
@@ -1772,6 +1973,8 @@ const translations = {
 
     BrandName: "رایبد پویه",
     LoaderTag: "راهکارهای هوشمند سازمانی",
+    "Dark Mode": "حالت تاریک",
+    "Light Mode": "حالت روشن",
   },
 
   en: {
@@ -1938,6 +2141,8 @@ const translations = {
 
     BrandName: "Raybod Pouye",
     LoaderTag: "Intelligent Solutions",
+    "Dark Mode": "Dark Mode",
+    "Light Mode": "Light Mode",
   },
 };
 
@@ -2202,6 +2407,9 @@ const runLoaderProgress = () =>
 onMounted(async () => {
   updateSEO();
 
+  themeMedia = window.matchMedia?.("(prefers-color-scheme: dark)") ?? null;
+  themeMedia?.addEventListener?.("change", handleSystemTheme);
+
   document.documentElement.classList.add("ray-loader-active");
 
   const minimumIntro = runLoaderProgress();
@@ -2279,6 +2487,7 @@ onMounted(async () => {
    CLEANUP
    ========================================================= */
 onUnmounted(() => {
+  themeMedia?.removeEventListener?.("change", handleSystemTheme);
   if (loaderFrame) cancelAnimationFrame(loaderFrame);
   document.documentElement.classList.remove("ray-loader-active");
 
@@ -2554,7 +2763,7 @@ select:focus-visible {
 }
 
 .header__inner {
-  width: min(965px, calc(100% - 52px));
+  width: min(995px, calc(100% - 52px));
   height: 100%;
   display: flex;
   align-items: center;
@@ -2664,6 +2873,7 @@ select:focus-visible {
 }
 
 .nav-language,
+.nav-theme,
 .menu-btn {
   display: none;
 }
@@ -2691,6 +2901,123 @@ select:focus-visible {
 .lang-btn:hover {
   transform: translateY(-2px) rotate(8deg);
   box-shadow: 0 12px 26px rgba(23, 81, 138, 0.22);
+}
+
+/* ---------- language + theme buttons ---------- */
+.nav-tools {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-btn {
+  flex-shrink: 0;
+  position: relative;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #f08a1c;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(23, 81, 138, 0.13);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    background-color 0.4s ease,
+    color 0.4s ease;
+}
+
+.theme-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(23, 81, 138, 0.22);
+}
+
+.theme-btn:active {
+  transform: translateY(0) scale(0.94);
+}
+
+/* sun <-> moon: one circle, one mask, one ring of rays */
+.theme-icon {
+  display: block;
+  width: 19px;
+  height: 19px;
+  overflow: visible;
+  transition: transform 0.7s var(--ease);
+}
+
+.theme-btn:hover .theme-icon {
+  transform: rotate(18deg);
+}
+
+.theme-icon__core,
+.theme-icon__cut {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.6s var(--ease);
+}
+
+.theme-icon__cut {
+  transform: translate(16px, -16px);
+}
+
+.theme-icon__rays {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  transform-box: view-box;
+  transform-origin: center;
+  transition:
+    transform 0.6s var(--ease),
+    opacity 0.35s ease;
+}
+
+html[data-theme="dark"] .theme-icon__core {
+  transform: scale(1.55);
+}
+
+html[data-theme="dark"] .theme-icon__cut {
+  transform: translate(6px, -5px);
+}
+
+html[data-theme="dark"] .theme-icon__rays {
+  opacity: 0;
+  transform: rotate(80deg) scale(0.35);
+}
+
+/* theme switch: circular reveal (View Transitions) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* fallback for browsers without View Transitions */
+html.theme-fading,
+html.theme-fading *,
+html.theme-fading *::before,
+html.theme-fading *::after {
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease,
+    fill 0.45s ease,
+    stroke 0.45s ease !important;
 }
 
 @media (min-width: 1169px) {
@@ -2965,7 +3292,7 @@ select:focus-visible {
 .about-blue-diamond {
   position: absolute;
   z-index: 0;
-  inset-inline-start: -55px;
+  inset-inline-start: -15px;
   top: -65px;
   width: 420px;
   height: 420px;
@@ -4427,7 +4754,7 @@ blockquote {
    18. ≤1168
    ========================================================= */
 @media (max-width: 1168px) {
-  .lang-btn {
+  .nav-tools {
     display: none;
   }
 
@@ -4585,7 +4912,8 @@ blockquote {
     display: none;
   }
 
-  .nav-language {
+  .nav-language,
+  .nav-theme {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -4604,12 +4932,14 @@ blockquote {
     cursor: pointer;
   }
 
-  .nav-language:hover {
+  .nav-language:hover,
+  .nav-theme:hover {
     color: var(--blue-dark);
     background: rgba(38, 159, 243, 0.05);
   }
 
-  .nav-language span:first-child {
+  .nav-language span:first-child,
+  .nav-theme span:first-child {
     display: inline-grid;
     place-items: center;
     min-width: 36px;
@@ -4620,6 +4950,20 @@ blockquote {
     color: var(--blue-dark);
     font-size: 13px;
     font-weight: 900;
+  }
+
+  .nav-theme {
+    margin: 0;
+    border-top: 1px solid #edf1f4;
+  }
+
+  .nav-theme span:first-child {
+    color: #f08a1c;
+  }
+
+  .nav-theme .theme-icon {
+    width: 18px;
+    height: 18px;
   }
 
   .hero {
@@ -6212,5 +6556,512 @@ blockquote {
   .ray-loader__tag span {
     padding: 0 34px;
   }
+}
+
+/* =========================================================
+   24. DARK THEME
+   (every selector is prefixed with a zero-specificity
+   :where(html[data-theme="dark"]), so each rule only has to
+   repeat the original selector and come later in the file)
+   ========================================================= */
+html[data-theme="dark"] {
+  --blue-dark: #8fd0ff;
+  --text: #e4ebf5;
+  --muted: #93a3ba;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
+}
+
+:where(html[data-theme="dark"]) body {
+  background: #0a101c;
+}
+
+:where(html[data-theme="dark"]) ::selection {
+  background: #1f7fd0;
+}
+
+/* ---------- header ---------- */
+:where(html[data-theme="dark"]) .btn--primary {
+  color: #4cd3ee;
+  background: #131d30;
+  border-color: #24425a;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+}
+
+:where(html[data-theme="dark"]) .header.scrolled {
+  background: rgba(10, 16, 28, 0.9);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5);
+}
+
+:where(html[data-theme="dark"]) .brand {
+  color: #e9eff8;
+}
+
+:where(html[data-theme="dark"]) .header.scrolled .nav a {
+  color: #c9d6e8;
+}
+
+:where(html[data-theme="dark"]) .lang-btn,
+:where(html[data-theme="dark"]) .theme-btn {
+  background: #16233a;
+  color: #9fd8ff;
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+:where(html[data-theme="dark"]) .theme-btn {
+  color: #b9c9ff;
+}
+
+:where(html[data-theme="dark"]) .lang-btn:hover,
+:where(html[data-theme="dark"]) .theme-btn:hover {
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(143, 208, 255, 0.45);
+}
+
+/* ---------- hero (desktop) ---------- */
+@media (min-width: 769px) {
+  :where(html[data-theme="dark"]) .hero {
+    background: #0a101c;
+  }
+}
+
+@media (min-width: 1169px) {
+  :where(html[data-theme="dark"]) .hero::before {
+    background: rgba(22, 48, 82, 0.9);
+  }
+
+  :where(html[data-theme="dark"]) .hero::after {
+    background: rgba(20, 60, 96, 0.92);
+  }
+
+  :where(html[data-theme="dark"]) .hero__content::before {
+    background: rgba(18, 42, 74, 0.94);
+  }
+
+  :where(html[data-theme="dark"]) .hero__content::after {
+    background: rgba(27, 56, 90, 0.88);
+  }
+
+  :where(html[data-theme="dark"]) .hero h1 {
+    color: #f1f5fb;
+  }
+
+  :where(html[data-theme="dark"]) .hero p {
+    color: #c4d1e3;
+  }
+
+  :where(html[data-theme="dark"]) .hero .btn--primary {
+    color: #5fd8ee;
+    border-color: rgba(18, 191, 229, 0.55);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  :where(html[data-theme="dark"]) .hero .btn--primary span {
+    border-left-color: #5fd8ee;
+  }
+}
+
+/* ---------- about ---------- */
+:where(html[data-theme="dark"]) .about-blue-diamond {
+  background: rgba(20, 38, 64, 0.95);
+}
+
+:where(html[data-theme="dark"]) .about-image-diamond {
+  background: #131d30;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+:where(html[data-theme="dark"]) .stat__value {
+  color: #eef3fa;
+}
+
+:where(html[data-theme="dark"]) .stat > span:last-child {
+  color: #8d9db3;
+}
+
+:where(html[data-theme="dark"]) blockquote {
+  border-inline-start-color: #2b3a52;
+  color: #6f7f96;
+}
+
+/* ---------- services ---------- */
+:where(html[data-theme="dark"]) .services {
+  background: #0e1626;
+}
+
+:where(html[data-theme="dark"]) .services::before {
+  background: rgba(19, 29, 48, 0.9);
+}
+
+:where(html[data-theme="dark"]) .services__arrow-btn {
+  background: #16233a;
+}
+
+:where(html[data-theme="dark"]) .service-card {
+  background: #131d30;
+}
+
+:where(html[data-theme="dark"]) .service-card:hover {
+  box-shadow: 0 20px 38px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- expertise ---------- */
+:where(html[data-theme="dark"]) .expertise {
+  background: #0a101c;
+}
+
+:where(html[data-theme="dark"]) .expertise::after {
+  background: #0e1a2e;
+}
+
+:where(html[data-theme="dark"]) .orbit-line {
+  border-color: rgba(100, 140, 255, 0.22);
+}
+
+:where(html[data-theme="dark"]) .diamond-title--large::before {
+  background: rgba(38, 159, 243, 0.12);
+}
+
+:where(html[data-theme="dark"]) .icon-bubble {
+  box-shadow:
+    0 14px 28px -6px var(--glow),
+    0 0 0 5px rgba(12, 19, 33, 0.92),
+    0 0 0 6px rgba(255, 255, 255, 0.14),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.22),
+    inset 0 2px 3px rgba(255, 255, 255, 0.45);
+}
+
+:where(html[data-theme="dark"]) .icon-bubble:hover {
+  box-shadow:
+    0 18px 34px -6px var(--glow),
+    0 0 0 5px #0c1321,
+    0 0 0 9px var(--glow),
+    inset 0 -6px 12px rgba(0, 0, 0, 0.22),
+    inset 0 2px 3px rgba(255, 255, 255, 0.45);
+}
+
+:where(html[data-theme="dark"]) .expertise__content p {
+  color: #b3c0d3;
+}
+
+:where(html[data-theme="dark"]) .tags span {
+  border-color: #2a3a52;
+  color: #8d9db3;
+}
+
+/* ---------- testimonials ---------- */
+:where(html[data-theme="dark"]) .testimonials {
+  background: #0e1626;
+}
+
+:where(html[data-theme="dark"]) .testimonials::before {
+  background: rgba(19, 29, 48, 0.9);
+}
+
+:where(html[data-theme="dark"]) .testimonial-diamond h2 {
+  color: #eef3fa;
+}
+
+:where(html[data-theme="dark"]) .testimonial-card__box {
+  background: #131d30;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.35);
+}
+
+:where(html[data-theme="dark"]) .testimonial-card:hover .testimonial-card__box {
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.5);
+}
+
+:where(html[data-theme="dark"]) .testimonial-card__text {
+  color: #d0dbea;
+}
+
+:where(html[data-theme="dark"])
+  .testimonial-card__text::-webkit-scrollbar-thumb {
+  background: #2a4a63;
+}
+
+:where(html[data-theme="dark"])
+  .testimonial-card__text::-webkit-scrollbar-thumb:hover {
+  background: #3b6a8c;
+}
+
+:where(html[data-theme="dark"]) .testimonial-card__stars .is-empty {
+  color: #2b3a52;
+}
+
+:where(html[data-theme="dark"]) .testimonial-card__avatar {
+  border-color: #131d30;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+:where(html[data-theme="dark"]) .testimonial-card__client h3 {
+  color: #eef3fa;
+}
+
+:where(html[data-theme="dark"]) .testimonial-card__client span {
+  color: #9aabc1;
+}
+
+:where(html[data-theme="dark"]) .testimonial-dots button {
+  background: #2a3f58;
+}
+
+:where(html[data-theme="dark"]) .testimonial-dots button:hover {
+  background: #3b5f7e;
+}
+
+/* ---------- case studies ---------- */
+:where(html[data-theme="dark"]) .case {
+  background: #0e1626;
+}
+
+:where(html[data-theme="dark"]) .case__sidebar li {
+  color: #c4d1e3;
+}
+
+:where(html[data-theme="dark"]) .case__sidebar li.active {
+  background: rgba(38, 159, 243, 0.22);
+}
+
+:where(html[data-theme="dark"]) .case-card {
+  background: #131d30;
+}
+
+:where(html[data-theme="dark"]) .case-card:hover {
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- cta ---------- */
+:where(html[data-theme="dark"]) .cta {
+  background: #0e1626;
+}
+
+:where(html[data-theme="dark"]) .cta__box {
+  background: #131d30;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+:where(html[data-theme="dark"]) .cta__box:hover {
+  box-shadow: 0 22px 46px rgba(21, 190, 213, 0.18);
+}
+
+:where(html[data-theme="dark"]) .cta h3 {
+  color: #e8f1fb;
+}
+
+:where(html[data-theme="dark"]) .cta p {
+  color: #aab9cc;
+}
+
+/* ---------- office ---------- */
+:where(html[data-theme="dark"]) .office {
+  background: #0e1626;
+}
+
+:where(html[data-theme="dark"]) .office::before {
+  background: rgba(19, 29, 48, 0.7);
+}
+
+:where(html[data-theme="dark"]) .contact-card {
+  background: #131d30;
+}
+
+:where(html[data-theme="dark"]) .contact-card:hover {
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.55);
+}
+
+:where(html[data-theme="dark"]) .contact-row,
+:where(html[data-theme="dark"]) .contact-card p {
+  color: #b3c0d3;
+}
+
+:where(html[data-theme="dark"]) .map img {
+  filter: saturate(0.7) brightness(0.78) contrast(1.05);
+}
+
+:where(html[data-theme="dark"]) .map::after {
+  background: rgba(10, 16, 28, 0.22);
+}
+
+:where(html[data-theme="dark"]) .map-btn {
+  background: #1a5fc0;
+}
+
+/* ---------- footer ---------- */
+:where(html[data-theme="dark"]) .footer {
+  background: #080d17;
+}
+
+:where(html[data-theme="dark"]) .footer__brand p,
+:where(html[data-theme="dark"]) .footer__brand small {
+  color: #7b8aa0;
+}
+
+:where(html[data-theme="dark"]) .footer-col a {
+  color: #8fa0b8;
+}
+
+:where(html[data-theme="dark"]) .socials a {
+  background: #16233a;
+}
+
+:where(html[data-theme="dark"]) .footer-social select {
+  border-color: #2a3a52;
+  background: #131d30;
+}
+
+:where(html[data-theme="dark"]) .to-top {
+  background: #1c3a57;
+  color: #9fdcff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- tablet / mobile ---------- */
+@media (max-width: 1168px) {
+  :where(html[data-theme="dark"]) .header.scrolled {
+    background: rgba(10, 16, 28, 0.92);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  :where(html[data-theme="dark"]) .header.scrolled .brand__text {
+    color: #e9eff8;
+  }
+
+  :where(html[data-theme="dark"]) .menu-btn span,
+  :where(html[data-theme="dark"]) .header.scrolled .menu-btn span {
+    background: #e8eef7;
+  }
+
+  :where(html[data-theme="dark"]) .nav {
+    background: rgba(17, 27, 46, 0.98);
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.6);
+  }
+
+  :where(html[data-theme="dark"]) .nav a,
+  :where(html[data-theme="dark"]) .header.scrolled .nav a {
+    color: #d6e0ee;
+    border-bottom-color: #223049;
+  }
+
+  :where(html[data-theme="dark"]) .nav a:hover,
+  :where(html[data-theme="dark"]) .nav a.is-active,
+  :where(html[data-theme="dark"]) .header.scrolled .nav a:hover,
+  :where(html[data-theme="dark"]) .header.scrolled .nav a.is-active {
+    color: #8fd0ff;
+  }
+
+  :where(html[data-theme="dark"]) .nav-language,
+  :where(html[data-theme="dark"]) .nav-theme {
+    color: #d6e0ee;
+    border-top-color: #223049;
+  }
+
+  :where(html[data-theme="dark"]) .nav-language:hover,
+  :where(html[data-theme="dark"]) .nav-theme:hover {
+    color: #8fd0ff;
+    background: rgba(38, 159, 243, 0.1);
+  }
+
+  :where(html[data-theme="dark"]) .nav-language span:first-child,
+  :where(html[data-theme="dark"]) .nav-theme span:first-child {
+    background: #1a2a44;
+    color: #8fd0ff;
+  }
+
+  :where(html[data-theme="dark"]) .nav-theme span:first-child {
+    color: #b9c9ff;
+  }
+
+  :where(html[data-theme="dark"]) .expertise__responsive-title {
+    color: #6fa2ff;
+  }
+
+  :where(html[data-theme="dark"]) .expertise__content h2 {
+    color: #eef3fa;
+  }
+
+  :where(html[data-theme="dark"]) .expertise__content p {
+    color: #b3c0d3;
+  }
+
+  :where(html[data-theme="dark"]) .tags span {
+    border-color: #2a3a52;
+    background: rgba(255, 255, 255, 0.03);
+    color: #c4d1e3;
+  }
+}
+
+/* ---------- loader ---------- */
+:where(html[data-theme="dark"]) .ray-panel {
+  background: #0a101c;
+}
+
+:where(html[data-theme="dark"]) .ray-panel__bg {
+  background:
+    radial-gradient(circle at 50% 46%, #14233d 0, rgba(10, 16, 28, 0) 55%),
+    radial-gradient(
+      circle at 88% 10%,
+      rgba(43, 107, 214, 0.18),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 10% 92%,
+      rgba(58, 158, 176, 0.14),
+      transparent 44%
+    ),
+    radial-gradient(
+      circle at 92% 90%,
+      rgba(199, 154, 59, 0.08),
+      transparent 38%
+    );
+}
+
+:where(html[data-theme="dark"]) .ray-panel__bg::before {
+  background-image:
+    linear-gradient(45deg, rgba(110, 160, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(110, 160, 255, 0.08) 1px, transparent 1px);
+}
+
+:where(html[data-theme="dark"]) .ray-panel__bg::after {
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(120, 170, 255, 0.07) 50%,
+    transparent 58%
+  );
+}
+
+:where(html[data-theme="dark"]) .ray-loader__brand {
+  color: #e8f1fb;
+}
+
+:where(html[data-theme="dark"]) .ray-loader__tag {
+  color: #8ea7c4;
+}
+
+:where(html[data-theme="dark"]) .ray-loader__count {
+  color: #e8f1fb;
+}
+
+:where(html[data-theme="dark"]) .ray-loader__bar {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:where(html[data-theme="dark"]) .ray-loader__mark {
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 10px rgba(255, 255, 255, 0.07),
+    0 0 0 22px rgba(90, 150, 255, 0.06);
+}
+
+:where(html[data-theme="dark"]) .ray-sat {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
 }
 </style>
