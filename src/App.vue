@@ -3292,8 +3292,8 @@ html.theme-fading *::after {
 .about-blue-diamond {
   position: absolute;
   z-index: 0;
-  inset-inline-start: -15px;
-  top: -65px;
+  inset-inline-start: -55px;
+  top: -50px;
   width: 420px;
   height: 420px;
   border-radius: 42px;
@@ -6697,7 +6697,7 @@ html[data-theme="dark"] {
 }
 
 :where(html[data-theme="dark"]) .services::before {
-  background: rgba(19, 29, 48, 0.9);
+  background: #0a101c;
 }
 
 :where(html[data-theme="dark"]) .services__arrow-btn {
@@ -6718,7 +6718,7 @@ html[data-theme="dark"] {
 }
 
 :where(html[data-theme="dark"]) .expertise::after {
-  background: #0e1a2e;
+  background: #0e1626;
 }
 
 :where(html[data-theme="dark"]) .orbit-line {
@@ -6762,7 +6762,7 @@ html[data-theme="dark"] {
 }
 
 :where(html[data-theme="dark"]) .testimonials::before {
-  background: rgba(19, 29, 48, 0.9);
+  background: #0a101c;
 }
 
 :where(html[data-theme="dark"]) .testimonial-diamond h2 {
