@@ -4304,13 +4304,13 @@ html[data-theme="dark"] .app .services__arrow-btn:hover {
   position: relative;
   width: 430px;
   height: 430px;
-  margin-inline-start: 95px;
+  margin-inline-start: 20px;
 }
 
 .orbit-line {
   position: absolute;
   inset: 45px;
-  border: 3px solid rgba(38, 48, 243, 0.12);
+  border: 3px solid rgba(188, 222, 251, 0.541);
   border-radius: 42px;
   transform: rotate(45deg);
   animation: orbitSpin 22s linear infinite;
@@ -4340,10 +4340,11 @@ html[data-theme="dark"] .app .services__arrow-btn:hover {
 .diamond-title--large::before {
   content: "";
   position: absolute;
-  inset: -55px;
+  inset: -75px;
   z-index: -1;
   border-radius: 45px;
   background: rgba(38, 159, 243, 0.15);
+  margin-left: 15%;
 }
 
 .icon-bubble {
