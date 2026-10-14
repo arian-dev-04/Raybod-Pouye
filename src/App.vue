@@ -391,6 +391,10 @@
          SERVICES
          ========================================================= -->
     <section id="services" class="services section">
+      <!-- desktop-only decoration (hidden below 1169px) -->
+      <div class="services__dots" aria-hidden="true"></div>
+      <div class="services__diamond" aria-hidden="true"></div>
+
       <div class="services__floating-title">
         <div class="container">
           <div class="services__title-wrapper">
@@ -491,11 +495,23 @@
                 <path d="M8 6.5l1.4-2h5.2l1.4 2"></path>
                 <circle cx="12" cy="13" r="3.2"></circle>
               </svg>
+              <svg class="glyph" viewBox="0 0 24 24">
+                <path
+                  fill-rule="evenodd"
+                  d="M7 6.9 9.6 4.4h5.1l2.5 2.5h3.4A1.4 1.4 0 0 1 22 8.3v9.9a1.4 1.4 0 0 1-1.4 1.4H3.4A1.4 1.4 0 0 1 2 18.2V8.3a1.4 1.4 0 0 1 1.4-1.4H7Z M11.9 8.5a4.4 4.4 0 1 0 0 8.8 4.4 4.4 0 0 0 0-8.8Z M11.9 9.35a3.55 3.55 0 1 1 0 7.1 3.55 3.55 0 0 1 0-7.1Z M20 7.95a.65.65 0 1 0 0 1.3.65.65 0 0 0 0-1.3Z"
+                />
+              </svg>
             </div>
 
             <div class="icon-bubble icon-bubble--play" aria-hidden="true">
               <svg viewBox="0 0 24 24">
                 <path d="M8 5.5v13l10-6.5L8 5.5Z"></path>
+              </svg>
+              <svg class="glyph" viewBox="0 0 24 24">
+                <path
+                  fill-rule="evenodd"
+                  d="M5.2 3.75h13.6A4.2 4.2 0 0 1 23 7.95v8.1a4.2 4.2 0 0 1-4.2 4.2H5.2A4.2 4.2 0 0 1 1 16.05v-8.1a4.2 4.2 0 0 1 4.2-4.2Z M10.1 7.9v7.9l6-3.95-6-3.95Z"
+                />
               </svg>
             </div>
 
@@ -506,6 +522,20 @@
                 <path d="M9.5 15.5a4 4 0 0 1 5 0"></path>
                 <circle cx="12" cy="19" r="1"></circle>
               </svg>
+              <svg class="glyph" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="2.3" />
+                <g
+                  fill="none"
+                  stroke="#fff"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                >
+                  <path d="M8.9 8.9a4.4 4.4 0 0 0 0 6.2" />
+                  <path d="M15.1 8.9a4.4 4.4 0 0 1 0 6.2" />
+                  <path d="M6.2 6.2a8.2 8.2 0 0 0 0 11.6" />
+                  <path d="M17.8 6.2a8.2 8.2 0 0 1 0 11.6" />
+                </g>
+              </svg>
             </div>
 
             <div class="icon-bubble icon-bubble--star" aria-hidden="true">
@@ -513,6 +543,14 @@
                 <path
                   d="m12 3 2.1 5.4 5.9.4-4.5 3.8 1.4 5.7L12 15.1l-4.9 3.2 1.4-5.7L4 8.8l5.9-.4L12 3Z"
                 ></path>
+              </svg>
+              <svg class="glyph" viewBox="0 0 24 24">
+                <path
+                  d="M12.00 2.70 L14.65 9.26 L21.70 9.75 L16.28 14.29 L18.00 21.15 L12.00 17.40 L6.00 21.15 L7.72 14.29 L2.30 9.75 L9.35 9.26Z"
+                  stroke="#fff"
+                  stroke-width="1.2"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
 
@@ -523,6 +561,13 @@
                   d="M10 3v5l-5 9.2A2.8 2.8 0 0 0 7.5 21h9a2.8 2.8 0 0 0 2.5-3.8L14 8V3"
                 ></path>
                 <path d="M8 15h8"></path>
+              </svg>
+              <svg class="glyph" viewBox="0 0 24 24">
+                <rect x="8.9" y="1" width="6.2" height="1.8" rx=".9" />
+                <path
+                  d="M9.8 2.7h4.4l1.6 7.3c.1 1 2.1 1.2 2.1 2.9 0 1.3-1.3 1.3-1.3 1.3H7.4S6.1 14.2 6.1 12.9c0-1.7 2-1.9 2.1-2.9L9.8 2.7Z"
+                />
+                <path d="M11 14.1h2L12 23.2 11 14.1Z" />
               </svg>
             </div>
 
@@ -537,6 +582,24 @@
                 <path d="M18 12h4"></path>
                 <path d="m4.9 19.1 2.8-2.8"></path>
                 <path d="m16.3 7.7 2.8-2.8"></path>
+              </svg>
+              <svg class="glyph" viewBox="0 0 24 24">
+                <path
+                  d="M15.70 12.00L20.40 12.00M14.62 14.62L17.94 17.94M12.00 15.70L12.00 20.40M9.38 14.62L6.06 17.94M8.30 12.00L3.60 12.00M9.38 9.38L6.06 6.06M12.00 8.30L12.00 3.60M14.62 9.38L17.94 6.06"
+                  fill="none"
+                  stroke="#fff"
+                  stroke-width="2.7"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+
+            <div class="icon-bubble icon-bubble--mail" aria-hidden="true">
+              <svg class="glyph" viewBox="0 0 24 24">
+                <path
+                  fill-rule="evenodd"
+                  d="M21.99 8c0-.72-.37-1.35-.94-1.7L12 1 2.95 6.3C2.38 6.65 2 7.28 2 8v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2l-.01-10ZM12 13 3.74 7.84 12 3l8.26 4.84L12 13Z"
+                />
               </svg>
             </div>
           </div>
@@ -576,6 +639,7 @@
          TESTIMONIALS
          ========================================================= -->
     <section id="testimonials" class="testimonials section">
+      <div class="testimonials__diamond" aria-hidden="true"></div>
       <div class="container testimonials__inner">
         <div class="testimonials__title reveal reveal--left" v-reveal>
           <div class="testimonial-diamond">
@@ -1470,7 +1534,13 @@ const moveServicesDrag = (event) => {
 
   const movedDistance = event.clientX - servicesDrag.startX;
 
-  slider.scrollLeft = servicesDrag.startScrollLeft - movedDistance;
+  // the desktop Persian slider is mirrored (scaleX(-1)), so dragging
+  // has to move the other way
+  const isMirrored = getComputedStyle(slider).transform !== "none";
+
+  slider.scrollLeft =
+    servicesDrag.startScrollLeft +
+    (isMirrored ? movedDistance : -movedDistance);
 };
 
 const endServicesDrag = (event) => {
@@ -1569,14 +1639,23 @@ const getTestimonialStep = () => {
   if (!cards.length) return 0;
 
   const currentScroll = slider.scrollLeft;
+  const base = getTestimonialBase();
 
-  const nextCard = cards.find((card) => card.offsetLeft > currentScroll + 10);
+  // cards stop where the first card rests (after the title gap),
+  // so they never slide over the title
+  const nextCard = cards.find(
+    (card) => card.offsetLeft - base > currentScroll + 10,
+  );
 
-  if (!nextCard) {
-    return cards[0]?.offsetLeft || 0;
-  }
+  if (!nextCard) return 0;
 
-  return nextCard.offsetLeft - currentScroll;
+  return nextCard.offsetLeft - base - currentScroll;
+};
+
+const getTestimonialBase = () => {
+  const first = testimonialsCards.value?.querySelector(".testimonial-card");
+
+  return first ? first.offsetLeft : 0;
 };
 
 const updateTestimonialActiveDot = () => {
@@ -1591,8 +1670,10 @@ const updateTestimonialActiveDot = () => {
   let closestIndex = 0;
   let smallestDistance = Infinity;
 
+  const base = getTestimonialBase();
+
   cards.forEach((card, index) => {
-    const distance = Math.abs(card.offsetLeft - slider.scrollLeft);
+    const distance = Math.abs(card.offsetLeft - base - slider.scrollLeft);
 
     if (distance < smallestDistance) {
       smallestDistance = distance;
@@ -1614,9 +1695,8 @@ const goToNextTestimonial = () => {
 
   const step = getTestimonialStep();
 
-  if (!step) return;
-
-  if (slider.scrollLeft >= maxScrollLeft - 10) {
+  // at the end (or past the last card): glide back to the first card
+  if (!step || slider.scrollLeft >= maxScrollLeft - 10) {
     slider.scrollTo({
       left: 0,
       behavior: "smooth",
@@ -1675,7 +1755,7 @@ const goToTestimonial = (index) => {
   pauseTestimonialsAutoSlide();
 
   slider.scrollTo({
-    left: targetCard.offsetLeft,
+    left: targetCard.offsetLeft - getTestimonialBase(),
     behavior: "smooth",
   });
 
@@ -1744,7 +1824,13 @@ const moveTestimonialsDrag = (event) => {
 
   const movedDistance = event.clientX - testimonialsDrag.startX;
 
-  slider.scrollLeft = testimonialsDrag.startScrollLeft - movedDistance;
+  // the Persian slider is mirrored (scale: -1 1), so dragging has to
+  // move the other way
+  const isMirrored = currentLanguage.value === "fa";
+
+  slider.scrollLeft =
+    testimonialsDrag.startScrollLeft +
+    (isMirrored ? movedDistance : -movedDistance);
 };
 
 const endTestimonialsDrag = (event) => {
@@ -2313,10 +2399,9 @@ const alignTestimonialSlider = () => {
 
   const style = getComputedStyle(track);
 
-  const paddingProp =
-    currentLanguage.value === "fa" ? "paddingRight" : "paddingLeft";
-
-  const paddingValue = parseFloat(style[paddingProp]);
+  // the track always starts at its left edge (the Persian slider is
+  // mirrored as a whole), so the start padding is always paddingLeft
+  const paddingValue = parseFloat(style.paddingLeft);
 
   if (!isNaN(paddingValue)) {
     slider.scrollLeft = paddingValue;
@@ -3057,7 +3142,7 @@ html.theme-fading *::after {
 }
 
 .hero h1 {
-  margin: 0 0 24px;
+  margin-top: 35px;
   font-weight: 900;
 }
 
@@ -3073,7 +3158,7 @@ html.theme-fading *::after {
   }
 
   .hero__image {
-    top: -430px;
+    top: -400px;
     inset-inline-start: calc(65.3% - 350px);
     width: 820px;
     height: 820px;
@@ -3114,16 +3199,16 @@ html.theme-fading *::after {
     inset-inline-start: calc(65.3% - 175.5px);
     top: 140px;
     width: 240px;
-    height: 290px;
+    height: 300px;
     border-radius: 48px;
     background: rgba(210, 238, 252, 0.95);
   }
 
   .hero::after {
     inset-inline-start: calc(65.3vw + 47.5px);
-    top: 350px;
-    width: 140px;
-    height: 140px;
+    top: 200px;
+    width: 210px;
+    height: 340px;
     border-radius: 40px;
     background: rgba(196, 232, 250, 0.97);
   }
@@ -3265,10 +3350,10 @@ html.theme-fading *::after {
 .diamond-image {
   position: absolute;
   z-index: 1;
-  top: -28px;
-  inset-inline-start: 140px;
-  width: 205px;
-  height: 205px;
+  top: -35px;
+  inset-inline-start: 110px;
+  width: 305px;
+  height: 105px;
   overflow: hidden;
   border-radius: 32px;
   box-shadow: var(--shadow);
@@ -3281,19 +3366,32 @@ html.theme-fading *::after {
 }
 
 .diamond-image img {
-  width: 160%;
-  height: 195%;
+  width: 100%;
+  height: 155%;
   max-width: none;
   object-fit: cover;
-  transform: rotate(-45deg) translate(30px, -48px);
+  transform: rotate(-5deg) translate(0, -45px);
+}
+
+/* Fix diamond image rotation in RTL */
+.app.is-rtl .diamond-image {
+  transform: rotate(-45deg);
+}
+
+.app.is-rtl .about-card:hover .diamond-image {
+  transform: rotate(-45deg) scale(1.04);
+}
+
+.app.is-rtl .diamond-image img {
+  transform: rotate(5deg) translate(0, -45px);
 }
 
 /* Preserve the original large pale-blue diamond */
 .about-blue-diamond {
   position: absolute;
   z-index: 0;
-  inset-inline-start: -55px;
-  top: -50px;
+  inset-inline-start: -60px;
+  top: -54px;
   width: 420px;
   height: 420px;
   border-radius: 42px;
@@ -3327,13 +3425,13 @@ html.theme-fading *::after {
 }
 
 .about-image-diamond--one {
-  inset-inline-start: 184px;
-  top: -36px;
+  inset-inline-start: 215px;
+  top: 263px;
 }
 
 .about-image-diamond--two {
-  inset-inline-start: 207px;
-  top: 248px;
+  inset-inline-start: 287px;
+  top: 188px;
 }
 
 .about__content {
@@ -3656,6 +3754,519 @@ blockquote {
   transform: scaleX(var(--dir)) translateX(4px);
 }
 
+/* ---- services: prev / next buttons (same look at every size) ---- */
+.app .services__arrow-btn {
+  --arrow-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5M11 6l-6 6 6 6'/%3E%3C/svg%3E");
+  --arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
+  width: 54px;
+  height: 54px;
+  font-size: 0;
+  color: var(--blue-dark);
+  border: 1px solid rgba(38, 159, 243, 0.2);
+  background: #fff;
+  box-shadow:
+    0 8px 20px rgba(20, 70, 120, 0.14),
+    inset 0 -3px 6px rgba(38, 159, 243, 0.06);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    background 0.3s var(--ease),
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.app .services__arrow-btn::before {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: currentColor;
+  -webkit-mask: var(--arrow-left) center / contain no-repeat;
+  mask: var(--arrow-left) center / contain no-repeat;
+  transition: transform 0.3s var(--ease);
+}
+
+.app .services__arrow-btn--next::before {
+  -webkit-mask-image: var(--arrow-right);
+  mask-image: var(--arrow-right);
+}
+
+.app .services__arrow-btn:hover {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, #17b3fb, #2389ef);
+  box-shadow:
+    0 14px 26px rgba(35, 137, 239, 0.4),
+    inset 0 2px 3px rgba(255, 255, 255, 0.35);
+  transform: translateY(-3px) scale(1.07);
+}
+
+.app .services__arrow-btn--prev:hover::before {
+  transform: translateX(-3px);
+}
+
+.app .services__arrow-btn--next:hover::before {
+  transform: translateX(3px);
+}
+
+.app .services__arrow-btn:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: 0 6px 12px rgba(35, 137, 239, 0.3);
+}
+
+.app .services__arrow-btn:focus-visible {
+  outline: 3px solid rgba(38, 159, 243, 0.45);
+  outline-offset: 3px;
+}
+
+html[data-theme="dark"] .app .services__arrow-btn {
+  border-color: rgba(143, 208, 255, 0.18);
+  background: #16233a;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+html[data-theme="dark"] .app .services__arrow-btn:hover {
+  border-color: transparent;
+  background: linear-gradient(135deg, #17b3fb, #2389ef);
+}
+
+/* ---- services: desktop-only decoration is hidden by default ---- */
+.services__dots,
+.services__diamond {
+  display: none;
+}
+
+/* ---- services: DESKTOP layout (matches the reference design) ---- */
+@media (min-width: 1169px) {
+  .app .services {
+    z-index: 1;
+    height: 730px;
+    margin-top: -67px;
+    margin-bottom: -55px;
+    padding: 0;
+    overflow-x: clip;
+    overflow-y: visible;
+    background: transparent;
+  }
+
+  /* the pale band */
+  .app .services::before {
+    top: 67px;
+    bottom: 55px;
+    left: 0;
+    right: 0;
+    inset-inline: 0;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    transform: none;
+    background: #f2f8ff;
+  }
+
+  /* dotted grid behind the cards */
+  .app .services__dots {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 100px;
+    left: 17px;
+    width: 463px;
+    height: 531px;
+    background-image: radial-gradient(circle, #d9e5f3 3.4px, transparent 3.8px);
+    background-size: 35.6px 35.4px;
+    pointer-events: none;
+  }
+
+  /* big white diamond on the right with two cyan stripes */
+  .app .services__diamond {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 107px;
+    right: -18px;
+    left: auto;
+    width: 516px;
+    height: 516px;
+    border-radius: 14px 14px 14px 44px;
+    border-left: 28px solid #b2ebf2;
+    border-bottom: 28px solid #b2ebf2;
+    background: #fff;
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+
+  /* round caps at the two far ends of the stripes */
+  .app .services__diamond::before,
+  .app .services__diamond::after {
+    content: "";
+    position: absolute;
+    background: #b2ebf2;
+  }
+
+  /* upper-left edge */
+  .app .services__diamond::before {
+    top: 0;
+    left: -28px;
+    width: 28px;
+    height: calc(100% - 44px);
+    border-radius: 14px 14px 0 0;
+  }
+
+  /* lower-left edge */
+  .app .services__diamond::after {
+    bottom: -28px;
+    left: 16px;
+    width: calc(100% - 44px);
+    height: 28px;
+    border-radius: 0 14px 14px 0;
+  }
+
+  /* title + 3x3 squares icon */
+  .app .services__floating-title {
+    position: absolute;
+    z-index: 1;
+    top: 239px;
+    right: 40px;
+    left: auto;
+    width: 400px;
+    margin: 0;
+    direction: ltr;
+  }
+
+  .app .services__floating-title .container {
+    width: auto;
+    margin: 0;
+  }
+
+  .app .services__title-wrapper {
+    display: block;
+  }
+
+  .app .services__title-icon {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .app .services__icon {
+    width: 78px;
+    height: 78px;
+    margin: 0 0 35px;
+    font-size: 0;
+    line-height: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      #b2ebf2 0 20px,
+      transparent 20px 29px
+    );
+    -webkit-mask-image: repeating-linear-gradient(
+      0deg,
+      #000 0 20px,
+      transparent 20px 29px
+    );
+    mask-image: repeating-linear-gradient(
+      0deg,
+      #000 0 20px,
+      transparent 20px 29px
+    );
+  }
+
+  .app .services__title-icon h2,
+  .app.is-rtl .services__title-icon h2 {
+    margin: 0;
+    font-size: 46px;
+    line-height: 70px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-align: center;
+  }
+
+  /* slider: full-bleed from the left edge up to the diamond */
+  .app .services__slider {
+    position: absolute;
+    z-index: 2;
+    top: 67px;
+    left: 0;
+    width: 100%;
+    height: 608px;
+    padding: 126px 0 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .app .services__track {
+    gap: 18px;
+    padding-inline: 0;
+  }
+
+  .app .services__spacer {
+    flex: 0 0 70px;
+    min-width: 70px;
+  }
+
+  /* extra room at the end so the last cards can slide past the title */
+  .app .services__spacer:last-child {
+    flex-basis: 520px;
+    min-width: 520px;
+  }
+
+  .app .service-card {
+    flex: 0 0 270px;
+    width: 270px;
+    min-height: 394px;
+    padding: 0 19px 31px;
+    overflow: visible;
+    border-radius: 18px;
+    box-shadow: 0 6px 22px rgba(30, 70, 120, 0.1);
+  }
+
+  .app .service-card:hover {
+    box-shadow: 0 16px 34px rgba(30, 70, 120, 0.16);
+  }
+
+  .app .service-card__media {
+    height: 141px;
+    margin-top: -18px;
+    border-radius: 14px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.16);
+  }
+
+  .app .service-card__body {
+    padding: 0;
+  }
+
+  .app .service-card__body h3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    margin: 20px 0 16px;
+    overflow: hidden;
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 500;
+    color: #26282c;
+  }
+
+  .app .service-card__body p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    margin: 0 0 18px;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 22px;
+    color: #33373d;
+  }
+
+  .app .service-card__btn {
+    align-self: stretch;
+    justify-content: center;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--blue-dark);
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .app .service-card__arrow {
+    display: none;
+  }
+
+  /* round arrows under the title */
+  .app .services__arrows,
+  .app.is-rtl .services__arrows {
+    position: absolute;
+    z-index: 5;
+    top: 612px;
+    left: calc(100% - 298px);
+    width: auto;
+    margin: 0;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .app .services__arrow-btn {
+    --arrow-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5M11 6l-6 6 6 6'/%3E%3C/svg%3E");
+    --arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
+    width: 54px;
+    height: 54px;
+    font-size: 0;
+    color: var(--blue-dark);
+    border: 1px solid rgba(38, 159, 243, 0.2);
+    background: #fff;
+    box-shadow:
+      0 8px 20px rgba(20, 70, 120, 0.14),
+      inset 0 -3px 6px rgba(38, 159, 243, 0.06);
+    transition:
+      transform 0.3s var(--ease),
+      box-shadow 0.3s var(--ease),
+      background 0.3s var(--ease),
+      color 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+
+  .app .services__arrow-btn::before {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background: currentColor;
+    -webkit-mask: var(--arrow-left) center / contain no-repeat;
+    mask: var(--arrow-left) center / contain no-repeat;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .app .services__arrow-btn--next::before {
+    -webkit-mask-image: var(--arrow-right);
+    mask-image: var(--arrow-right);
+  }
+
+  .app .services__arrow-btn:hover {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(135deg, #17b3fb, #2389ef);
+    box-shadow:
+      0 14px 26px rgba(35, 137, 239, 0.4),
+      inset 0 2px 3px rgba(255, 255, 255, 0.35);
+    transform: translateY(-3px) scale(1.07);
+  }
+
+  .app .services__arrow-btn--prev:hover::before {
+    transform: translateX(-3px);
+  }
+
+  .app .services__arrow-btn--next:hover::before {
+    transform: translateX(3px);
+  }
+
+  .app .services__arrow-btn:active {
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 6px 12px rgba(35, 137, 239, 0.3);
+  }
+
+  .app .services__arrow-btn:focus-visible {
+    outline: 3px solid rgba(38, 159, 243, 0.45);
+    outline-offset: 3px;
+  }
+
+  /* ---- Persian (RTL): mirror the section ---- */
+  .app.is-rtl .services__dots {
+    left: auto;
+    right: 17px;
+  }
+
+  .app.is-rtl .services__diamond {
+    right: auto;
+    left: -18px;
+    transform: scaleX(-1) rotate(45deg);
+  }
+
+  /* Persian: the slider is mirrored, so cards start at the right and
+     slide to the right, uncovering the title on the left.
+     (scrollLeft keeps working as usual; each card is flipped back) */
+  .app.is-rtl .services__slider {
+    transform: scaleX(-1);
+  }
+
+  .app.is-rtl .service-card {
+    transform: scaleX(-1);
+  }
+
+  .app.is-rtl .service-card:hover {
+    transform: scaleX(-1) translateY(-8px);
+  }
+
+  .app.is-rtl .services__arrows {
+    flex-direction: row-reverse;
+  }
+
+  /* Persian: "next" points left, "previous" points right */
+  .app.is-rtl .services__arrow-btn--prev::before {
+    -webkit-mask-image: var(--arrow-right);
+    mask-image: var(--arrow-right);
+  }
+
+  .app.is-rtl .services__arrow-btn--next::before {
+    -webkit-mask-image: var(--arrow-left);
+    mask-image: var(--arrow-left);
+  }
+
+  .app.is-rtl .services__arrow-btn--prev:hover::before {
+    transform: translateX(3px);
+  }
+
+  .app.is-rtl .services__arrow-btn--next:hover::before {
+    transform: translateX(-3px);
+  }
+
+  .app.is-rtl .services__floating-title {
+    right: auto;
+    left: 40px;
+    direction: rtl;
+  }
+
+  .app.is-rtl .services__title-icon h2 {
+    text-align: center;
+    letter-spacing: 0;
+  }
+
+  .app.is-rtl .services__arrows {
+    left: 182px;
+    right: auto;
+  }
+
+  /* ---- dark theme ---- */
+  html[data-theme="dark"] .app .services::before {
+    background: #0e1626;
+  }
+
+  html[data-theme="dark"] .app .services__dots {
+    background-image: radial-gradient(circle, #1b2a42 3.4px, transparent 3.8px);
+  }
+
+  html[data-theme="dark"] .app .services__diamond {
+    background: #0a101c;
+    border-left-color: #1d5c70;
+    border-bottom-color: #1d5c70;
+  }
+
+  html[data-theme="dark"] .app .services__diamond::before,
+  html[data-theme="dark"] .app .services__diamond::after {
+    background: #1d5c70;
+  }
+
+  html[data-theme="dark"] .app .services__icon {
+    background: repeating-linear-gradient(
+      90deg,
+      #1d5c70 0 20px,
+      transparent 20px 29px
+    );
+  }
+
+  html[data-theme="dark"] .app .services__arrow-btn {
+    border-color: rgba(143, 208, 255, 0.18);
+    background: #16233a;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  }
+
+  html[data-theme="dark"] .app .services__arrow-btn:hover {
+    border-color: transparent;
+    background: linear-gradient(135deg, #17b3fb, #2389ef);
+  }
+
+  html[data-theme="dark"] .app .service-card {
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  }
+
+  html[data-theme="dark"] .app .service-card__body h3 {
+    color: #f1f5fb;
+  }
+
+  html[data-theme="dark"] .app .service-card__body p {
+    color: #b7c4d8;
+  }
+}
+
 /* ============ 9. EXPERTISE ============ */
 .expertise {
   padding: 120px 0 160px;
@@ -3665,7 +4276,7 @@ blockquote {
   content: "";
   position: absolute;
   bottom: -140px;
-  inset-inline-start: -90px;
+  inset-inline-start: 55px;
   width: 250px;
   height: 250px;
   border-radius: 55px;
@@ -3907,6 +4518,81 @@ blockquote {
   inset: -8px;
 }
 
+/* ---- expertise: glyphs (bubble style stays the original one) ---- */
+.icon-bubble svg:not(.glyph) {
+  display: none;
+}
+
+.icon-bubble svg.glyph {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 54%;
+  height: 54%;
+  fill: #fff;
+  stroke: none;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+}
+
+.icon-bubble--camera svg.glyph {
+  width: 58%;
+  height: 58%;
+}
+
+.icon-bubble--play svg.glyph {
+  width: 58%;
+  height: 58%;
+}
+
+.icon-bubble--wifi svg.glyph {
+  width: 62%;
+  height: 62%;
+}
+
+.icon-bubble--star svg.glyph {
+  width: 62%;
+  height: 62%;
+}
+
+.icon-bubble--lab svg.glyph {
+  width: 50%;
+  height: 50%;
+}
+
+.icon-bubble--small svg.glyph {
+  width: 64%;
+  height: 64%;
+}
+
+/* small envelope bubble: desktop only */
+.icon-bubble--mail {
+  display: none;
+}
+
+@media (min-width: 1169px) {
+  .app .icon-bubble--mail {
+    --c1: #a77bff;
+    --c2: #5a14d6;
+    --glow: rgba(104, 27, 231, 0.45);
+    display: grid;
+    width: 30px;
+    height: 30px;
+    inset-inline-start: 285px;
+    top: 96px;
+    animation-delay: 1.5s;
+  }
+
+  .app .icon-bubble--mail::before {
+    inset: -7px;
+  }
+
+  .app .icon-bubble--mail svg.glyph {
+    width: 62%;
+    height: 62%;
+  }
+}
+
 .expertise__content {
   position: relative;
   z-index: 2;
@@ -3957,6 +4643,91 @@ blockquote {
 
 .tags span.active:hover {
   box-shadow: 0 10px 22px rgba(38, 159, 243, 0.3);
+}
+
+/* ============ unified buttons: one shape at every size ============ */
+.app .btn,
+.app .hero .btn--primary,
+.app .cta__box .btn,
+.app .service-card__btn,
+.app .map-btn {
+  border-radius: 3px;
+}
+
+/* same small triangle arrow on every primary button */
+.app .btn--primary span {
+  width: 0;
+  height: 0;
+  margin-inline-start: 2px;
+  border-block: 6px solid transparent;
+  border-left: 10px solid currentColor;
+  font-size: 0;
+  line-height: 0;
+}
+
+/* service "SEE DETAIL" button: identical on desktop, tablet and mobile */
+.app .service-card__btn {
+  align-self: stretch;
+  justify-content: center;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--blue-dark);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.app .service-card__arrow {
+  display: none;
+}
+
+.app .map-btn {
+  border: 1px solid transparent;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ---- testimonials: diamond behind the title (desktop) ---- */
+.testimonials__diamond {
+  display: none;
+}
+
+@media (min-width: 1169px) {
+  /* the diamond is taller than the band, like in "Our Services" */
+  .app .testimonials {
+    z-index: 1;
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+
+  .app .testimonials::before {
+    display: none;
+  }
+
+  .app .testimonials__diamond {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    top: calc(50% - 232px);
+    left: 0;
+    width: 440px;
+    height: 440px;
+    border-radius: 40px;
+    background: #fff;
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+
+  /* Persian: the white diamond follows the title to the right side */
+  .app.is-rtl .testimonials__diamond {
+    left: auto;
+    right: 0;
+  }
+
+  html[data-theme="dark"] .app .testimonials__diamond {
+    background: #0a101c;
+  }
 }
 
 /* ============ 10. TESTIMONIALS ============ */
@@ -4028,6 +4799,7 @@ blockquote {
   display: grid;
   place-items: center;
   transform: rotate(45deg);
+  margin-left: 110px;
 }
 
 .testimonial-diamond h2 {
@@ -4095,7 +4867,8 @@ blockquote {
 
 .testimonials__track::before {
   content: "";
-  flex: 0 0 clamp(180px, 22vw, 300px);
+  /* gap between the title diamond and the first card */
+  flex: 0 0 clamp(240px, 31vw, 470px);
 }
 
 .testimonial-card {
@@ -4212,6 +4985,84 @@ blockquote {
 
 .app.is-rtl .testimonial-card__client span {
   font-style: normal;
+}
+
+/* empty room after the last card, so the later testimonials can be
+   dragged / slid all the way toward the middle of the section */
+.testimonials__track::after {
+  content: "";
+  flex: 0 0
+    max(
+      120px,
+      calc(100vw - clamp(240px, 31vw, 470px) - clamp(230px, 24vw, 300px))
+    );
+}
+
+/* ---- Persian (RTL): the whole testimonials block is mirrored ----
+   The slider is flipped with the individual `scale` property (it does not
+   collide with the reveal `transform`), and every card is flipped back, so
+   the first card sits at the right, next to the title, and slides to the
+   left. scrollLeft keeps working as usual. */
+.app.is-rtl .testimonials__cards {
+  scale: -1 1;
+}
+
+.app.is-rtl .testimonial-card {
+  scale: -1 1;
+  direction: rtl;
+}
+
+.app.is-rtl .testimonial-card__box {
+  border-radius: 45px 45px 0 45px;
+}
+
+.app.is-rtl .testimonial-card__text {
+  text-align: right;
+}
+
+.app.is-rtl .testimonial-dots {
+  flex-direction: row-reverse;
+}
+
+@media (min-width: 577px) {
+  .app.is-rtl .testimonials__title {
+    left: auto;
+    right: 0;
+    direction: rtl;
+  }
+
+  .app.is-rtl .testimonial-diamond {
+    margin-left: 0;
+    margin-right: 110px;
+  }
+
+  /* the quote mark sits in the rotated diamond: mirror = swap top / left */
+  .app.is-rtl .testimonial-quote {
+    top: 80px;
+    left: 55px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 1199px) {
+  .app.is-rtl .testimonial-quote {
+    top: 25px;
+    left: 55px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 992px) {
+  .app.is-rtl .testimonials__title {
+    right: 20px;
+  }
+
+  .app.is-rtl .testimonial-diamond {
+    margin-right: 30px;
+  }
+
+  .app.is-rtl .testimonial-quote {
+    top: 32px;
+    left: 55px;
+  }
 }
 
 .testimonial-dots {
@@ -5300,6 +6151,10 @@ blockquote {
 
   .testimonials__track::before {
     display: none;
+  }
+
+  .testimonials__track::after {
+    flex-basis: 34vw;
   }
 
   .testimonial-card {
